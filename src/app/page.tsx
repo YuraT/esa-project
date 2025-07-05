@@ -1,6 +1,8 @@
+"use client";
 import Footer from "./components/Footer";
 import { FiUploadCloud, FiBookOpen } from "react-icons/fi";
 import { IoSearchSharp } from "react-icons/io5";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   // tools styling
@@ -21,20 +23,34 @@ export default function Home() {
   const stepsDesc =
     "font-normal text-[clamp(0.5rem,1.1vw,1.1rem)] w-[clamp(5rem,10vw,10rem)]";
 
+  const router = useRouter();
+
   return (
     <div className="items-center min-h-screen font-[family-name:var(--font-merriweather-sans)]">
       <div className="relative">
-        <img
-          src={"pesticideuser.svg"}
-          alt="Pesticide User"
-        ></img>
+        <img src={"pesticideuser.svg"} alt="Pesticide User"></img>
 
         {/* gray search, map, manual entry buttons */}
         <div className="absolute top-[5%] right-4 z-10">
           <div className="flex pr-[clamp(1rem,3vw,4rem)] gap-x-[clamp(0.2rem,1.5vw,2rem)]">
-            <button className={grayTools}>CHAT</button>
-            <button className={grayTools}>MAP</button>
-            <button className={grayTools}>MANUAL ENTRY</button>
+            <button
+              className={grayTools}
+              onClick={() => router.push("/chat")}
+            >
+              CHAT
+            </button>
+            <button
+              className={grayTools}
+              onClick={() => router.push("/map")}
+            >
+              MAP
+            </button>
+            <button
+              className={grayTools}
+              onClick={() => router.push("/manual-entry")}
+            >
+              MANUAL ENTRY
+            </button>
           </div>
         </div>
 
@@ -139,9 +155,24 @@ export default function Home() {
 
         <div className="py-[clamp(1rem,3vw,4rem)]">
           <div className="flex gap-x-[clamp(1rem,3vw,3rem)]">
-            <button className={blueTools}>CHAT</button>
-            <button className={blueTools}>MAP</button>
-            <button className={blueTools}>MANUAL ENTRY</button>
+            <button
+              className={blueTools}
+              onClick={() => router.push("/chat")}
+            >
+              CHAT
+            </button>
+            <button
+              className={blueTools}
+              onClick={() => router.push("/map")}
+            >
+              MAP
+            </button>
+            <button
+              className={blueTools}
+              onClick={() => router.push("/manual-entry")}
+            >
+              MANUAL ENTRY
+            </button>
           </div>
         </div>
         <p className="font-bold text-[#9E9FA0] text-[clamp(0.5rem,0.8vw,0.8rem)]">
