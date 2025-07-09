@@ -1,11 +1,20 @@
-import React from "react";
+"use client";
 
-const Map = () => {
+import dynamic from "next/dynamic";
+
+// Dynamically import Map to avoid SSR issues
+const CountyMap = dynamic(() => import("../Map"), {
+  ssr: false,
+});
+
+export default function Page() {
   return (
-    <div>
-      <h1>map</h1>
-    </div>
+    <main style={{ backgroundColor: "#0077be", minHeight: "100vh" }}>
+      <h1 style={{ color: "white", padding: "1rem" }}>
+        Interactive County Map
+      </h1>
+      <CountyMap />
+    </main>
   );
-};
+}
 
-export default Map;
