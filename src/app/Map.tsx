@@ -27,7 +27,7 @@ const CountyMap = () => {
   };
 
   useEffect(() => {
-    fetch("/county.geo.json")
+    fetch("https://mapjson.s3.us-west-1.amazonaws.com/countygeo.json")
       .then((res) => res.json())
       .then((data) => {
         console.log("✅ Loaded GeoJSON:", data);
