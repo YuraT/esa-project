@@ -5,6 +5,7 @@ import { MapContainer, GeoJSON } from "react-leaflet";
 import { useEffect, useRef, useState } from "react";
 import L, { LatLngExpression, Layer, PathOptions } from "leaflet";
 import { Feature, Geometry } from "geojson";
+import { Preahvihear } from "next/font/google";
 
 const CountyMap = () => {
   const [geoData, setGeoData] = useState<any>(null);
@@ -37,8 +38,6 @@ const CountyMap = () => {
   }, []);
 
   const onEachFeature = (feature: Feature<Geometry, any>, layer: Layer) => {
-    console.log("📍 onEachFeature fired for:", feature);
-
     const fips = feature.properties?.GEOID10;
     if (!fips) {
       console.warn("⚠️ No GEOID10 found:", feature);
@@ -56,13 +55,20 @@ const CountyMap = () => {
         selectedRef.current.delete(fips);
         pathLayer.setStyle(baseStyle);
       } else {
+        selectedRef.current.forEach((prevFips) => {
+          const prevLayer = layerRef.current.get(prevFips);
+          if (prevLayer) {
+            prevLayer.setStyle(baseStyle);
+          }
+        });
+        selectedRef.current.clear();
         selectedRef.current.add(fips);
         pathLayer.setStyle(highlightStyle);
       }
     });
   };
 
-  const clearAll = () => {
+  const reset = () => {
     selectedRef.current.forEach((fips) => {
       const layer = layerRef.current.get(fips);
       if (layer) {
@@ -77,7 +83,7 @@ const CountyMap = () => {
       style={{ height: "100vh", backgroundColor: "#0077be", padding: "1rem" }}
     >
       <button
-        onClick={clearAll}
+        onClick={reset}
         style={{
           padding: "8px 16px",
           marginBottom: "10px",
@@ -89,7 +95,7 @@ const CountyMap = () => {
           fontWeight: "bold",
         }}
       >
-        Clear All
+        Reset
       </button>
 
       <MapContainer
