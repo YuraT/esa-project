@@ -37,8 +37,6 @@ export default function Home() {
           className="w-full max-w-screen-3xl h-auto"
         />
 
-        {/* <img src={"pesticideuser.svg"} alt="Pesticide User" fill={false}></img> */}
-
         {/* gray search, map, manual entry buttons */}
         <div className="absolute top-[5%] right-[0.01%] z-10">
           <div className="flex pr-[clamp(0.3rem,3vw,6rem)] gap-x-[clamp(0.2rem,1.5vw,3rem)]">
