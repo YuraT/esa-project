@@ -52,7 +52,6 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="EPA ESA" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
-
       <body
         className={`${merriweatherSans.variable} ${geistMono.variable} antialiased`}
       >
