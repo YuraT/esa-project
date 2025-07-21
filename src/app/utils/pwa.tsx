@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { subscribeUser, unsubscribeUser, sendNotification } from "../actions";
 
@@ -32,7 +31,7 @@ function urlBase64ToUint8Array(base64String: string) {
  * manages subscribing, unsubscribing, and pushing notifications
  * @returns push notification prompts 
  *          subscribed -> unsubscribe button, enter message input
- *          unsubsribed -> subscribe button
+ *          unsubscribed -> subscribe button
  */
 function PushNotificationManager() {
   const [isSupported, setIsSupported] = useState(false);
@@ -99,7 +98,7 @@ function PushNotificationManager() {
   }
 
   return (
-    <div>
+    <div className="flex flex-col">
       <h3>Push Notifications</h3>
       {subscription ? (
         <>
@@ -172,6 +171,7 @@ export default function Page() {
   return (
     <div>
       <PushNotificationManager />
+      <br />
       <InstallPrompt />
     </div>
   );
