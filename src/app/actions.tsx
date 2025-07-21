@@ -10,9 +10,14 @@ webpush.setVapidDetails(
 
 let subscription: webpush.PushSubscription | null = null;
 
-const convertSubscription = (sub: PushSubscription) => {
-  const key = sub.getKey("p256dh");
-  const auth = sub.getKey("auth");
+/**
+ * serializes the subscription
+ * @param sub the PushSubscription object
+ * @returns base64 encoded object
+ */
+function convertSubscription(sub: PushSubscription) {
+  const key = sub.getKey("p256dh"); // get public encryption key
+  const auth = sub.getKey("auth"); // get auth secret
   return {
     endpoint: sub.endpoint,
     keys: {
@@ -20,37 +25,51 @@ const convertSubscription = (sub: PushSubscription) => {
       auth: auth ? btoa(String.fromCharCode(...new Uint8Array(auth))) : "",
     },
   };
-};
+}
 
-export const subscribeUser = async (sub: PushSubscription) => {
+/**
+ * adds the user to the database
+ * @param sub the PushSubscription object
+ * @returns success response
+ */
+export async function subscribeUser(sub: PushSubscription) {
   // have to store subscription in db
   // ex: await db.subscriptions.create({ data: sub })
   subscription = convertSubscription(sub);
   return { success: true };
-};
+}
 
-export const unsubscribeUser = async () => {
+/**
+ * removes the user from the database
+ * @returns success response
+ */
+export async function unsubscribeUser() {
   // remove subscription from db
   // ex: await db.subscriptions.delete({ where: {... } })
   subscription = null;
   return { success: true };
-};
+}
 
-export const sendNotification = async (message: string) => {
+/**
+ * sends the notification if there is a subscription
+ * @param message body text of the notification
+ * @returns success response
+ */
+export async function sendNotification(message: string) {
   if (!subscription) throw new Error("no subscription available");
 
   try {
     await webpush.sendNotification(
       subscription,
       JSON.stringify({
-        title: "test noti",
+        title: "test notification",
         body: message,
         icon: "/apple-icon.png",
       })
     );
     return { success: true };
   } catch (error) {
-    console.error("error sending noti", error);
-    return { success: false, error: "failed to send noti" };
+    console.error("error sending notification", error);
+    return { success: false, error: "failed to send notification" };
   }
-};
+}
