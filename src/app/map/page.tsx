@@ -1,13 +1,11 @@
 import React from "react";
 import BackButton from "../components/BackButton";
 
-const Map = () => {
+export default function Map() {
   return (
     <div>
-      <BackButton/>
+      <BackButton />
       <h1>map</h1>
     </div>
   );
-};
-
-export default Map;
+}

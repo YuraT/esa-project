@@ -1,13 +1,13 @@
 import React from "react";
 import BackButton from "../components/BackButton";
 
-const Chat = () => {
+export default function Chat() {
   return (
-    <div>
-      <BackButton />
-      <h1>chat</h1>
+    <div className="bg-white">
+      <div>
+        <BackButton />
+        <h1>chat</h1>
+      </div>
     </div>
   );
-};
-
-export default Chat;
+}
