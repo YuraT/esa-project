@@ -29,7 +29,7 @@ export default function Home() {
   const goToManualEntry = () => router.push("/manual-entry");
 
   return (
-    <div className="bg-[#3E4651] items-center min-h-screen font-[family-name:var(--font-merriweather-sans)] overflow-x-hidden">
+    <div className="bg-[#3E4651] items-center min-h-screen overflow-x-hidden">
       <div className="relative">
         <img
           src="/pesticideuser.svg"
@@ -150,10 +150,10 @@ export default function Home() {
 
       {/* Start Your Search. */}
       <div className="flex flex-col items-center justify-center bg-[#275C9D] py-[clamp(1rem,5vw,8rem)]">
-        <p className="font-bold text-white text-[clamp(1rem,3.5vw,6rem)]">
+        <p className="font-bold text-white text-[clamp(0.9rem,3.5vw,6rem)]">
           Start Your Search.
         </p>
-        <p className="font-bold text-white text-center text-[clamp(0.45rem,1.4vw,4rem)] py-[clamp(0.5rem,2vw,4rem)]">
+        <p className="font-bold text-white text-center text-[clamp(0.4rem,1.4vw,4rem)] py-[clamp(0.5rem,2vw,4rem)]">
           Choose an option for how you would like find your ESA rules.
         </p>
 
