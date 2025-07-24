@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-const Footer = () => {
+export default function Footer() {
   const footer =
     "font-bold text-[clamp(0.6rem,2vw,4rem)] pb-[clamp(0.2rem,1vw,1rem)]";
   const footerLinks =
@@ -101,6 +101,4 @@ const Footer = () => {
       </div>
     </div>
   );
-};
-
-export default Footer;
+}
