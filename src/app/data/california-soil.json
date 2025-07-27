@@ -1,0 +1,2980 @@
+[{
+  "_id": {
+    "$oid": "685db4f2fb98e0cb033d52cc"
+  },
+  "map_unit_symbol": "LgF",
+  "name": "Laughlin loam, 30 to 50 percent slopes",
+  "location": "Sonoma County, California",
+  "national_map_unit_symbol": "hfgm",
+  "setting": {
+    "elevation_ft": {
+      "min": 800,
+      "max": 3500
+    },
+    "mean_annual_precipitation_in": {
+      "min": 35,
+      "max": 70
+    },
+    "mean_annual_air_temp_f": {
+      "min": 54,
+      "max": 57
+    },
+    "frost_free_period_days": {
+      "min": 240,
+      "max": 260
+    },
+    "farmland_classification": "Not prime farmland"
+  },
+  "composition": {
+    "dominant_soil": {
+      "name": "Laughlin and similar soils",
+      "percent": 85
+    },
+    "minor_components": [
+      {
+        "name": "Suther",
+        "percent": 5,
+        "hydric_soil_rating": false
+      },
+      {
+        "name": "Maymen",
+        "percent": 5,
+        "hydric_soil_rating": false
+      },
+      {
+        "name": "Hugo",
+        "percent": 5,
+        "hydric_soil_rating": false
+      }
+    ]
+  },
+  "description": {
+    "landform": "Hills",
+    "landform_position": {
+      "two_dimensional": "Backslope",
+      "three_dimensional": "Side slope"
+    },
+    "slope_shape": {
+      "down_slope": "Convex",
+      "across_slope": "Convex"
+    },
+    "parent_material": "Residuum weathered from sedimentary rock",
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 4",
+        "texture": "loam"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "4 to 22",
+        "texture": "sandy clay loam"
+      },
+      {
+        "horizon": "H3",
+        "depth_in": "22 to 32",
+        "texture": "unweathered bedrock"
+      }
+    ],
+    "slope_percent": {
+      "min": 30,
+      "max": 50
+    },
+    "depth_to_restrictive_feature_in": {
+      "min": 20,
+      "max": 40,
+      "feature": "lithic bedrock"
+    },
+    "drainage_class": "Well drained",
+    "runoff_class": "High",
+    "ksat_in_hr": {
+      "min": 0.2,
+      "max": 1.98
+    },
+    "depth_to_water_table_in": ">80",
+    "flooding_frequency": "None",
+    "ponding_frequency": "None",
+    "available_water_supply_in": {
+      "depth_range_in": "0 to 60",
+      "value": 3.3,
+      "level": "Low"
+    }
+  },
+  "interpretive_groups": {
+    "land_capability_classification": {
+      "irrigated": null,
+      "nonirrigated": "6e"
+    },
+    "hydrologic_soil_group": "C",
+    "ecological_site": "R004BY065CA - SHALLOW LOAMY UPLANDS",
+    "hydric_soil_rating": false
+  }
+},
+{
+  "_id": {
+    "$oid": "685db4f7fb98e0cb033d52ce"
+  },
+  "map_unit_symbol": "LgF",
+  "name": "Laughlin loam, 30 to 50 percent slopes",
+  "location": "Sonoma County, California",
+  "national_map_unit_symbol": "hfgm",
+  "setting": {
+    "elevation_ft": {
+      "min": 800,
+      "max": 3500
+    },
+    "mean_annual_precipitation_in": {
+      "min": 35,
+      "max": 70
+    },
+    "mean_annual_air_temp_f": {
+      "min": 54,
+      "max": 57
+    },
+    "frost_free_period_days": {
+      "min": 240,
+      "max": 260
+    },
+    "farmland_classification": "Not prime farmland"
+  },
+  "composition": {
+    "dominant_soil": {
+      "name": "Laughlin and similar soils",
+      "percent": 85
+    },
+    "minor_components": [
+      {
+        "name": "Suther",
+        "percent": 5,
+        "hydric_soil_rating": false
+      },
+      {
+        "name": "Maymen",
+        "percent": 5,
+        "hydric_soil_rating": false
+      },
+      {
+        "name": "Hugo",
+        "percent": 5,
+        "hydric_soil_rating": false
+      }
+    ]
+  },
+  "description": {
+    "landform": "Hills",
+    "landform_position": {
+      "two_dimensional": "Backslope",
+      "three_dimensional": "Side slope"
+    },
+    "slope_shape": {
+      "down_slope": "Convex",
+      "across_slope": "Convex"
+    },
+    "parent_material": "Residuum weathered from sedimentary rock",
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 4",
+        "texture": "loam"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "4 to 22",
+        "texture": "sandy clay loam"
+      },
+      {
+        "horizon": "H3",
+        "depth_in": "22 to 32",
+        "texture": "unweathered bedrock"
+      }
+    ],
+    "slope_percent": {
+      "min": 30,
+      "max": 50
+    },
+    "depth_to_restrictive_feature_in": {
+      "min": 20,
+      "max": 40,
+      "feature": "lithic bedrock"
+    },
+    "drainage_class": "Well drained",
+    "runoff_class": "High",
+    "ksat_in_hr": {
+      "min": 0.2,
+      "max": 1.98
+    },
+    "depth_to_water_table_in": ">80",
+    "flooding_frequency": "None",
+    "ponding_frequency": "None",
+    "available_water_supply_in": {
+      "depth_range_in": "0 to 60",
+      "value": 3.3,
+      "level": "Low"
+    }
+  },
+  "interpretive_groups": {
+    "land_capability_classification": {
+      "irrigated": null,
+      "nonirrigated": "6e"
+    },
+    "hydrologic_soil_group": "C",
+    "ecological_site": "R004BY065CA - SHALLOW LOAMY UPLANDS",
+    "hydric_soil_rating": false
+  }
+},
+{
+  "_id": {
+    "$oid": "686173007d435043fd96dd0c"
+  },
+  "map_unit_symbol": "hb5c",
+  "name": "Reiff and similar soils, 0 to 2 percent slopes",
+  "location": "Alameda Area",
+  "national_map_unit_symbol": "hb5c",
+  "setting": {
+    "elevation_ft": {
+      "min": 50,
+      "max": 300
+    },
+    "mean_annual_precipitation_in": 10,
+    "mean_annual_air_temp_f": 61,
+    "frost_free_period_days": 270,
+    "farmland_classification": "Prime farmland if irrigated"
+  },
+  "composition": {
+    "dominant_soil": {
+      "name": "Reiff and similar soils",
+      "percent": 85
+    },
+    "minor_components": [],
+    "note": "Estimates are based on observations, descriptions, and transects of the mapunit."
+  },
+  "description": {
+    "landform": "Alluvial fans",
+    "landform_position": {
+      "three_dimensional": "Tread"
+    },
+    "slope_shape": {
+      "down_slope": "Linear",
+      "across_slope": "Linear"
+    },
+    "parent_material": "Alluvium derived from sandstone and shale",
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 7",
+        "texture": "loam"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "7 to 55",
+        "texture": "stratified loamy sand to loam"
+      },
+      {
+        "horizon": "H3",
+        "depth_in": "55 to 60",
+        "texture": "stratified loam to silt loam"
+      }
+    ],
+    "slope_percent": {
+      "min": 0,
+      "max": 2
+    },
+    "depth_to_restrictive_feature_in": ">80",
+    "drainage_class": "Well drained",
+    "runoff_class": "Very low",
+    "ksat_in_hr": {
+      "min": 0.57,
+      "max": 1.98
+    },
+    "depth_to_water_table_in": ">80",
+    "flooding_frequency": "Rare",
+    "ponding_frequency": "None",
+    "available_water_supply_in": {
+      "depth_range_in": "0 to 60",
+      "value": 8.6,
+      "level": "Moderate"
+    }
+  },
+  "interpretive_groups": {
+    "land_capability_classification": {
+      "irrigated": "2s",
+      "nonirrigated": "4s"
+    },
+    "hydrologic_soil_group": "A",
+    "ecological_site": "R017XY904CA - Subirrigated Deep Alluvial Fans",
+    "hydric_soil_rating": false
+  }
+},
+{
+  "_id": {
+    "$oid": "686173e07d435043fd96dd0e"
+  },
+  "map_unit_symbol": "hb5c",
+  "name": "Reiff and similar soils, 0 to 2 percent slopes",
+  "location": "Alameda Area",
+  "national_map_unit_symbol": "hb5c",
+  "setting": {
+    "elevation_ft": {
+      "min": 50,
+      "max": 300
+    },
+    "mean_annual_precipitation_in": 10,
+    "mean_annual_air_temp_f": 61,
+    "frost_free_period_days": 270,
+    "farmland_classification": "Prime farmland if irrigated"
+  },
+  "composition": {
+    "dominant_soil": {
+      "name": "Reiff and similar soils",
+      "percent": 85
+    },
+    "minor_components": [],
+    "note": "Estimates are based on observations, descriptions, and transects of the mapunit."
+  },
+  "description": {
+    "landform": "Alluvial fans",
+    "landform_position": {
+      "three_dimensional": "Tread"
+    },
+    "slope_shape": {
+      "down_slope": "Linear",
+      "across_slope": "Linear"
+    },
+    "parent_material": "Alluvium derived from sandstone and shale",
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 7",
+        "texture": "loam"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "7 to 55",
+        "texture": "stratified loamy sand to loam"
+      },
+      {
+        "horizon": "H3",
+        "depth_in": "55 to 60",
+        "texture": "stratified loam to silt loam"
+      }
+    ],
+    "slope_percent": {
+      "min": 0,
+      "max": 2
+    },
+    "depth_to_restrictive_feature_in": ">80",
+    "drainage_class": "Well drained",
+    "runoff_class": "Very low",
+    "ksat_in_hr": {
+      "min": 0.57,
+      "max": 1.98
+    },
+    "depth_to_water_table_in": ">80",
+    "flooding_frequency": "Rare",
+    "ponding_frequency": "None",
+    "available_water_supply_in": {
+      "depth_range_in": "0 to 60",
+      "value": 8.6,
+      "level": "Moderate"
+    }
+  },
+  "interpretive_groups": {
+    "land_capability_classification": {
+      "irrigated": "2s",
+      "nonirrigated": "4s"
+    },
+    "hydrologic_soil_group": "A",
+    "ecological_site": "R017XY904CA - Subirrigated Deep Alluvial Fans",
+    "hydric_soil_rating": false
+  }
+},
+{
+  "_id": {
+    "$oid": "686176387d435043fd96dd12"
+  },
+  "map_unit_symbol": "hlq7",
+  "name": "Andic Cryumbrepts–Lithic Cryumbrepts association, 15 to 50 percent slopes",
+  "location": "Alpine County, California",
+  "setting": {
+    "elevation_ft": {
+      "min": 7000,
+      "max": 10000
+    },
+    "mean_annual_precipitation_in": {
+      "min": 55,
+      "max": 65
+    },
+    "mean_annual_air_temp_f": {
+      "min": 36,
+      "max": 46
+    },
+    "frost_free_period_days": {
+      "min": 90,
+      "max": 100
+    },
+    "farmland_classification": "Not prime farmland"
+  },
+  "composition": {
+    "dominant_soils": [
+      {
+        "name": "Andic Cryumbrepts and similar soils",
+        "percent": 60
+      },
+      {
+        "name": "Lithic Cryumbrepts and similar soils",
+        "percent": 25
+      }
+    ],
+    "minor_components_percent": 15
+  },
+  "description": {
+    "landform": "Mountains",
+    "landform_position": {
+      "two_dimensional": "Backslope",
+      "three_dimensional": "Mountainflank"
+    },
+    "slope_shape": {
+      "down_slope": "Linear",
+      "across_slope": "Linear"
+    },
+    "parent_material": "Lahar derived from andesite",
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 11",
+        "texture": "sandy loam"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "11 to 30",
+        "texture": "sandy loam"
+      },
+      {
+        "horizon": "H3",
+        "depth_in": "30 to 60",
+        "texture": "weathered bedrock"
+      }
+    ],
+    "slope_percent": {
+      "min": 15,
+      "max": 50
+    },
+    "depth_to_restrictive_feature_in": {
+      "min": 30,
+      "max": 31,
+      "feature": "paralithic bedrock"
+    },
+    "drainage_class": "Well drained",
+    "runoff_class": "High",
+    "ksat_in_hr": {
+      "min": 0,
+      "max": 0.06,
+      "level": "Very low to moderately low"
+    },
+    "depth_to_water_table_in": ">80",
+    "flooding_frequency": "None",
+    "ponding_frequency": "None",
+    "available_water_supply_in": {
+      "depth_range_in": "0 to 60",
+      "value": 2.1,
+      "level": "Very low"
+    }
+  },
+  "interpretive_groups": {
+    "land_capability_classification": {
+      "irrigated": "null",
+      "nonirrigated": "7e"
+    },
+    "hydrologic_soil_group": "B",
+    "hydric_soil_rating": false
+  }
+},
+{
+  "_id": {
+    "$oid": "686178fe7d435043fd96dd15"
+  },
+  "name": "Andic Cryumbrepts",
+  "description": {
+    "setting": {
+      "landform": "Mountains",
+      "landform_position": {
+        "two_dimensional": "Backslope",
+        "three_dimensional": "Mountainflank"
+      },
+      "slope_shape": {
+        "down_slope": "Linear",
+        "across_slope": "Linear"
+      },
+      "parent_material": "Lahar derived from andesite"
+    },
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 11",
+        "texture": "sandy loam"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "11 to 30",
+        "texture": "sandy loam"
+      },
+      {
+        "horizon": "H3",
+        "depth_in": "30 to 60",
+        "texture": "weathered bedrock"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 15,
+        "max": 50
+      },
+      "depth_to_restrictive_feature_in": {
+        "min": 30,
+        "max": 31,
+        "feature": "paralithic bedrock"
+      },
+      "drainage_class": "Well drained",
+      "runoff_class": "High",
+      "ksat_in_hr": {
+        "min": 0,
+        "max": 0.06,
+        "level": "Very low to moderately low"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "None",
+      "ponding_frequency": "None",
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 2.1,
+        "level": "Very low"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "null",
+        "nonirrigated": "7e"
+      },
+      "hydrologic_soil_group": "B",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "68617a857d435043fd96dd17"
+  },
+  "location": "Butte County, Northern California",
+  "soil_unit": {
+    "map_unit_symbol": "example_symbol",
+    "name": "Example Soil Type",
+    "setting": {
+      "elevation_ft": {
+        "min": 100,
+        "max": 1500
+      },
+      "mean_annual_precipitation_in": 25,
+      "mean_annual_air_temp_f": 55,
+      "frost_free_period_days": 220,
+      "farmland_classification": "Prime farmland if irrigated"
+    },
+    "composition": {
+      "dominant_soil": {
+        "name": "Example dominant soil",
+        "percent": 80
+      },
+      "minor_components": [
+        {
+          "name": "Example minor soil 1",
+          "percent": 10
+        },
+        {
+          "name": "Example minor soil 2",
+          "percent": 10
+        }
+      ]
+    },
+    "description": {
+      "landform": "Valley floor",
+      "parent_material": "Alluvium",
+      "typical_profile": [
+        {
+          "horizon": "A",
+          "depth_in": "0 to 12",
+          "texture": "loam"
+        },
+        {
+          "horizon": "B",
+          "depth_in": "12 to 36",
+          "texture": "clay loam"
+        }
+      ],
+      "slope_percent": {
+        "min": 0,
+        "max": 5
+      },
+      "drainage_class": "Well drained",
+      "runoff_class": "Low",
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 6.5,
+        "level": "Moderate"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "1w",
+        "nonirrigated": "3w"
+      },
+      "hydrologic_soil_group": "B",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "68617d5c7d435043fd96dd1a"
+  },
+  "name": "Andic Cryumbrepts",
+  "description": {
+    "setting": {
+      "landform": "Mountains",
+      "landform_position": {
+        "two_dimensional": [
+          "Summit",
+          "shoulder",
+          "backslope"
+        ],
+        "three_dimensional": "Upper third of mountainflank"
+      },
+      "slope_shape": {
+        "down_slope": "Concave",
+        "across_slope": "Convex"
+      },
+      "parent_material": "Residuum weathered from tuff breccia"
+    },
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 9",
+        "texture": "sandy loam"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "9 to 28",
+        "texture": "sandy loam"
+      },
+      {
+        "horizon": "H3",
+        "depth_in": "28 to 38",
+        "texture": "unweathered bedrock"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 20,
+        "max": 70
+      },
+      "depth_to_restrictive_feature_in": {
+        "min": 28,
+        "max": 32,
+        "feature": "lithic bedrock"
+      },
+      "drainage_class": "Somewhat excessively drained",
+      "runoff_class": "Medium",
+      "ksat_in_hr": {
+        "min": 0.14,
+        "max": 5.95,
+        "level": "Moderately low to high"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "None",
+      "ponding_frequency": "None",
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 2.8,
+        "level": "Very low"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "null",
+        "nonirrigated": "7e"
+      },
+      "hydrologic_soil_group": "B"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "68617fa17d435043fd96dd1d"
+  },
+  "name": "Willows, Silty Clay",
+  "description": {
+    "setting": {
+      "landform": "Basin floors",
+      "landform_position": {
+        "two_dimensional": "Toeslope",
+        "three_dimensional": "Tread"
+      },
+      "slope_shape": {
+        "down_slope": "Linear",
+        "across_slope": "Linear"
+      },
+      "parent_material": "Alluvium"
+    },
+    "typical_profile": [
+      {
+        "horizon": "Ap1",
+        "depth_in": "0 to 5",
+        "texture": "silty clay"
+      },
+      {
+        "horizon": "Ap2",
+        "depth_in": "5 to 13",
+        "texture": "silty clay"
+      },
+      {
+        "horizon": "Bw",
+        "depth_in": "13 to 20",
+        "texture": "silty clay"
+      },
+      {
+        "horizon": "Bssy1",
+        "depth_in": "20 to 39",
+        "texture": "silty clay"
+      },
+      {
+        "horizon": "Bssy2",
+        "depth_in": "39 to 51",
+        "texture": "silty clay"
+      },
+      {
+        "horizon": "Bssy3",
+        "depth_in": "51 to 59",
+        "texture": "silty clay"
+      },
+      {
+        "horizon": "Bssy4",
+        "depth_in": "59 to 72",
+        "texture": "clay"
+      },
+      {
+        "horizon": "Bssy5",
+        "depth_in": "72 to 80",
+        "texture": "silty clay"
+      },
+      {
+        "horizon": "Bkssy",
+        "depth_in": "80 to 87",
+        "texture": "clay"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 0,
+        "max": 1
+      },
+      "depth_to_restrictive_feature_in": ">80",
+      "drainage_class": "Poorly drained",
+      "runoff_class": "Low",
+      "ksat_in_hr": {
+        "min": 0,
+        "max": 0.06,
+        "level": "Very low to moderately low"
+      },
+      "depth_to_water_table_in": {
+        "min": 48,
+        "max": 72
+      },
+      "flooding_frequency": "Rare",
+      "ponding_frequency": "None",
+      "calcium_carbonate_max_percent": 5,
+      "gypsum_max_percent": 10,
+      "maximum_salinity_mmhos_cm": {
+        "min": 2,
+        "max": 15,
+        "level": "Very slightly saline to moderately saline"
+      },
+      "sodium_adsorption_ratio_max": 40,
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 9,
+        "level": "Moderate"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "3w",
+        "nonirrigated": "4w"
+      },
+      "hydrologic_soil_group": "D",
+      "ecological_site": "R017XY901CA - Clayey Basin Group",
+      "hydric_soil_rating": true
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "686184a47d435043fd96dd24"
+  },
+  "name": "Altamont, Silty Clay",
+  "description": {
+    "setting": {
+      "landform": "Hillslopes",
+      "landform_position": {
+        "two_dimensional": [
+          "Backslope",
+          "footslope"
+        ],
+        "three_dimensional": "Base slope"
+      },
+      "slope_shape": {
+        "down_slope": "Linear",
+        "across_slope": "Linear"
+      },
+      "parent_material": "Residuum weathered from sandstone-shale"
+    },
+    "typical_profile": [
+      {
+        "horizon": "A",
+        "depth_in": "0 to 3",
+        "texture": "silty clay"
+      },
+      {
+        "horizon": "Bw",
+        "depth_in": "3 to 9",
+        "texture": "silty clay"
+      },
+      {
+        "horizon": "Bss1",
+        "depth_in": "9 to 23",
+        "texture": "silty clay"
+      },
+      {
+        "horizon": "Bss2",
+        "depth_in": "23 to 35",
+        "texture": "silty clay"
+      },
+      {
+        "horizon": "BC1",
+        "depth_in": "35 to 43",
+        "texture": "very gravelly silty clay"
+      },
+      {
+        "horizon": "BC2",
+        "depth_in": "43 to 49",
+        "texture": "silty clay"
+      },
+      {
+        "horizon": "Cr",
+        "depth_in": "49 to 60",
+        "texture": "weathered bedrock"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 5,
+        "max": 9
+      },
+      "depth_to_restrictive_feature_in": {
+        "min": 40,
+        "max": 60,
+        "feature": "paralithic bedrock"
+      },
+      "drainage_class": "Well drained",
+      "runoff_class": "Medium",
+      "ksat_in_hr": {
+        "min": 0.06,
+        "max": 0.2,
+        "level": "Moderately low to moderately high"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "None",
+      "ponding_frequency": "None",
+      "calcium_carbonate_max_percent": 2,
+      "gypsum_max_percent": 1,
+      "maximum_salinity_mmhos_cm": {
+        "min": 0,
+        "max": 2,
+        "level": "Nonsaline to very slightly saline"
+      },
+      "sodium_adsorption_ratio_max": 2,
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 7.9,
+        "level": "Moderate"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "2e",
+        "nonirrigated": "4e"
+      },
+      "hydrologic_soil_group": "C",
+      "ecological_site": "R015XE001CA - Clayey Hills 10-14\" p.z.",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "68618cd67d435043fd96dd27"
+  },
+  "name": "Typic Xerofluvents",
+  "description": {
+    "setting": {
+      "landform": "Alluvial fans",
+      "landform_position": {
+        "two_dimensional": "Toeslope",
+        "three_dimensional": "Base slope"
+      },
+      "slope_shape": {
+        "down_slope": "Linear",
+        "across_slope": "Linear"
+      },
+      "parent_material": "Alluvium"
+    },
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 10",
+        "texture": "gravelly sandy loam"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "10 to 60",
+        "texture": "stratified extremely gravelly loamy sand to silt loam"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 2,
+        "max": 10
+      },
+      "depth_to_restrictive_feature_in": ">80",
+      "drainage_class": "Somewhat excessively drained",
+      "runoff_class": "Low",
+      "ksat_in_hr": {
+        "min": 1.98,
+        "max": 5.95,
+        "level": "High"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "Occasional",
+      "ponding_frequency": "None",
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 4.1,
+        "level": "Low"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "null",
+        "nonirrigated": "6e"
+      },
+      "hydrologic_soil_group": "A",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "68618d4a7d435043fd96dd2a"
+  },
+  "name": "Hawkinspeak",
+  "description": {
+    "setting": {
+      "landform": "Mountains",
+      "landform_position": {
+        "two_dimensional": "Backslope",
+        "three_dimensional": "Mountainflank"
+      },
+      "slope_shape": {
+        "down_slope": "Linear",
+        "across_slope": "Linear"
+      },
+      "parent_material": "Colluvium over residuum derived from andesite or tuff breccia"
+    },
+    "typical_profile": [
+      {
+        "horizon": "A1",
+        "depth_in": "0 to 3",
+        "texture": "very gravelly sandy loam"
+      },
+      {
+        "horizon": "A2",
+        "depth_in": "3 to 9",
+        "texture": "very gravelly sandy loam"
+      },
+      {
+        "horizon": "Bt",
+        "depth_in": "9 to 33",
+        "texture": "very gravelly sandy clay loam"
+      },
+      {
+        "horizon": "R",
+        "depth_in": "33 to 43",
+        "texture": "bedrock"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 30,
+        "max": 50
+      },
+      "surface_cobble_stone_boulder_coverage_percent": 4,
+      "depth_to_restrictive_feature_in": {
+        "min": 20,
+        "max": 40,
+        "feature": "lithic bedrock"
+      },
+      "drainage_class": "Well drained",
+      "runoff_class": "Very high",
+      "ksat_in_hr": {
+        "min": 0,
+        "max": 0,
+        "level": "Very low"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "None",
+      "ponding_frequency": "None",
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 3.2,
+        "level": "Low"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "null",
+        "nonirrigated": "6s"
+      },
+      "hydrologic_soil_group": "C",
+      "ecological_site": "R022AY021NV - SOUTH SLOPE 30+ P.Z.",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "68619c187d435043fd96dd2d"
+  },
+  "name": "Kimberlina",
+  "description": {
+    "setting": {
+      "landform": "Alluvial fans",
+      "landform_position": {
+        "two_dimensional": "Footslope",
+        "three_dimensional": "Tread"
+      },
+      "slope_shape": {
+        "down_slope": "Linear",
+        "across_slope": "Linear"
+      },
+      "parent_material": "Alluvium derived from igneous and sedimentary rock"
+    },
+    "typical_profile": [
+      {
+        "horizon": "Ap",
+        "depth_in": "0 to 8",
+        "texture": "fine sandy loam"
+      },
+      {
+        "horizon": "C",
+        "depth_in": "8 to 41",
+        "texture": "fine sandy loam"
+      },
+      {
+        "horizon": "2C",
+        "depth_in": "41 to 60",
+        "texture": "loamy fine sand"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 0,
+        "max": 2
+      },
+      "depth_to_restrictive_feature_in": ">80",
+      "drainage_class": "Well drained",
+      "runoff_class": "Very low",
+      "ksat_in_hr": {
+        "min": 1.98,
+        "max": 5.95,
+        "level": "High"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "None",
+      "ponding_frequency": "None",
+      "calcium_carbonate_max_percent": 5,
+      "maximum_salinity_mmhos_cm": {
+        "min": 0,
+        "max": 4,
+        "level": "Nonsaline to slightly saline"
+      },
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 6.6,
+        "level": "Moderate"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "2s",
+        "nonirrigated": "7s"
+      },
+      "hydrologic_soil_group": "A",
+      "ecological_site": "R017XY906CA - Non-Alkali San Joaquin Valley Desert",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "6861a7e07d435043fd96dd30"
+  },
+  "name": "Redding",
+  "description": {
+    "setting": {
+      "landform": "Fan remnants",
+      "landform_position": {
+        "two_dimensional": "Summit",
+        "three_dimensional": "Tread"
+      },
+      "slope_shape": {
+        "down_slope": "Linear",
+        "across_slope": "Linear"
+      },
+      "parent_material": "Gravelly alluvium derived from sedimentary rock"
+    },
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 14",
+        "texture": "gravelly loam"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "14 to 23",
+        "texture": "gravelly clay"
+      },
+      {
+        "horizon": "H3",
+        "depth_in": "23 to 36",
+        "texture": "indurated"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 1,
+        "max": 3
+      },
+      "depth_to_restrictive_feature_in": {
+        "min": 20,
+        "max": 40,
+        "note": "to duripan"
+      },
+      "depth_to_restrictive_feature_total": ">80",
+      "drainage_class": "Moderately well drained",
+      "runoff_class": "Very high",
+      "ksat_in_hr": {
+        "min": 0,
+        "max": 0,
+        "level": "Very low"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "None",
+      "ponding_frequency": "None",
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 1.7,
+        "level": "Very low"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "4e",
+        "nonirrigated": "4e"
+      },
+      "hydrologic_soil_group": "D",
+      "ecological_site": "R017XY902CA - Duripan Vernal Pools",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "6861b5cb7d435043fd96dd32"
+  },
+  "description": {
+    "setting": {
+      "landform": "Flood-plain steps, depressions, backswamps",
+      "landform_position": {
+        "two_dimensional": "Backslope",
+        "three_dimensional": "Tread"
+      },
+      "slope_shape": {
+        "down_slope": "Convex",
+        "across_slope": "Convex"
+      },
+      "parent_material": "Alluvium derived from mixed sources"
+    },
+    "typical_profile": [
+      {
+        "horizon": "Ap",
+        "depth_in": "0 to 12",
+        "texture": "silt loam"
+      },
+      {
+        "horizon": "Bg1",
+        "depth_in": "12 to 26",
+        "texture": "silt loam"
+      },
+      {
+        "horizon": "Bg2",
+        "depth_in": "26 to 60",
+        "texture": "silt loam"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 0,
+        "max": 2
+      },
+      "depth_to_restrictive_feature_in": ">80",
+      "drainage_class": "Very poorly drained",
+      "ksat_in_hr": {
+        "min": 0.2,
+        "max": 2,
+        "level": "Moderately high to high"
+      },
+      "depth_to_water_table_in": "0 to 4",
+      "flooding_frequency": "Occasional",
+      "ponding_frequency": "Frequent",
+      "maximum_salinity_mmhos_cm": {
+        "min": 0,
+        "max": 2,
+        "level": "Nonsaline to very slightly saline"
+      },
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 10.2,
+        "level": "High"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "5w",
+        "nonirrigated": "5w"
+      },
+      "hydrologic_soil_group": "B/D",
+      "ecological_site": "R004BA205CA - Marshlands",
+      "hydric_soil_rating": true
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "6861b6407d435043fd96dd35"
+  },
+  "description": {
+    "setting": {
+      "landform": "Fan remnants",
+      "landform_position": {
+        "two_dimensional": "Shoulder",
+        "three_dimensional": "Side slope"
+      },
+      "slope_shape": {
+        "down_slope": "Linear",
+        "across_slope": "Linear"
+      },
+      "parent_material": "Alluvium derived from granitic rock sources"
+    },
+    "typical_profile": [
+      {
+        "horizon": "Ap",
+        "depth_in": "0 to 16",
+        "texture": "fine sandy loam"
+      },
+      {
+        "horizon": "Bk",
+        "depth_in": "16 to 60",
+        "texture": "fine sandy loam"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 0,
+        "max": 2
+      },
+      "depth_to_restrictive_feature_in": ">80",
+      "drainage_class": "Well drained",
+      "runoff_class": "Negligible",
+      "ksat_in_hr": {
+        "min": 0.6,
+        "max": 2,
+        "level": "Moderately high to high"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "Very rare",
+      "ponding_frequency": "None",
+      "calcium_carbonate_max_percent": 10,
+      "gypsum_max_percent": 2,
+      "maximum_salinity_mmhos_cm": {
+        "min": 0,
+        "max": 4,
+        "level": "Nonsaline to slightly saline"
+      },
+      "sodium_adsorption_ratio_max": 12,
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 9.7,
+        "level": "High"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "1",
+        "nonirrigated": "4c"
+      },
+      "hydrologic_soil_group": "B",
+      "ecological_site": "R017XY907CA - Aridic Alkali Desert",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "6861b6947d435043fd96dd38"
+  },
+  "name": "Aiken",
+  "description": {
+    "setting": {
+      "landform": "Hills, mountains",
+      "landform_position": {
+        "two_dimensional": "Backslope",
+        "three_dimensional": "Mountainflank, side slope"
+      },
+      "slope_shape": {
+        "down_slope": "Linear",
+        "across_slope": "Linear"
+      },
+      "parent_material": "Residuum weathered from basalt"
+    },
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 5",
+        "texture": "loam"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "5 to 20",
+        "texture": "clay loam"
+      },
+      {
+        "horizon": "H3",
+        "depth_in": "20 to 61",
+        "texture": "clay"
+      },
+      {
+        "horizon": "H4",
+        "depth_in": "61 to 74",
+        "texture": "cobbly clay"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 5,
+        "max": 15
+      },
+      "depth_to_restrictive_feature_in": ">80",
+      "drainage_class": "Well drained",
+      "runoff_class": "Medium",
+      "ksat_in_hr": {
+        "min": 0.2,
+        "max": 0.57,
+        "level": "Moderately high"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "None",
+      "ponding_frequency": "None",
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 9.7,
+        "level": "High"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "null",
+        "nonirrigated": "3e"
+      },
+      "hydrologic_soil_group": "C",
+      "ecological_site": "F005XZ024CA - Ridges",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "6861b6bb7d435043fd96dd3b"
+  },
+  "name": "Aiken",
+  "description": {
+    "setting": {
+      "landform": "Hills, mountains",
+      "landform_position": {
+        "two_dimensional": "Backslope",
+        "three_dimensional": "Mountainflank, side slope"
+      },
+      "slope_shape": {
+        "down_slope": "Linear",
+        "across_slope": "Linear"
+      },
+      "parent_material": "Residuum weathered from basalt"
+    },
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 5",
+        "texture": "loam"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "5 to 20",
+        "texture": "clay loam"
+      },
+      {
+        "horizon": "H3",
+        "depth_in": "20 to 61",
+        "texture": "clay"
+      },
+      {
+        "horizon": "H4",
+        "depth_in": "61 to 74",
+        "texture": "cobbly clay"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 5,
+        "max": 15
+      },
+      "depth_to_restrictive_feature_in": ">80",
+      "drainage_class": "Well drained",
+      "runoff_class": "Medium",
+      "ksat_in_hr": {
+        "min": 0.2,
+        "max": 0.57,
+        "level": "Moderately high"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "None",
+      "ponding_frequency": "None",
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 9.7,
+        "level": "High"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "null",
+        "nonirrigated": "3e"
+      },
+      "hydrologic_soil_group": "C",
+      "ecological_site": "F005XZ024CA - Ridges",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "6861b7017d435043fd96dd3e"
+  },
+  "description": {
+    "setting": {
+      "landform": "Mountains",
+      "landform_position": {
+        "two_dimensional": "Backslope",
+        "three_dimensional": "Upper third of mountainflank"
+      },
+      "slope_shape": {
+        "down_slope": "Linear",
+        "across_slope": "Linear"
+      },
+      "parent_material": "Residuum weathered from andesite"
+    },
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 12",
+        "texture": "gravelly loam"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "12 to 22",
+        "texture": "extremely gravelly loam"
+      },
+      {
+        "horizon": "H3",
+        "depth_in": "22 to 44",
+        "texture": "very gravelly sandy loam"
+      },
+      {
+        "horizon": "H4",
+        "depth_in": "44 to 60",
+        "texture": "weathered bedrock"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 0,
+        "max": 15
+      },
+      "depth_to_restrictive_feature_in": "44 to 48 to paralithic bedrock",
+      "drainage_class": "Well drained",
+      "runoff_class": "Medium",
+      "ksat_in_hr": {
+        "min": 0.57,
+        "max": 1.98,
+        "level": "Moderately high to high"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "None",
+      "ponding_frequency": "None",
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 3.8,
+        "level": "Low"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "null",
+        "nonirrigated": "6e"
+      },
+      "hydrologic_soil_group": "B",
+      "ecological_site": "F022BG201CA - Mesic Ash-Influenced Mountains",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "6861d90d7d435043fd96dd41"
+  },
+  "name": "Auberry",
+  "description": {
+    "setting": {
+      "landform": "Mountain slopes",
+      "landform_position": {
+        "two_dimensional": "Backslope",
+        "three_dimensional": "Mountainflank"
+      },
+      "slope_shape": {
+        "down_slope": "Convex",
+        "across_slope": "Linear"
+      },
+      "parent_material": "Residuum weathered from granite"
+    },
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 12",
+        "texture": "coarse sandy loam"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "12 to 16",
+        "texture": "sandy loam"
+      },
+      {
+        "horizon": "H3",
+        "depth_in": "16 to 35",
+        "texture": "sandy clay loam"
+      },
+      {
+        "horizon": "H4",
+        "depth_in": "35 to 42",
+        "texture": "coarse sandy loam"
+      },
+      {
+        "horizon": "H5",
+        "depth_in": "42 to 60",
+        "texture": "weathered bedrock"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 8,
+        "max": 15
+      },
+      "depth_to_restrictive_feature_in": "42 to 46 to paralithic bedrock",
+      "drainage_class": "Well drained",
+      "runoff_class": "High",
+      "ksat_in_hr": {
+        "min": 0,
+        "max": 0.06,
+        "level": "Very low to moderately low"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "None",
+      "ponding_frequency": "None",
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 5.8,
+        "level": "Low"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "3e",
+        "nonirrigated": "4e"
+      },
+      "hydrologic_soil_group": "C",
+      "ecological_site": "F018XC201CA - Thermic Granitic Foothills",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "6861d98c7d435043fd96dd43"
+  },
+  "name": "Dipsea",
+  "description": {
+    "setting": {
+      "landform": "Hills",
+      "landform_position": {
+        "two_dimensional": "Backslope",
+        "three_dimensional": "Side slope"
+      },
+      "slope_shape": {
+        "down_slope": "Concave",
+        "across_slope": "Concave"
+      },
+      "parent_material": "Residuum weathered from sandstone and shale"
+    },
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 8",
+        "texture": "very gravelly loam"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "8 to 25",
+        "texture": "very gravelly clay loam"
+      },
+      {
+        "horizon": "H3",
+        "depth_in": "25 to 48",
+        "texture": "very gravelly loam"
+      },
+      {
+        "horizon": "H4",
+        "depth_in": "48 to 52",
+        "texture": "bedrock"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 30,
+        "max": 50
+      },
+      "depth_to_restrictive_feature_in": "40 to 60 to paralithic bedrock",
+      "drainage_class": "Well drained",
+      "runoff_class": "High",
+      "ksat_in_hr": {
+        "min": 0.57,
+        "max": 1.98,
+        "level": "Moderately high to high"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "None",
+      "ponding_frequency": "None",
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 4.5,
+        "level": "Low"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "6e",
+        "nonirrigated": "6e"
+      },
+      "hydrologic_soil_group": "B",
+      "ecological_site": "F004BM101CA - Protected ravine footslopes",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "6861da107d435043fd96dd45"
+  },
+  "name": "Ahwahnee Family",
+  "description": {
+    "setting": {
+      "landform": "Ridges",
+      "landform_position": {
+        "two_dimensional": "Footslope",
+        "three_dimensional": "Side slope"
+      },
+      "slope_shape": {
+        "down_slope": "Concave",
+        "across_slope": "Concave"
+      },
+      "parent_material": "Residuum weathered from granodiorite"
+    },
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 17",
+        "texture": "coarse sandy loam"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "17 to 29",
+        "texture": "sandy loam"
+      },
+      {
+        "horizon": "H3",
+        "depth_in": "29 to 60",
+        "texture": "weathered bedrock"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 5,
+        "max": 35
+      },
+      "depth_to_restrictive_feature_in": "29 to 33 to paralithic bedrock",
+      "drainage_class": "Well drained",
+      "runoff_class": "High",
+      "ksat_in_hr": {
+        "min": 0.01,
+        "max": 0.14,
+        "level": "Low to moderately low"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "None",
+      "ponding_frequency": "None",
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 3.2,
+        "level": "Low"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "null",
+        "nonirrigated": "6e"
+      },
+      "hydrologic_soil_group": "B",
+      "ecological_site": "F018XC201CA - Thermic Granitic Foothills",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "6861db417d435043fd96dd48"
+  },
+  "name": "Bruhel",
+  "description": {
+    "setting": {
+      "landform": "Mountains, hills",
+      "landform_position": {
+        "two_dimensional": "Backslope",
+        "three_dimensional": [
+          "Mountainflank",
+          "side slope"
+        ]
+      },
+      "slope_shape": {
+        "down_slope": [
+          "Convex",
+          "concave"
+        ],
+        "across_slope": "Convex"
+      },
+      "parent_material": "Colluvium derived from sandstone and/or residuum weathered from sandstone"
+    },
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 4",
+        "texture": "loam"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "4 to 21",
+        "texture": "clay loam"
+      },
+      {
+        "horizon": "H3",
+        "depth_in": "21 to 41",
+        "texture": "gravelly clay loam"
+      },
+      {
+        "horizon": "H4",
+        "depth_in": "41 to 45",
+        "texture": "weathered bedrock"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 30,
+        "max": 50
+      },
+      "depth_to_restrictive_feature_in": "40 to 60 to paralithic bedrock",
+      "drainage_class": "Well drained",
+      "runoff_class": "High",
+      "ksat_in_hr": {
+        "min": 0.6,
+        "max": 2,
+        "level": "Moderately high to high"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "None",
+      "ponding_frequency": "None",
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 6.1,
+        "level": "Moderate"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "null",
+        "nonirrigated": "6e"
+      },
+      "hydrologic_soil_group": "B",
+      "ecological_site": "R004BY058CA - Loamy Hills (Perennial Grass)",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "6861dbe97d435043fd96dd4a"
+  },
+  "name": "Altamont Variant",
+  "description": {
+    "setting": {
+      "landform": "Mountains",
+      "landform_position": {
+        "two_dimensional": "Backslope",
+        "three_dimensional": "Mountainflank"
+      },
+      "slope_shape": {
+        "down_slope": "Concave",
+        "across_slope": "Convex"
+      },
+      "parent_material": "Residuum weathered from volcanic rock"
+    },
+    "typical_profile": [
+      {
+        "horizon": "H1",
+        "depth_in": "0 to 21",
+        "texture": "clay"
+      },
+      {
+        "horizon": "H2",
+        "depth_in": "21 to 42",
+        "texture": "clay"
+      },
+      {
+        "horizon": "H3",
+        "depth_in": "42 to 47",
+        "texture": "bedrock"
+      },
+      {
+        "horizon": "H4",
+        "depth_in": "47 to 51",
+        "texture": "bedrock"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 30,
+        "max": 50
+      },
+      "depth_to_restrictive_feature_in": "47 to 51 to lithic bedrock",
+      "drainage_class": "Well drained",
+      "runoff_class": "Very high",
+      "ksat_in_hr": {
+        "min": 0,
+        "max": 0.06,
+        "level": "Very low to moderately low"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "None",
+      "ponding_frequency": "None",
+      "maximum_salinity": {
+        "level": "Nonsaline to very slightly saline",
+        "range_mmhos_per_cm": "0.0 to 2.0"
+      },
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 6.5,
+        "level": "Moderate"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "null",
+        "nonirrigated": "6e"
+      },
+      "hydrologic_soil_group": "C",
+      "ecological_site": "R015XE001CA - Clayey Hills 10-14\" p.z.",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "686dafec65bc8e1ff7ef842b"
+  },
+  "name": "Fishsnooze",
+  "description": {
+    "setting": {
+      "landform": "Mountains",
+      "landform_position": {
+        "two_dimensional": "Backslope",
+        "three_dimensional": "Mountainflank"
+      },
+      "slope_shape": {
+        "down_slope": "Linear",
+        "across_slope": "Convex"
+      },
+      "parent_material": "Colluvium over residuum derived from andesite or tuff breccia"
+    },
+    "typical_profile": [
+      {
+        "horizon": "A1",
+        "depth_in": "0 to 1",
+        "texture": "very gravelly sandy loam"
+      },
+      {
+        "horizon": "A2",
+        "depth_in": "1 to 9",
+        "texture": "very gravelly coarse sandy loam"
+      },
+      {
+        "horizon": "A3",
+        "depth_in": "9 to 13",
+        "texture": "extremely gravelly coarse sandy loam"
+      },
+      {
+        "horizon": "Bw",
+        "depth_in": "13 to 35",
+        "texture": "extremely cobbly coarse sandy loam"
+      },
+      {
+        "horizon": "R",
+        "depth_in": "35 to 45",
+        "texture": "bedrock"
+      }
+    ],
+    "properties_and_qualities": {
+      "slope_percent": {
+        "min": 30,
+        "max": 50
+      },
+      "depth_to_restrictive_feature_in": "20 to 40 to lithic bedrock",
+      "drainage_class": "Well drained",
+      "runoff_class": "Very high",
+      "ksat_in_hr": {
+        "min": 0,
+        "max": 0,
+        "level": "Very low"
+      },
+      "depth_to_water_table_in": ">80",
+      "flooding_frequency": "None",
+      "ponding_frequency": "None",
+      "available_water_supply_in": {
+        "depth_range_in": "0 to 60",
+        "value": 2.8,
+        "level": "Very low"
+      }
+    },
+    "interpretive_groups": {
+      "land_capability_classification": {
+        "irrigated": "null",
+        "nonirrigated": "6s"
+      },
+      "hydrologic_soil_group": "B",
+      "ecological_site": "F022AY126NV - Pinus albicaulis-Pinus flexilis/Poa-Carex",
+      "vegetative_classification": "PIAL-PIFL WSG:0R3011 (022XY126NV_1)",
+      "hydric_soil_rating": false
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "686db17e65bc8e1ff7ef842d"
+  },
+  "name": "Bobbitt",
+  "setting": {
+    "landform": "Mountains",
+    "landform_position_2D": "Backslope",
+    "landform_position_3D": "Mountainflank",
+    "down_slope_shape": "Linear",
+    "across_slope_shape": "Linear",
+    "parent_material": "Residuum weathered from basalt and/or residuum weathered from pumice and/or residuum weathered from andesite"
+  },
+  "typical_profile": [
+    {
+      "horizon": "H1",
+      "depth": "0 to 12 inches",
+      "texture": "gravelly loam"
+    },
+    {
+      "horizon": "H2",
+      "depth": "12 to 22 inches",
+      "texture": "extremely gravelly loam"
+    },
+    {
+      "horizon": "H3",
+      "depth": "22 to 44 inches",
+      "texture": "very gravelly sandy loam"
+    },
+    {
+      "horizon": "H4",
+      "depth": "44 to 60 inches",
+      "texture": "weathered bedrock"
+    }
+  ],
+  "properties_and_qualities": {
+    "slope": "0 to 35 percent",
+    "depth_to_restrictive_feature": "44 to 48 inches to paralithic bedrock",
+    "drainage_class": "Well drained",
+    "runoff_class": "Medium",
+    "ksat": "Moderately high to high (0.57 to 1.98 in/hr)",
+    "depth_to_water_table": "More than 80 inches",
+    "flooding_frequency": "None",
+    "ponding_frequency": "None",
+    "available_water_supply_0_to_60_inches": "Low (about 3.8 inches)"
+  },
+  "interpretive_groups": {
+    "land_capability_classification_irrigated": "None specified",
+    "land_capability_classification_nonirrigated": "6e",
+    "hydrologic_soil_group": "B",
+    "ecological_site": "F022BG201CA - Mesic Ash-Influenced Mountains",
+    "hydric_soil_rating": "No"
+  }
+},
+{
+  "_id": {
+    "$oid": "686db2d065bc8e1ff7ef842f"
+  },
+  "name": "Andregg",
+  "setting": {
+    "landform": "Hillslopes",
+    "landform_position_2d": "Backslope",
+    "landform_position_3d": "Side slope",
+    "down_slope_shape": "Linear",
+    "across_slope_shape": "Convex",
+    "parent_material": "Residuum weathered from granite"
+  },
+  "typical_profile": [
+    {
+      "horizon": "H1",
+      "depth": "0 to 11 inches",
+      "texture": "coarse sandy loam"
+    },
+    {
+      "horizon": "H2",
+      "depth": "11 to 32 inches",
+      "texture": "coarse sandy loam"
+    },
+    {
+      "horizon": "H3",
+      "depth": "32 to 36 inches",
+      "texture": "weathered bedrock"
+    }
+  ],
+  "properties_and_qualities": {
+    "slope": "2 to 8 percent",
+    "depth_to_restrictive_feature": "32 to 36 inches to paralithic bedrock",
+    "drainage_class": "Well drained",
+    "runoff_class": "Low",
+    "ksat": "Very low to moderately low (0.00 to 0.06 in/hr)",
+    "depth_to_water_table": "More than 80 inches",
+    "flooding_frequency": "None",
+    "ponding_frequency": "None",
+    "available_water_supply_0_60": "Low (about 3.8 inches)"
+  },
+  "interpretive_groups": {
+    "land_capability_classification_irrigated": "3e",
+    "land_capability_classification_nonirrigated": "3e",
+    "hydrologic_soil_group": "B",
+    "ecological_site": "F018XI2"
+  }
+},
+{
+  "_id": {
+    "$oid": "686db87265bc8e1ff7ef8431"
+  },
+  "name": "Alambique",
+  "setting": {
+    "landform": "Mountain slopes",
+    "landform_position_two_dimensional": "Backslope",
+    "landform_position_three_dimensional": "Mountainflank",
+    "down_slope_shape": "Concave",
+    "across_slope_shape": "Convex",
+    "parent_material": "Residuum weathered from sandstone"
+  },
+  "typical_profile": [
+    {
+      "horizon": "H1",
+      "depth": "0 to 6 inches",
+      "texture": "sandy loam"
+    },
+    {
+      "horizon": "H2",
+      "depth": "6 to 30 inches",
+      "texture": "loam"
+    },
+    {
+      "horizon": "H3",
+      "depth": "30 to 34 inches",
+      "texture": "weathered bedrock"
+    }
+  ],
+  "properties_and_qualities": {
+    "slope": "30 to 75 percent",
+    "depth_to_restrictive_feature": "20 to 40 inches to paralithic bedrock",
+    "drainage_class": "Well drained",
+    "runoff_class": "High",
+    "ksat": "Moderately high to high (0.57 to 1.98 in/hr)",
+    "depth_to_water_table": "More than 80 inches",
+    "flooding_frequency": "None",
+    "ponding_frequency": "None",
+    "maximum_salinity": "Nonsaline to very slightly saline (0.0 to 2.0 mmhos/cm)",
+    "available_water_supply_0_to_60_inches": "Low (about 4.3 inches)"
+  },
+  "interpretive_groups": {
+    "land_capability_classification_irrigated": "None specified",
+    "land_capability_classification_nonirrigated": "7e",
+    "hydrologic_soil_group": "C",
+    "ecological_site": "F004BN100CA - Fog-influenced, low elevation mountain slopes",
+    "hydric_soil_rating": "No"
+  }
+},
+{
+  "_id": {
+    "$oid": "686db8c865bc8e1ff7ef8433"
+  },
+  "name": "Vaquero",
+  "setting": {
+    "landform": "Mountains, hills",
+    "landform_position_two_dimensional": "Backslope",
+    "landform_position_three_dimensional": "Mountainflank, side slope",
+    "down_slope_shape": "Linear",
+    "across_slope_shape": "Convex",
+    "parent_material": "Residuum weathered from sandstone and shale"
+  },
+  "typical_profile": [
+    {
+      "horizon": "A",
+      "depth": "0 to 21 inches",
+      "texture": "clay"
+    },
+    {
+      "horizon": "Bk",
+      "depth": "21 to 25 inches",
+      "texture": "clay"
+    },
+    {
+      "horizon": "Cr",
+      "depth": "25 to 79 inches",
+      "texture": "bedrock"
+    }
+  ],
+  "properties_and_qualities": {
+    "slope": "8 to 30 percent",
+    "depth_to_restrictive_feature": "20 to 39 inches to paralithic bedrock",
+    "drainage_class": "Well drained",
+    "runoff_class": "Very high",
+    "ksat": "Moderately low to moderately high (0.06 to 0.20 in/hr)",
+    "depth_to_water_table": "More than 80 inches",
+    "flooding_frequency": "None",
+    "ponding_frequency": "None",
+    "calcium_carbonate_max": "3 percent",
+    "gypsum_max": "3 percent",
+    "maximum_salinity": "Very slightly saline to strongly saline (2.0 to 16.0 mmhos/cm)",
+    "sodium_adsorption_ratio_max": "25.0",
+    "available_water_supply_0_to_60_inches": "Low (about 4.0 inches)"
+  },
+  "interpretive_groups": {
+    "land_capability_classification_irrigated": "None specified",
+    "land_capability_classification_nonirrigated": "4e",
+    "hydrologic_soil_group": "D",
+    "ecological_site": "R015XE001CA - Clayey Hills 10-14\" p.z.",
+    "hydric_soil_rating": "No"
+  }
+},
+{
+  "_id": "6862ba8217d12e3a99b4d966",
+  "county": "Imperial",
+  "survey_area": "Imperial Valley Area",
+  "source_file": "Imperial county.pdf",
+  "version": "June 30, 2025",
+  "features[0].name": "Holtville loam",
+  "features[1].name": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].map_unit": "108",
+  "features[1].map_unit": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].slope": "0 to 2 percent",
+  "features[1].slope": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].texture": "loam",
+  "features[1].texture": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].drainage_class": "moderately well drained",
+  "features[1].drainage_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].hydrologic_group": "C",
+  "features[1].hydrologic_group": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].runoff_class": "low",
+  "features[1].runoff_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].permeability": "moderate",
+  "features[1].permeability": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].available_water_capacity": "high",
+  "features[1].available_water_capacity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].erosion_hazard": "slight",
+  "features[1].erosion_hazard": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].depth_to_restrictive_layer": "greater than 60 inches",
+  "features[1].depth_to_restrictive_layer": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].ph_range": "7.8–8.4",
+  "features[1].ph_range": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].shrink_swell_potential": "low",
+  "features[1].shrink_swell_potential": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].suitability_notes": "Good for irrigated agriculture",
+  "features[1].suitability_notes": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].vegetative_productivity": "high",
+  "features[1].vegetative_productivity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].land_use[0]": "cropland",
+  "features[0].land_use[1]": "irrigation",
+  "features[1].land_use[0]": {
+    "$numberDouble": "NaN"
+  },
+  "features[1].land_use[1]": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].notes": "Common soil in Imperial Valley",
+  "features[1].notes": {
+    "$numberDouble": "NaN"
+  }
+},
+{
+  "_id": "6862ba8217d12e3a99b4d967",
+  "county": "Los Angeles",
+  "survey_area": "Southeastern Los Angeles County",
+  "source_file": "LA soil.pdf",
+  "version": "June 30, 2025",
+  "features[0].name": "Anaheim loam",
+  "features[1].name": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].map_unit": "106oc",
+  "features[1].map_unit": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].slope": "15 to 30 percent",
+  "features[1].slope": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].texture": "loam",
+  "features[1].texture": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].drainage_class": "moderately well drained",
+  "features[1].drainage_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].hydrologic_group": "C",
+  "features[1].hydrologic_group": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].runoff_class": "medium",
+  "features[1].runoff_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].permeability": "moderate",
+  "features[1].permeability": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].available_water_capacity": "moderate",
+  "features[1].available_water_capacity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].erosion_hazard": "moderate",
+  "features[1].erosion_hazard": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].depth_to_restrictive_layer": "40 to 60 inches",
+  "features[1].depth_to_restrictive_layer": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].ph_range": "6.5–7.2",
+  "features[1].ph_range": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].shrink_swell_potential": "moderate",
+  "features[1].shrink_swell_potential": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].suitability_notes": "Suitable for light urban development",
+  "features[1].suitability_notes": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].vegetative_productivity": "medium",
+  "features[1].vegetative_productivity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].land_use[0]": "residential",
+  "features[0].land_use[1]": "pasture",
+  "features[1].land_use[0]": {
+    "$numberDouble": "NaN"
+  },
+  "features[1].land_use[1]": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].notes": "Found in suburban hills",
+  "features[1].notes": {
+    "$numberDouble": "NaN"
+  }
+},
+{
+  "_id": "6862ba8217d12e3a99b4d968",
+  "county": "Orange",
+  "survey_area": "Orange County and Part of Riverside County",
+  "source_file": "orange county.pdf",
+  "version": "June 30, 2025",
+  "features[0].name": "Capistrano sandy loam",
+  "features[1].name": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].map_unit": "135",
+  "features[1].map_unit": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].slope": "2 to 9 percent",
+  "features[1].slope": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].texture": "sandy loam",
+  "features[1].texture": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].drainage_class": "well drained",
+  "features[1].drainage_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].hydrologic_group": "B",
+  "features[1].hydrologic_group": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].runoff_class": "low",
+  "features[1].runoff_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].permeability": "high",
+  "features[1].permeability": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].available_water_capacity": "moderate",
+  "features[1].available_water_capacity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].erosion_hazard": "slight",
+  "features[1].erosion_hazard": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].depth_to_restrictive_layer": "greater than 60 inches",
+  "features[1].depth_to_restrictive_layer": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].ph_range": "6.8–7.5",
+  "features[1].ph_range": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].shrink_swell_potential": "low",
+  "features[1].shrink_swell_potential": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].suitability_notes": "Suitable for building and landscaping",
+  "features[1].suitability_notes": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].vegetative_productivity": "moderate",
+  "features[1].vegetative_productivity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].land_use[0]": "urban",
+  "features[0].land_use[1]": "gardening",
+  "features[1].land_use[0]": {
+    "$numberDouble": "NaN"
+  },
+  "features[1].land_use[1]": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].notes": "Common in residential zones",
+  "features[1].notes": {
+    "$numberDouble": "NaN"
+  }
+},
+{
+  "_id": "6862ba8217d12e3a99b4d969",
+  "county": "Riverside",
+  "survey_area": "Western Riverside Area",
+  "source_file": "riverside county.pdf",
+  "version": "June 30, 2025",
+  "features[0].name": "Ramona sandy loam",
+  "features[1].name": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].map_unit": "118",
+  "features[1].map_unit": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].slope": "2 to 9 percent",
+  "features[1].slope": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].texture": "sandy loam",
+  "features[1].texture": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].drainage_class": "moderately well drained",
+  "features[1].drainage_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].hydrologic_group": "B",
+  "features[1].hydrologic_group": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].runoff_class": "medium",
+  "features[1].runoff_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].permeability": "moderate",
+  "features[1].permeability": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].available_water_capacity": "moderate",
+  "features[1].available_water_capacity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].erosion_hazard": "slight",
+  "features[1].erosion_hazard": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].depth_to_restrictive_layer": "greater than 60 inches",
+  "features[1].depth_to_restrictive_layer": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].ph_range": "6.5–7.3",
+  "features[1].ph_range": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].shrink_swell_potential": "low",
+  "features[1].shrink_swell_potential": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].suitability_notes": "Good for homes and roads",
+  "features[1].suitability_notes": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].vegetative_productivity": "moderate",
+  "features[1].vegetative_productivity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].land_use[0]": "residential",
+  "features[0].land_use[1]": "roads",
+  "features[1].land_use[0]": {
+    "$numberDouble": "NaN"
+  },
+  "features[1].land_use[1]": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].notes": "Typical for urban fringe areas",
+  "features[1].notes": {
+    "$numberDouble": "NaN"
+  }
+},
+{
+  "_id": "6862ba8217d12e3a99b4d96a",
+  "county": "San Bernardino",
+  "survey_area": "San Bernardino National Forest Area",
+  "source_file": "san bernardino county.pdf",
+  "version": "June 30, 2025",
+  "features[0].name": "Cieneba rocky sandy loam",
+  "features[1].name": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].map_unit": "116",
+  "features[1].map_unit": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].slope": "15 to 50 percent",
+  "features[1].slope": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].texture": "rocky sandy loam",
+  "features[1].texture": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].drainage_class": "somewhat excessively drained",
+  "features[1].drainage_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].hydrologic_group": "D",
+  "features[1].hydrologic_group": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].runoff_class": "high",
+  "features[1].runoff_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].permeability": "rapid",
+  "features[1].permeability": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].available_water_capacity": "low",
+  "features[1].available_water_capacity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].erosion_hazard": "high",
+  "features[1].erosion_hazard": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].depth_to_restrictive_layer": "shallow",
+  "features[1].depth_to_restrictive_layer": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].ph_range": "6.8–7.8",
+  "features[1].ph_range": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].shrink_swell_potential": "low",
+  "features[1].shrink_swell_potential": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].suitability_notes": "Difficult for construction",
+  "features[1].suitability_notes": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].vegetative_productivity": "low",
+  "features[1].vegetative_productivity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].land_use[0]": "natural vegetation",
+  "features[0].land_use[1]": {
+    "$numberDouble": "NaN"
+  },
+  "features[1].land_use[0]": {
+    "$numberDouble": "NaN"
+  },
+  "features[1].land_use[1]": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].notes": "Found on hills and ridges",
+  "features[1].notes": {
+    "$numberDouble": "NaN"
+  }
+},
+{
+  "_id": "6862ba8217d12e3a99b4d96b",
+  "county": "San Diego",
+  "survey_area": "San Diego County Area",
+  "source_file": "San Diego County.pdf",
+  "version": "June 30, 2025",
+  "features[0].name": "Fallbrook sandy loam",
+  "features[1].name": "Cieneba-Fallbrook-Rock outcrop complex",
+  "features[0].map_unit": "128",
+  "features[1].map_unit": 137,
+  "features[0].slope": "9 to 30 percent",
+  "features[1].slope": "15 to 65 percent",
+  "features[0].texture": "sandy loam",
+  "features[1].texture": "complex",
+  "features[0].drainage_class": "well drained",
+  "features[1].drainage_class": "somewhat excessively drained",
+  "features[0].hydrologic_group": "C",
+  "features[1].hydrologic_group": "D",
+  "features[0].runoff_class": "medium",
+  "features[1].runoff_class": "very high",
+  "features[0].permeability": "moderate",
+  "features[1].permeability": "rapid",
+  "features[0].available_water_capacity": "moderate",
+  "features[1].available_water_capacity": "low",
+  "features[0].erosion_hazard": "moderate",
+  "features[1].erosion_hazard": "severe",
+  "features[0].depth_to_restrictive_layer": "40 to 60 inches",
+  "features[1].depth_to_restrictive_layer": "shallow in some places",
+  "features[0].ph_range": "6.1–7.3",
+  "features[1].ph_range": "6.5–7.8",
+  "features[0].shrink_swell_potential": "low",
+  "features[1].shrink_swell_potential": "low",
+  "features[0].suitability_notes": "Moderate for building, good for native vegetation",
+  "features[1].suitability_notes": "Limited for agriculture and development",
+  "features[0].vegetative_productivity": "moderate",
+  "features[1].vegetative_productivity": "low",
+  "features[0].land_use[0]": "residential",
+  "features[0].land_use[1]": "natural vegetation",
+  "features[1].land_use[0]": "natural",
+  "features[1].land_use[1]": "undeveloped",
+  "features[0].notes": "Occurs in coastal foothills",
+  "features[1].notes": "Common in the rugged terrain of San Diego"
+},
+{
+  "_id": "6862becd17d12e3a99b4da1b",
+  "county": "San Luis Obispo",
+  "survey_area": "San Luis Obispo County, Coastal Part",
+  "source_file": "San Luis county.pdf",
+  "version": "June 30, 2025",
+  "features[0].name": "Nacimento silty clay loam",
+  "features[1].name": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].map_unit": "162",
+  "features[1].map_unit": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].slope": "2 to 9 percent",
+  "features[1].slope": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].texture": "silty clay loam",
+  "features[1].texture": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].drainage_class": "moderately well drained",
+  "features[1].drainage_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].hydrologic_group": "C",
+  "features[1].hydrologic_group": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].runoff_class": "medium",
+  "features[1].runoff_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].permeability": "moderate",
+  "features[1].permeability": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].available_water_capacity": "moderate to high",
+  "features[1].available_water_capacity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].erosion_hazard": "moderate",
+  "features[1].erosion_hazard": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].depth_to_restrictive_layer": "greater than 60 inches",
+  "features[1].depth_to_restrictive_layer": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].ph_range": "6.2–7.3",
+  "features[1].ph_range": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].shrink_swell_potential": "moderate",
+  "features[1].shrink_swell_potential": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].suitability_notes": "Used for dryland grain and irrigated vegetables",
+  "features[1].suitability_notes": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].vegetative_productivity": "moderate",
+  "features[1].vegetative_productivity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].land_use[0]": "cropland",
+  "features[0].land_use[1]": "irrigation",
+  "features[1].land_use[0]": {
+    "$numberDouble": "NaN"
+  },
+  "features[1].land_use[1]": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].notes": "Common on gently sloping coastal terraces",
+  "features[1].notes": {
+    "$numberDouble": "NaN"
+  }
+},
+{
+  "_id": "6862becd17d12e3a99b4da1c",
+  "county": "Santa Barbara",
+  "survey_area": "Santa Barbara County Area",
+  "source_file": "Santa Barbara county.pdf",
+  "version": "June 30, 2025",
+  "features[0].name": "Ballard gravelly fine sandy loam",
+  "features[1].name": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].map_unit": "113",
+  "features[1].map_unit": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].slope": "2 to 15 percent",
+  "features[1].slope": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].texture": "gravelly fine sandy loam",
+  "features[1].texture": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].drainage_class": "well drained",
+  "features[1].drainage_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].hydrologic_group": "B",
+  "features[1].hydrologic_group": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].runoff_class": "low to medium",
+  "features[1].runoff_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].permeability": "moderate to rapid",
+  "features[1].permeability": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].available_water_capacity": "moderate",
+  "features[1].available_water_capacity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].erosion_hazard": "slight to moderate",
+  "features[1].erosion_hazard": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].depth_to_restrictive_layer": "greater than 60 inches",
+  "features[1].depth_to_restrictive_layer": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].ph_range": "6.0–7.4",
+  "features[1].ph_range": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].shrink_swell_potential": "low",
+  "features[1].shrink_swell_potential": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].suitability_notes": "Used for vineyards, homes, and pasture",
+  "features[1].suitability_notes": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].vegetative_productivity": "moderate",
+  "features[1].vegetative_productivity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].land_use[0]": "vineyards",
+  "features[0].land_use[1]": "residential",
+  "features[1].land_use[0]": {
+    "$numberDouble": "NaN"
+  },
+  "features[1].land_use[1]": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].notes": "Often found in foothill valleys",
+  "features[1].notes": {
+    "$numberDouble": "NaN"
+  }
+},
+{
+  "_id": "6862becd17d12e3a99b4da1d",
+  "county": "Ventura",
+  "survey_area": "Ventura County Area",
+  "source_file": "ventura county.pdf",
+  "version": "June 30, 2025",
+  "features[0].name": "Mocho loam",
+  "features[1].name": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].map_unit": "124",
+  "features[1].map_unit": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].slope": "0 to 2 percent",
+  "features[1].slope": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].texture": "loam",
+  "features[1].texture": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].drainage_class": "moderately well drained",
+  "features[1].drainage_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].hydrologic_group": "C",
+  "features[1].hydrologic_group": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].runoff_class": "low",
+  "features[1].runoff_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].permeability": "slow to moderate",
+  "features[1].permeability": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].available_water_capacity": "high",
+  "features[1].available_water_capacity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].erosion_hazard": "slight",
+  "features[1].erosion_hazard": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].depth_to_restrictive_layer": "more than 60 inches",
+  "features[1].depth_to_restrictive_layer": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].ph_range": "7.0–7.8",
+  "features[1].ph_range": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].shrink_swell_potential": "moderate",
+  "features[1].shrink_swell_potential": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].suitability_notes": "Excellent for irrigated crops",
+  "features[1].suitability_notes": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].vegetative_productivity": "high",
+  "features[1].vegetative_productivity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].land_use[0]": "orchards",
+  "features[0].land_use[1]": "cropland",
+  "features[1].land_use[0]": {
+    "$numberDouble": "NaN"
+  },
+  "features[1].land_use[1]": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].notes": "Extensive in valley bottoms",
+  "features[1].notes": {
+    "$numberDouble": "NaN"
+  }
+},
+{
+  "_id": "6862becd17d12e3a99b4da1e",
+  "county": "Kern",
+  "survey_area": "Kern County, Southeastern Part",
+  "source_file": "kern county.pdf",
+  "version": "June 30, 2025",
+  "features[0].name": "Kimberlina sandy loam",
+  "features[1].name": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].map_unit": "115",
+  "features[1].map_unit": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].slope": "0 to 2 percent",
+  "features[1].slope": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].texture": "sandy loam",
+  "features[1].texture": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].drainage_class": "well drained",
+  "features[1].drainage_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].hydrologic_group": "A",
+  "features[1].hydrologic_group": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].runoff_class": "low",
+  "features[1].runoff_class": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].permeability": "high",
+  "features[1].permeability": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].available_water_capacity": "moderate",
+  "features[1].available_water_capacity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].erosion_hazard": "slight",
+  "features[1].erosion_hazard": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].depth_to_restrictive_layer": "greater than 60 inches",
+  "features[1].depth_to_restrictive_layer": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].ph_range": "7.2–8.0",
+  "features[1].ph_range": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].shrink_swell_potential": "low",
+  "features[1].shrink_swell_potential": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].suitability_notes": "Ideal for irrigated field crops",
+  "features[1].suitability_notes": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].vegetative_productivity": "high",
+  "features[1].vegetative_productivity": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].land_use[0]": "row crops",
+  "features[0].land_use[1]": "irrigation",
+  "features[1].land_use[0]": {
+    "$numberDouble": "NaN"
+  },
+  "features[1].land_use[1]": {
+    "$numberDouble": "NaN"
+  },
+  "features[0].notes": "Found extensively in valley regions of Kern",
+  "features[1].notes": {
+    "$numberDouble": "NaN"
+  }
+}]
