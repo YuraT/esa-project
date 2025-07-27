@@ -8,7 +8,6 @@ export default function page() {
     <div>
       <BackButton />
       <Page />
-      <LoadingIndicator />
     </div>
   );
 }
