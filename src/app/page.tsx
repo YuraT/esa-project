@@ -42,7 +42,7 @@ export default function Home() {
           <div className="flex pr-[clamp(0.3rem,3vw,6rem)] gap-x-[clamp(0.2rem,1.5vw,3rem)]">
             <button
               className={grayTools}
-              onClick={() => router.push("/testing/notification")}
+              onClick={() => router.push("/testing")}
             >
               TESTING
             </button>
