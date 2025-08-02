@@ -1,11 +1,10 @@
 'use client';
 import Footer from "../components/Footer";
+import Header from "../components/Header";
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDown } from 'lucide-react';
 import countiesData from '../data/uscounties.json';
 
-
-// get last 6 months
 function getLastSixMonths(): string[] {
  const months = [];
  const now = new Date();
@@ -18,8 +17,6 @@ function getLastSixMonths(): string[] {
  return months;
 }
 
-
-// global mem cache
 let cachedProducts: string[] | null = null;
 
 
@@ -203,21 +200,7 @@ const allCounties: string[] = countiesData.map(
    <div className="flex flex-col items-start justify-start min-h-screen bg-white font-sans">
 
 
-     {/* Header */}
-     <div className="mb-10 w-full h-[15vh] flex items-center justify-center bg-[#275c9d]">
-       <div className="absolute left-10 flex items-center justify-center w-10 h-10 rounded-full bg-[#678dc9] cursor-pointer">
-         <svg
-           className="w-4 h-4 text-white"
-           fill="none"
-           stroke="currentColor"
-           strokeWidth="4"
-           viewBox="0 0 24 24"
-         >
-           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-         </svg>
-       </div>
-     </div>
-
+     <Header></Header>
 
      {/* Search Panel */}
      <div className="mb-15 mt-5 w-[28vw] h-[75vh] rounded-[2rem] ml-[3vw] flex flex-col items-center gap-10 bg-[#275c9d]">
