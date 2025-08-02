@@ -8,7 +8,7 @@ const Footer = () => {
     "flex text-[clamp(0.27rem,1vw,2rem)] w-[clamp(4rem,20vw,20rem)] hover:underline";
 
   return (
-    <div className="bg-[#3E4651]">
+    <div className="w-full bg-[#3E4651]">
       <div className="flex text-white justify-center gap-x-[clamp(2rem,10vw,20rem)] p-[clamp(1rem,3vw,4rem)]">
         {/* About EPA */}
         <div>
