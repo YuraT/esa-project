@@ -12,16 +12,17 @@ export async function GET(request: Request) {
   // turn request url string into url obj
   const url = new URL(request.url);
 
-  // from url obj search params for county, prod_reg_num, and date
+  // from url obj search params for county, state, prod_reg_num, and date
   //const prod_reg_num = url.searchParams.get("prod_reg_num");
   const county = url.searchParams.get("county");
+  const state = url.searchParams.get("state");
   const date = url.searchParams.get("date")
   const prod_reg_num = url.searchParams.get("prod_reg_num")
 
   // validating frontend's request has all required query params
-  if (!date || !county || !prod_reg_num) {
+  if (!date || !county || !state || !prod_reg_num) {
     return NextResponse.json(
-    { error: "Missing one or more required query parameters (date, county, prod_reg_num)" },
+    { error: "Missing one or more required query parameters (date, county, state, prod_reg_num)" },
     { status: 400 }
     );
   }
@@ -29,12 +30,13 @@ export async function GET(request: Request) {
   // building where to later query at pulas_public endpoint
   const where = {
     states: {
+      state_abbr: state,
       counties: {
-        name: county // ex: "Palm Beach County"
+        name: county,
       }
     },
     effective_date: {
-      "<": date // date validation + clarification, expected format mm/dd/yyyy, default date?
+      "<": date
     }
   };
 
@@ -84,8 +86,17 @@ async function limitations_helper(pula_IDs: PulaIDs[], prod_reg_num: string) {
     const select = {
       product_registration_number: 1,
       pula_id: 1,
-      limitation: 1
+      limitation: 1,
+      last_update: 1,
+      code: 1,
+      umf: {
+        use: 1,
+        method: 1,
+        form: 1,
+        pula_id: 1
+      }
     };
+
 
     // building main url to fetch limitations from limitations_public endpoint
     const base_url = new URL("https://blt.epa.gov/blt/api/limitations_public");
