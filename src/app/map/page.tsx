@@ -4,6 +4,8 @@ import Header from "../components/Header";
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDown } from 'lucide-react';
 import countiesData from '../data/uscounties.json';
+import { useRouter } from 'next/navigation'; 
+
 
 function getLastSixMonths(): string[] {
  const months = [];
@@ -18,6 +20,7 @@ function getLastSixMonths(): string[] {
 }
 
 let cachedProducts: string[] | null = null;
+
 
 
 export default function SearchContainer() {
@@ -88,6 +91,59 @@ const allCounties: string[] = countiesData.map(
    setIsOpen(false);
  }
 
+const router = useRouter();
+
+async function handleSearch() {
+  if (!selected || !selectedCounty || !selectedProduct) {
+    alert("Please fill out all fields.");
+    return;
+  }
+
+  // Format the selected date into MM/DD/YYYY
+  const [monthStr, yearStr] = selected.split(" ");
+  const month = new Date(`${monthStr} 1, ${yearStr}`).getMonth() + 1;
+  const formattedDate = `${month}/1/${yearStr}`;
+
+  // Extract product registration number
+  const prodRegNum = selectedProduct.match(/^\s*[\d\-]+/)?.[0] ?? '';
+
+  // Extract county and state separately
+  const [countyRaw, stateRaw] = selectedCounty.split(",").map((s) => s.trim());
+  const county = countyRaw.endsWith("County") ? countyRaw : `${countyRaw} County`;
+  const state = stateRaw ?? '';
+
+  try {
+    const response = await fetch(
+      `/api/esa-reqs?date=${encodeURIComponent(formattedDate)}&county=${encodeURIComponent(county)}&state=${encodeURIComponent(state)}&prod_reg_num=${encodeURIComponent(prodRegNum)}`
+    );
+
+    const data = await response.json();
+    console.log("API Response:", data);
+
+    if (Array.isArray(data) && data.length > 0) {
+        localStorage.setItem('esa_limitations', JSON.stringify(data));
+        console.log("FULL LIMITATION DATA SAVED TO STORAGE:", data);
+    } else {
+        const fallback = [{
+          limitation: "No pesticide use limitations exist for your selected county, date, and product at this time. Simply ensure compliance with the pesticide use instructions on your product label.",
+          last_update: null,
+          umf: []
+        }];
+        localStorage.setItem('esa_limitations', JSON.stringify(fallback));
+        console.log("NO MATCH — SAVED DEFAULT MESSAGE TO STORAGE");
+    }
+
+
+    router.push(`/PrintReport?month=${selected}&product=${selectedProduct}&county=${selectedCounty}`);
+
+  } catch (error) {
+    console.error("Error fetching limitations:", error);
+  }
+}
+
+
+
+
 
  // County: Input & Select
  function handleCountyInputChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -125,6 +181,7 @@ const allCounties: string[] = countiesData.map(
    setFilteredProducts([]);
  }
 
+ 
 
  // Debounce input
  useEffect(() => {
@@ -167,7 +224,7 @@ const allCounties: string[] = countiesData.map(
 
 
      try {
-       const res = await fetch('');
+       const res = await fetch('/api/products');
        const data: Array<{
          limitations?: Array<{
            product_registration_number: string;
@@ -193,6 +250,7 @@ const allCounties: string[] = countiesData.map(
          }
    fetchProducts();
  }, []);
+
 
 
  // UI
@@ -322,9 +380,13 @@ const allCounties: string[] = countiesData.map(
 
 
        {/* Submit */}
-       <div className="mb-5 w-[10vw] h-[8vh] bg-[#4673ab] flex items-center justify-center rounded-[0.5rem]">
-         <h1 className="text-white text-2xl font-bold">GO!</h1>
-       </div>
+       <div
+        onClick={handleSearch}
+        className="mb-5 w-[10vw] h-[8vh] bg-[#4673ab] flex items-center justify-center rounded-[0.5rem] cursor-pointer"
+        >
+        <h1 className="text-white text-2xl font-bold">GO!</h1>
+      </div>
+
 
      </div>
 
