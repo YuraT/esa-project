@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function FieldSlope() {
+export default function MitigationTracking() {
 
      const [selected, setSelected] = useState<"yes" | "no" | null>(null);
 
