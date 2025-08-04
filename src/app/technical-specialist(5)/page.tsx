@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function FieldSlope() {
+export default function TechSpecialist() {
 
     const [checked1, setChecked1] = useState(false);
     const [checked2, setChecked2] = useState(false);
