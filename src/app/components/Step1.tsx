@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-export default function Step1() {
+export default function Step1({ value, setValue }: { value: number; setValue: (v: number) => void }) {
 
     return (
             <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-230 h-80">
@@ -26,18 +26,28 @@ export default function Step1() {
                     </div>
 
                     <div className="flex mt-8">
-                        <div className="flex items-center justify-center w-30 h-12 bg-[#d3faad] rounded-l-4xl text-[#275c9d] font-bold text-lg">Very Low</div>
-                        <div className="flex items-center justify-center w-30 h-12 bg-[#fff896] text-[#275c9d] font-bold text-lg">Low</div>
-                        <div className="flex items-center justify-center w-30 h-12 bg-[#ffd073] text-[#275c9d] font-bold text-lg">Medium</div>
-                        <div className="flex items-center justify-center  w-30 h-12 bg-[#ff796d] rounded-r-4xl text-[#275c9d] font-bold text-lg">High</div>
-
+                        <button
+                            className={`flex items-center justify-center w-30 h-12 bg-[#d3faad] rounded-l-4xl text-[#275c9d] font-bold text-lg ${value === 6 ? 'border-4 border-blue-500' : ''}`}
+                            onClick={() => setValue(6)}
+                            type="button"
+                        >Very Low</button>
+                        <button
+                            className={`flex items-center justify-center w-30 h-12 bg-[#fff896] text-[#275c9d] font-bold text-lg ${value === 3 ? 'border-4 border-blue-500' : ''}`}
+                            onClick={() => setValue(3)}
+                            type="button"
+                        >Low</button>
+                        <button
+                            className={`flex items-center justify-center w-30 h-12 bg-[#ffd073] text-[#275c9d] font-bold text-lg ${value === 2 ? 'border-4 border-blue-500' : ''}`}
+                            onClick={() => setValue(2)}
+                            type="button"
+                        >Medium</button>
+                        <button
+                            className={`flex items-center justify-center w-30 h-12 bg-[#ff796d] rounded-r-4xl text-[#275c9d] font-bold text-lg ${value === 0 ? 'border-4 border-blue-500' : ''}`}
+                            onClick={() => setValue(0)}
+                            type="button"
+                        >High</button>
                     </div>
-
                 </div>
-            
           </div>
-      
-
     );
-
-}
+};

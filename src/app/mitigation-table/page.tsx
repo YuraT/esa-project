@@ -10,11 +10,18 @@ import Step4 from "../components/Step4";
 import Step5 from "../components/Step5";
 import Step6 from "../components/Step6";
 import { useSearchParams, useRouter } from "next/navigation";
+import Link from "next/link";
 
 
 export default function MitigationTable() {
+    // State for each mitigation step
+    const [countyVuln, setCountyVuln] = useState<number>(0); // 6, 3, 2, 0
+    const [fieldSlope, setFieldSlope] = useState<number>(0); // 3 or 0
+    const [soilPoints, setSoilPoints] = useState<number>(0); // 2, 3, or 0
+    const [tracking, setTracking] = useState<number>(0); // 1 or 0
+    const [techSpecialist, setTechSpecialist] = useState<number>(0); // 1 or 2 or 0
+    const [conservationProgram, setConservationProgram] = useState<number>(0); // 1 or 2 or 0
 
-    const [currentStep, setCurrentStep] = useState<number | null>(null);
     const searchParams = useSearchParams();
     const router = useRouter();
 
@@ -22,33 +29,18 @@ export default function MitigationTable() {
     const product = searchParams.get("product");
     const county = searchParams.get("county");
 
+    // Build mitigations param
+    const mitigations = [countyVuln, fieldSlope, soilPoints, tracking, techSpecialist, conservationProgram].join(",");
+
     const scrollToStep = (id: string) => {
         document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-    };
-
-    const handleNext = () => {
-        router.push(`/PrintReport?month=${encodeURIComponent(month || '')}&product=${encodeURIComponent(product || '')}&county=${encodeURIComponent(county || '')}`);
     };
 
     return (
         <div className="flex flex-col min-h-screen bg-white">
             {/*added header manually here due to positioning issue*/}
 
-            <div className="w-full h-[15vh] flex items-center justify-center bg-[#275c9d]">
-                <div 
-                onClick={() => router.push('../map')} // <-- navigates to main page
-                className="absolute left-10 flex items-center justify-center w-10 h-10 rounded-full bg-[#678dc9] cursor-pointer">
-                    <svg
-                        className="w-4 h-4 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                        viewBox="0 0 24 24"
-                    >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </div>
-            </div>
+            <Header />
             <div className="flex">
                 <div className="sticky top-0 flex flex-col items-center w-150 h-screen bg-[#cee0f5]">
                     <div className="mt-18 mb-5 text-[#275c9d] text-2xl font-bold">Step _ of 6</div>
@@ -109,20 +101,20 @@ export default function MitigationTable() {
                         Mitigation points are scores used to show how much action is needed to prevent pesticides from polluting water. More points mean less risk and fewer actions required.
                     </p>
 
-                    <div id="step1"><Step1 /></div>
-                    <div id="step2"><Step2 /></div>
-                    <div id="step3"><Step3 /></div>
-                    <div id="step4"><Step4 /></div>
-                    <div id="step5"><Step5 /></div>
-                    <div id="step6"><Step6 /></div>
+                    <div id="step1"><Step1 value={countyVuln} setValue={setCountyVuln} /></div>
+                    <div id="step2"><Step2 value={fieldSlope} setValue={setFieldSlope} /></div>
+                    <div id="step3"><Step3 value={soilPoints} setValue={setSoilPoints} /></div>
+                    <div id="step4"><Step4 value={tracking} setValue={setTracking} /></div>
+                    <div id="step5"><Step5 value={techSpecialist} setValue={setTechSpecialist} /></div>
+                    <div id="step6"><Step6 value={conservationProgram} setValue={setConservationProgram} /></div>
 
                     <div className="mt-10 mb-10">
-                    <button
-                        onClick={handleNext}
+                    <Link
+                        href={`/PrintReport?month=${encodeURIComponent(month || '')}&product=${encodeURIComponent(product || '')}&county=${encodeURIComponent(county || '')}&mitigations=${mitigations}`}
                         className="ml-220 bg-[#275c9d] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#1f4b7a] transition duration-200"
                     >
                         Next
-                    </button>
+                    </Link>
                 </div>
 
                 </div>

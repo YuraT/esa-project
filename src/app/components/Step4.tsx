@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 
-export default function Step4() {
-
-     const [selected, setSelected] = useState<"yes" | "no" | null>(null);
+export default function Step4({ value, setValue }: { value: number; setValue: (v: number) => void }) {
 
     return (
             <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240 h-150">
@@ -37,30 +35,19 @@ export default function Step4() {
                     <div className="mt-10 text-xl font-bold text-[#275c9d]">
                     Do you perform Mitigation Tracking?
                     </div>
-
-                    <div className="flex">
-                        <div 
-                            onClick={() => setSelected("yes")}
-                            className={`${
-                                selected === "yes" ? "bg-[#cee0f5] text-[#275c9d]" : "bg-white text-[#275c9d] hover:bg-[#cee0f5] cursor-pointer"
-                            } font-bold text-xl flex items-center justify-center mt-6 h-14 w-28 rounded-l-3xl border-l-4 border-t-4 border-b-4 border-t-[#cee0f5] border-b-[#cee0f5] border-l-[#cee0f5]`}
-                        >
-                            YES
-                        </div>
-                        <div 
-                            onClick={() => setSelected("no")}
-                            className={`${
-                                selected === "no" ? "bg-[#cee0f5] text-[#275c9d]" : "bg-white text-[#275c9d] hover:bg-[#cee0f5] cursor-pointer"
-                            } font-bold text-xl flex items-center justify-center mt-6 h-14 w-28 rounded-r-3xl border-r-4 border-t-4 border-b-4 border-t-[#cee0f5] border-b-[#cee0f5] border-r-[#cee0f5] border-l-4 border-l-[#cee0f5]`}
-                        >
-                            NO
-                        </div>
+                    <div className="flex mt-4 gap-4">
+                        <button
+                            className={`px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${value === 1 ? 'bg-blue-200 border-2 border-blue-500' : 'bg-gray-200'}`}
+                            onClick={() => setValue(1)}
+                            type="button"
+                        >Yes</button>
+                        <button
+                            className={`px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${value === 0 ? 'bg-blue-200 border-2 border-blue-500' : 'bg-gray-200'}`}
+                            onClick={() => setValue(0)}
+                            type="button"
+                        >No</button>
                     </div>
-
-
                 </div>
           </div>
-
     );
-
-}
+};

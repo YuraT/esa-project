@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function Step6() {
+export default function Step6({ value, setValue }: { value: number; setValue: (v: number) => void }) {
 
     return (
             <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240 h-160">
@@ -47,8 +47,26 @@ export default function Step6() {
 
                     <div className="mt-5 w-150 h-20 rounded-2xl bg-[#cee0f5]"></div>
                 </div>
+
+                <div className="flex flex-col items-center justify-center">
+                    <div className="mt-7 flex gap-4">
+                        <button
+                            className={`px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${value === 9 ? 'bg-blue-200 border-2 border-blue-500' : 'bg-gray-200'}`}
+                            onClick={() => setValue(9)}
+                            type="button"
+                        >Qualified Conservation Program</button>
+                      <button
+                          className={`px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${value === 2 ? 'bg-blue-200 border-2 border-blue-500' : 'bg-gray-200'}`}
+                          onClick={() => setValue(2)}
+                          type="button"
+                      >Non-qualified Conservation Program</button>
+                        <button
+                            className={`px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${value === 0 ? 'bg-blue-200 border-2 border-blue-500' : 'bg-gray-200'}`}
+                            onClick={() => setValue(0)}
+                            type="button"
+                        >None</button>
+                    </div>
+                </div>
           </div>
-
     );
-
-}
+};
