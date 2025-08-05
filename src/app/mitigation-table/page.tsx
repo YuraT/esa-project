@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Step1 from "../components/Step1";
@@ -13,7 +13,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
 
-export default function MitigationTable() {
+function MitigationTableContent() {
     // State for each mitigation step
     const [countyVuln, setCountyVuln] = useState<number>(0); // 6, 3, 2, 0
     const [fieldSlope, setFieldSlope] = useState<number>(0); // 3 or 0
@@ -37,10 +37,7 @@ export default function MitigationTable() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen bg-white">
-            {/*added header manually here due to positioning issue*/}
-
-            <Header />
+        <>
             <div className="flex">
                 <div className="sticky top-0 flex flex-col items-center w-150 h-screen bg-[#cee0f5]">
                     <div className="mt-18 mb-5 text-[#275c9d] text-2xl font-bold">Step _ of 6</div>
@@ -109,17 +106,26 @@ export default function MitigationTable() {
                     <div id="step6"><Step6 value={conservationProgram} setValue={setConservationProgram} /></div>
 
                     <div className="mt-10 mb-10">
-                    <Link
-                        href={`/PrintReport?month=${encodeURIComponent(month || '')}&product=${encodeURIComponent(product || '')}&county=${encodeURIComponent(county || '')}&mitigations=${mitigations}`}
-                        className="ml-220 bg-[#275c9d] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#1f4b7a] transition duration-200"
-                    >
-                        Next
-                    </Link>
-                </div>
-
+                        <Link
+                            href={`/PrintReport?month=${encodeURIComponent(month || '')}&product=${encodeURIComponent(product || '')}&county=${encodeURIComponent(county || '')}&mitigations=${mitigations}`}
+                            className="ml-220 bg-[#275c9d] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#1f4b7a] transition duration-200"
+                        >
+                            Next
+                        </Link>
+                    </div>
                 </div>
             </div>
+        </>
+    );
+}
 
+export default function MitigationTable() {
+    return (
+        <div className="flex flex-col min-h-screen bg-white">
+            <Header />
+            <Suspense fallback={<div>Loading...</div>}>
+                <MitigationTableContent />
+            </Suspense>
             <Footer />
         </div>
     );
