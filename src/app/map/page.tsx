@@ -134,7 +134,10 @@ async function handleSearch() {
     }
 
 
-    router.push(`/PrintReport?month=${selected}&product=${selectedProduct}&county=${selectedCounty}`);
+    //router.push(`/PrintReport?month=${selected}&product=${selectedProduct}&county=${selectedCounty}`);
+    
+    // NEW:
+    router.push(`/mitigation-table?month=${selected}&product=${selectedProduct}&county=${selectedCounty}`);
 
   } catch (error) {
     console.error("Error fetching limitations:", error);
@@ -255,146 +258,164 @@ async function handleSearch() {
 
  // UI
  return (
-   <div className="flex flex-col items-start justify-start min-h-screen bg-white font-sans">
-
-
-     <Header></Header>
-
-     {/* Search Panel */}
-     <div className="mb-15 mt-5 w-[28vw] h-[75vh] rounded-[2rem] ml-[3vw] flex flex-col items-center gap-10 bg-[#275c9d]">
-       <h1 className="text-white text-4xl font-bold mt-7">Search!</h1>
-
-
-       {/* Product Search */}
-       <div className="flex flex-col" ref={productDropdownRef}>
-         <div className="w-[23vw] h-[6vh] bg-[#678dc9] rounded-t-[0.5rem] flex items-center justify-start pl-3">
-           <h1 className="text-white text-[20px] font-bold">EPA Registration Number</h1>
-         </div>
-         <div className="relative">
-           <div className="relative w-[23vw]">
-             <input
-               type="text"
-               value={productQuery}
-               onChange={handleProductInputChange}
-               onFocus={() => {
-                 if (productQuery.length > 0) {
-                   const filtered = allProducts.filter((product) =>
-                     product.toLowerCase().includes(productQuery.toLowerCase())
-                   );
-                   setFilteredProducts(filtered);
-                 }
-               }}
-               placeholder="Type product number/name . . ."
-               className="w-full h-[6vh] bg-[#edebeb] rounded-b-[0.5rem] px-4 pr-10 text-[#275c9d] placeholder-[#678dc9] outline-none"
-             />
-             <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#275c9d] w-4 h-5 pointer-events-none" />
-           </div>
-           {filteredProducts.length > 0 && (
-             <div className="text-[#275c9d] absolute w-[23vw] bg-white border rounded mt-1 shadow z-10 max-h-60 overflow-y-auto">
-               {filteredProducts.map((product) => (
-                 <div
-                   key={product}
-                   onClick={() => handleProductSelect(product)}
-                   className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
-                 >
-                   {product}
-                 </div>
-               ))}
-             </div>
-           )}
-         </div>
-       </div>
-
-
-       {/* Date Dropdown */}
-       <div className="flex flex-col" ref={dateDropdownRef}>
-         <div className="w-[23vw] h-[6vh] bg-[#678dc9] rounded-t-[0.5rem] flex items-center justify-start pl-3">
-           <h1 className="text-white text-[20px] font-bold">Date</h1>
-         </div>
-         <div className="relative">
-           <div
-             onClick={() => setIsOpen(!isOpen)}
-             className="w-[23vw] h-[6vh] bg-[#edebeb] rounded-b-[0.5rem] flex items-center justify-between px-4 cursor-pointer"
-           >
-             <span className={`flex ${selected ? 'text-[#275c9d]' : 'text-[#5a86bf]'}`}>
-               {selected || 'Click to select application date. . .'}
-             </span>
-             <ChevronDown className="text-[#275c9d] w-4 h-5" />
-           </div>
-           {isOpen && (
-             <div className="text-[#275c9d] absolute w-[23vw] bg-white border rounded mt-1 shadow z-10">
-               {getLastSixMonths().map((month) => (
-                 <div
-                   key={month}
-                   onClick={() => handleSelect(month)}
-                   className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
-                 >
-                   {month}
-                 </div>
-               ))}
-             </div>
-           )}
-         </div>
-       </div>
-
-
-       {/* County Input */}
-       <div className="flex flex-col" ref={countyDropdownRef}>
-         <div className="w-[23vw] h-[6vh] bg-[#678dc9] rounded-t-[0.5rem] flex items-center justify-start pl-3">
-           <h1 className="text-white text-[20px] font-bold">Soil Data (County Level)</h1>
-         </div>
-         <div className="relative">
-           <div className="relative w-[23vw]">
-             <input
-               type="text"
-               value={countyQuery}
-               onChange={handleCountyInputChange}
-               onFocus={() => {
-                 if (countyQuery.length > 0) {
-                   const filtered = allCounties.filter((county) =>
-                     county.toLowerCase().includes(countyQuery.toLowerCase())
-                   );
-                   setFilteredCounties(filtered);
-                 }
-               }}
-               placeholder="Type county (e.g. Napa, CA) . . ."
-               className="w-full h-[6vh] bg-[#edebeb] rounded-b-[0.5rem] px-4 pr-10 text-[#275c9d] placeholder-[#678dc9] outline-none"
-             />
-             <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#275c9d] w-4 h-5 pointer-events-none" />
-           </div>
-           {filteredCounties.length > 0 && (
-             <div className="text-[#275c9d] absolute w-[23vw] bg-white border rounded mt-1 shadow z-10 max-h-60 overflow-y-auto">
-               {filteredCounties.map((county) => (
-                 <div
-                   key={county}
-                   onClick={() => handleCountySelect(county)}
-                   className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
-                 >
-                   {county}
-                 </div>
-               ))}
-             </div>
-           )}
-         </div>
-       </div>
-
-
-       {/* Submit */}
-       <div
-        onClick={handleSearch}
-        className="mb-5 w-[10vw] h-[8vh] bg-[#4673ab] flex items-center justify-center rounded-[0.5rem] cursor-pointer"
+  <div className="flex flex-col items-start justify-start min-h-screen bg-white font-sans">
+    <div className="mb-10 w-full h-[15vh] flex items-center justify-center bg-[#275c9d] relative">
+      <div
+        onClick={() => router.push('/')} // <-- navigates to main page
+        className="absolute left-10 flex items-center justify-center w-10 h-10 rounded-full bg-[#678dc9] cursor-pointer hover:bg-[#5a7fb5] transition"
+      >
+        <svg
+          className="w-4 h-4 text-white"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          viewBox="0 0 24 24"
         >
-        <h1 className="text-white text-2xl font-bold">GO!</h1>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+      </div>
+    </div>
+
+
+    {/* Main Content: Search Panel + Static Map Side-by-Side */}
+    <div className="flex flex-row mt-5 ml-[3vw] gap-10">
+      
+      {/* Search Panel */}
+      <div className="mb-15 w-[28vw] h-[75vh] rounded-[2rem] flex flex-col items-center gap-10 bg-[#275c9d]">
+        <h1 className="text-white text-4xl font-bold mt-7">Search!</h1>
+
+        {/* Product Search */}
+        <div className="flex flex-col" ref={productDropdownRef}>
+          <div className="w-[23vw] h-[6vh] bg-[#678dc9] rounded-t-[0.5rem] flex items-center justify-start pl-3">
+            <h1 className="text-white text-[20px] font-bold">EPA Registration Number</h1>
+          </div>
+          <div className="relative">
+            <div className="relative w-[23vw]">
+              <input
+                type="text"
+                value={productQuery}
+                onChange={handleProductInputChange}
+                onFocus={() => {
+                  if (productQuery.length > 0) {
+                    const filtered = allProducts.filter((product) =>
+                      product.toLowerCase().includes(productQuery.toLowerCase())
+                    );
+                    setFilteredProducts(filtered);
+                  }
+                }}
+                placeholder="Type product number/name . . ."
+                className="w-full h-[6vh] bg-[#edebeb] rounded-b-[0.5rem] px-4 pr-10 text-[#275c9d] placeholder-[#678dc9] outline-none"
+              />
+              <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#275c9d] w-4 h-5 pointer-events-none" />
+            </div>
+            {filteredProducts.length > 0 && (
+              <div className="text-[#275c9d] absolute w-[23vw] bg-white border rounded mt-1 shadow z-10 max-h-60 overflow-y-auto">
+                {filteredProducts.map((product) => (
+                  <div
+                    key={product}
+                    onClick={() => handleProductSelect(product)}
+                    className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
+                  >
+                    {product}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Date Dropdown */}
+        <div className="flex flex-col" ref={dateDropdownRef}>
+          <div className="w-[23vw] h-[6vh] bg-[#678dc9] rounded-t-[0.5rem] flex items-center justify-start pl-3">
+            <h1 className="text-white text-[20px] font-bold">Date</h1>
+          </div>
+          <div className="relative">
+            <div
+              onClick={() => setIsOpen(!isOpen)}
+              className="w-[23vw] h-[6vh] bg-[#edebeb] rounded-b-[0.5rem] flex items-center justify-between px-4 cursor-pointer"
+            >
+              <span className={`flex ${selected ? 'text-[#275c9d]' : 'text-[#5a86bf]'}`}>
+                {selected || 'Click to select application date. . .'}
+              </span>
+              <ChevronDown className="text-[#275c9d] w-4 h-5" />
+            </div>
+            {isOpen && (
+              <div className="text-[#275c9d] absolute w-[23vw] bg-white border rounded mt-1 shadow z-10">
+                {getLastSixMonths().map((month) => (
+                  <div
+                    key={month}
+                    onClick={() => handleSelect(month)}
+                    className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
+                  >
+                    {month}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* County Input */}
+        <div className="flex flex-col" ref={countyDropdownRef}>
+          <div className="w-[23vw] h-[6vh] bg-[#678dc9] rounded-t-[0.5rem] flex items-center justify-start pl-3">
+            <h1 className="text-white text-[20px] font-bold">Soil Data (County Level)</h1>
+          </div>
+          <div className="relative">
+            <div className="relative w-[23vw]">
+              <input
+                type="text"
+                value={countyQuery}
+                onChange={handleCountyInputChange}
+                onFocus={() => {
+                  if (countyQuery.length > 0) {
+                    const filtered = allCounties.filter((county) =>
+                      county.toLowerCase().includes(countyQuery.toLowerCase())
+                    );
+                    setFilteredCounties(filtered);
+                  }
+                }}
+                placeholder="Type county (e.g. Napa, CA) . . ."
+                className="w-full h-[6vh] bg-[#edebeb] rounded-b-[0.5rem] px-4 pr-10 text-[#275c9d] placeholder-[#678dc9] outline-none"
+              />
+              <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#275c9d] w-4 h-5 pointer-events-none" />
+            </div>
+            {filteredCounties.length > 0 && (
+              <div className="text-[#275c9d] absolute w-[23vw] bg-white border rounded mt-1 shadow z-10 max-h-60 overflow-y-auto">
+                {filteredCounties.map((county) => (
+                  <div
+                    key={county}
+                    onClick={() => handleCountySelect(county)}
+                    className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
+                  >
+                    {county}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Submit */}
+        <div
+          onClick={handleSearch}
+          className="mb-5 w-[10vw] h-[8vh] bg-[#4673ab] flex items-center justify-center rounded-[0.5rem] cursor-pointer"
+        >
+          <h1 className="text-white text-2xl font-bold">Next!</h1>
+        </div>
       </div>
 
+      {/* Static Map Image */}
+      <div className="mt-15 bg-[#678dc9] ml-20 w-[50vw] h-[60vh]">
+        <img
+          src="/map.png"
+          alt="Static Map"
+          className="w-full h-full object-contain rounded-[2rem]"
+        />
+      </div>
+    </div>
 
-     </div>
+    <Footer />
+  </div>
+);
 
-
-     {/* Footer */}
-     <Footer></Footer>
-
-
-   </div>
- );
 }
