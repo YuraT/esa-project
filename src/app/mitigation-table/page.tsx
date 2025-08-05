@@ -27,7 +27,7 @@ export default function MitigationTable() {
 
     const month = searchParams.get("month");
     const product = searchParams.get("product");
-    const county = searchParams.get("county");
+    const county = searchParams.get("county")?? "";
 
     // Build mitigations param
     const mitigations = [countyVuln, fieldSlope, soilPoints, tracking, techSpecialist, conservationProgram].join(",");
@@ -101,7 +101,7 @@ export default function MitigationTable() {
                         Mitigation points are scores used to show how much action is needed to prevent pesticides from polluting water. More points mean less risk and fewer actions required.
                     </p>
 
-                    <div id="step1"><Step1 value={countyVuln} setValue={setCountyVuln} /></div>
+                    <div id="step1"><Step1 county={county} value={countyVuln} setValue={setCountyVuln} /></div>
                     <div id="step2"><Step2 value={fieldSlope} setValue={setFieldSlope} /></div>
                     <div id="step3"><Step3 value={soilPoints} setValue={setSoilPoints} /></div>
                     <div id="step4"><Step4 value={tracking} setValue={setTracking} /></div>
