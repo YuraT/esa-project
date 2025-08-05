@@ -1,16 +1,16 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Step5({ value, setValue }: { value: number; setValue: (v: number) => void }) {
 
-    const [checked1, setChecked1] = useState(false);
-    const [checked2, setChecked2] = useState(false);
-    const [checked3, setChecked3] = useState(false);
+    const [checked1, setChecked1] = useState(value !== 0);
+    const [checked2, setChecked2] = useState(value !== 0);
+    const [checked3, setChecked3] = useState(value !== 0);
 
-    function updateValue() {
+    useEffect(() => {
         setValue(checked1 && checked2 && checked3 ? 1 : 0);
-    }
+    }, [checked1, checked2, checked3, setValue]);
 
     return (
             <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240 h-200">
@@ -43,10 +43,7 @@ export default function Step5({ value, setValue }: { value: number; setValue: (v
                         </p>
 
                         <div 
-                            onClick={() => {
-                                setChecked1(!checked1);
-                                updateValue();
-                            }}
+                            onClick={() => setChecked1(!checked1)}
                             className={`w-8 h-7 ml-10 mr-5 rounded-sm flex items-center justify-center ${
                             checked1 ? "bg-white hover:cursor-pointer" : "bg-white hover:cursor-pointer"
                             }`}
@@ -70,10 +67,7 @@ export default function Step5({ value, setValue }: { value: number; setValue: (v
                         </p>
 
                         <div 
-                            onClick={() => {
-                                setChecked2(!checked2);
-                                updateValue();
-                            }}
+                            onClick={() => setChecked2(!checked2)}
                             className={`w-9 h-7 mr-5 rounded-sm flex items-center justify-center ${
                             checked2 ? "bg-white hover:cursor-pointer" : "bg-white hover:cursor-pointer"
                             }`}
@@ -88,10 +82,7 @@ export default function Step5({ value, setValue }: { value: number; setValue: (v
                         </p>
 
                         <div 
-                            onClick={() => {
-                                setChecked3(!checked3);
-                                updateValue();
-                            }}
+                            onClick={() => setChecked3(!checked3)}
                             className={`w-9 h-7 mr-5 rounded-sm flex items-center justify-center ${
                             checked3 ? "bg-white hover:cursor-pointer" : "bg-white hover:cursor-pointer"
                             }`}
