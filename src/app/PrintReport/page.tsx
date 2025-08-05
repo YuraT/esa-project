@@ -286,6 +286,104 @@ const PrintReportContent: React.FC = () => {
       }
     }
 
+    // --- Applicable Points Table in PDF ---
+    if (mitigationMenuRows.length > 0) {
+      y -= 20;
+      page.drawText('Applicable Points', {
+        x: 40,
+        y,
+        size: tableFontSize,
+        font: boldFont,
+        color: rgb(0, 0, 0),
+      });
+      y -= rowGap;
+      // Table header
+      const headers = ['Mitigation Relief', 'Characteristic', 'Points'];
+      const colWidths = [160, 260, 60];
+      let colX = 40;
+      headers.forEach((header, j) => {
+        page.drawRectangle({
+          x: colX,
+          y: y - 30,
+          width: colWidths[j],
+          height: 30,
+          borderWidth: 1,
+          color: rgb(0.95, 0.95, 0.95),
+          borderColor: rgb(0, 0, 0),
+        });
+        page.drawText(header, {
+          x: colX + 8,
+          y: y - 12,
+          size: 12,
+          font: boldFont,
+          color: rgb(0, 0, 0),
+        });
+        colX += colWidths[j];
+      });
+      y -= 30;
+      // Table rows
+      mitigationMenuRows.forEach((row) => {
+        colX = 40;
+        const values = [row.relief, row.characteristic, String(row.points)];
+        values.forEach((val, j) => {
+          page.drawRectangle({
+            x: colX,
+            y: y - 24,
+            width: colWidths[j],
+            height: 24,
+            borderWidth: 1,
+            color: rgb(1, 1, 1),
+            borderColor: rgb(0, 0, 0),
+          });
+          page.drawText(val, {
+            x: colX + 8,
+            y: y - 10,
+            size: 12,
+            font: regularFont,
+            color: rgb(0, 0, 0),
+          });
+          colX += colWidths[j];
+        });
+        y -= 24;
+      });
+      // Total row
+      colX = 40;
+      const totalPoints = mitigationMenuRows.reduce((sum, row) => sum + row.points, 0);
+      page.drawRectangle({
+        x: colX,
+        y: y - 24,
+        width: colWidths[0] + colWidths[1],
+        height: 24,
+        borderWidth: 1,
+        color: rgb(0.9, 0.9, 0.9),
+        borderColor: rgb(0, 0, 0),
+      });
+      page.drawRectangle({
+        x: colX + colWidths[0] + colWidths[1],
+        y: y - 24,
+        width: colWidths[2],
+        height: 24,
+        borderWidth: 1,
+        color: rgb(0.9, 0.9, 0.9),
+        borderColor: rgb(0, 0, 0),
+      });
+      page.drawText('Total Points', {
+        x: colX + 8,
+        y: y - 10,
+        size: 12,
+        font: boldFont,
+        color: rgb(0, 0, 0),
+      });
+      page.drawText(String(totalPoints), {
+        x: colX + colWidths[0] + colWidths[1] + 8,
+        y: y - 10,
+        size: 12,
+        font: boldFont,
+        color: rgb(0, 0, 0),
+      });
+      y -= 24;
+    }
+
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const url = URL.createObjectURL(blob);
@@ -295,6 +393,74 @@ const PrintReportContent: React.FC = () => {
     a.click();
     URL.revokeObjectURL(url);
   };
+
+  const mitigationsParam = searchParams.get('mitigations');
+  let mitigationMenuRows: {relief: string; characteristic: string; points: number}[] = [];
+  if (mitigationsParam) {
+    const mitigations = mitigationsParam.split(',').map(Number);
+    if (mitigations.length === 6) {
+      // Step 1: County Based
+      const countyPoints = mitigations[0];
+      let vuln = '';
+      if (countyPoints === 6) vuln = 'very low';
+      else if (countyPoints === 3) vuln = 'low';
+      else if (countyPoints === 2) vuln = 'medium';
+      else if (countyPoints === 0) vuln = 'high';
+      if (countyPoints > 0) {
+        mitigationMenuRows.push({
+          relief: 'County Based',
+          characteristic: `Pesticide runoff vulnerability - ${vuln}`,
+          points: countyPoints,
+        });
+      }
+      // Step 2: Field Slope
+      if (mitigations[1] > 0) {
+        mitigationMenuRows.push({
+          relief: 'Field Slope',
+          characteristic: 'Field Slope <= 3%',
+          points: mitigations[1],
+        });
+      }
+      // Step 3: Predominantly sandy soils
+      const soilPoints = mitigations[2];
+      let hydro = soilPoints === 2 ? 'B' : soilPoints === 3 ? 'A' : '';
+      if (soilPoints > 0) {
+        mitigationMenuRows.push({
+          relief: 'Predominantly sandy soils',
+          characteristic: `Hydrologic group - ${hydro}`,
+          points: soilPoints,
+        });
+      }
+      // Step 4: Mitigation Tracking
+      if (mitigations[3] > 0) {
+        mitigationMenuRows.push({
+          relief: 'Mitigation Tracking',
+          characteristic: 'Documented at the farm level',
+          points: mitigations[3],
+        });
+      }
+      // Step 5: Technical Specialist or Conservation Program (Non-qualified)
+      const fifthPoints = mitigations[4];
+      let fifthLabel = '';
+      if (fifthPoints === 1) fifthLabel = 'Technical Specialist';
+      else if (fifthPoints === 2) fifthLabel = 'Conservation Program (Non-qualified)';
+      if (fifthPoints > 0) {
+        mitigationMenuRows.push({
+          relief: fifthLabel,
+          characteristic: '',
+          points: fifthPoints,
+        });
+      }
+      // Step 6: Qualified Conservation Program
+      if (mitigations[5] > 0) {
+        mitigationMenuRows.push({
+          relief: 'Qualified Conservation Program',
+          characteristic: '',
+          points: mitigations[5],
+        });
+      }
+    }
+  }
 
   return (
   <div className="bg-white min-h-screen flex flex-col">
@@ -352,6 +518,36 @@ const PrintReportContent: React.FC = () => {
           </div>
         </div>
       ))}
+      {/* Applicable Points Section */}
+      {mitigationMenuRows.length > 0 && (
+        <div className="mb-6 text-gray-800">
+          <h3 className="font-semibold mb-2 text-lg">Applicable Points</h3>
+          <div className="mt-4 overflow-x-auto">
+            <table className="w-full text-sm border border-gray-300">
+              <thead className="bg-gray-100 text-gray-900">
+                <tr>
+                  <th className="p-2 border">Mitigation Relief</th>
+                  <th className="p-2 border">Characteristic</th>
+                  <th className="p-2 border">Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                {mitigationMenuRows.map((row, i) => (
+                  <tr key={i} className="border-t">
+                    <td className="p-2 border">{row.relief}</td>
+                    <td className="p-2 border">{row.characteristic}</td>
+                    <td className="p-2 border">{row.points}</td>
+                  </tr>
+                ))}
+                <tr className="border-t font-bold bg-gray-200">
+                  <td className="p-2 border" colSpan={2}>Total Points</td>
+                  <td className="p-2 border">{mitigationMenuRows.reduce((sum, row) => sum + row.points, 0)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
     <Footer></Footer>
   </div>
