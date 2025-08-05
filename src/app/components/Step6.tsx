@@ -2,17 +2,16 @@
 
 import { useState } from "react";
 
-export default function ProgramParticipation() {
+export default function Step6() {
 
     return (
-        <div className="flex flex-col bg-white min-h-screen"> 
-            <div className="flex flex-col bg-[#f9f9f9] rounded-3xl w-150 h-160">
+            <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240 h-160">
                 
                 <div className="flex items-center gap-10 mb-4 ">
                     <div className="w-8 h-8 mt-10 ml-10 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
                     6
                     </div>
-                    <div className="mt-10 text-2xl font-bold text-[#275c9d]">
+                    <div className="mt-10 ml-40 text-2xl font-bold text-[#275c9d]">
                     Conversation Program Particiption
                     </div>
                 </div>
@@ -23,7 +22,7 @@ export default function ProgramParticipation() {
                         Non-Qualified Conservation Program Participation                     
                     </p> 
 
-                    <p className="mt-3 leading-tight text-center pl-17 pr-16 text-m text-black font-medium">
+                    <p className="mt-3 leading-tight text-center pl-30 pr-30 text-m text-black font-medium">
                     <span className="font-semibold">Conservation programs will be 2 points</span> until they have been designated by EPA as an EPA-Qualified Conservation Program. To see if your program meets requirements, check{" "}
                         <a
                             href="https://www.epa.gov/pesticides/mitigation-menu"
@@ -35,21 +34,20 @@ export default function ProgramParticipation() {
                         </a>.
                     </p>
 
-                    <div className="mt-5 w-120 h-20 rounded-2xl bg-[#cee0f5]"></div>
+                    <div className="mt-5 w-150 h-20 rounded-2xl bg-[#cee0f5]"></div>
 
 
                     <p className="mt-6 leading-tight text-center pl-15 pr-15 text-xl text-[#275c9d] font-bold">
                         EPA-Qualified Conservation Program Participation                     
                     </p> 
 
-                     <p className="mt-3 leading-tight text-center pl-20 pr-20 text-m text-black font-medium">
+                     <p className="mt-3 leading-tight text-center pl-35 pr-35 text-m text-black font-medium">
                         Each separate farm must have its own conservation program that meets the rules and scores a <span className="font-bold">maximum of 9 points (including 2 for being in a program)</span>, and must keep following those rules after it’s approved.                    
                     </p>
 
-                    <div className="mt-5 w-120 h-20 rounded-2xl bg-[#cee0f5]"></div>
+                    <div className="mt-5 w-150 h-20 rounded-2xl bg-[#cee0f5]"></div>
                 </div>
           </div>
-        </div>
 
     );
 

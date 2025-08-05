@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function TechSpecialist() {
+export default function Step5() {
 
     const [checked1, setChecked1] = useState(false);
     const [checked2, setChecked2] = useState(false);
@@ -10,20 +10,19 @@ export default function TechSpecialist() {
 
 
     return (
-        <div className="flex flex-col bg-white min-h-screen"> 
-            <div className="flex flex-col bg-[#f9f9f9] rounded-3xl w-150 h-400">
+            <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240 h-200">
                 
                 <div className="flex items-center gap-10 mb-4 ">
                     <div className="w-8 h-8 mt-10 ml-10 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
                     5
                     </div>
-                    <div className="mt-10 text-2xl font-bold text-[#275c9d]">
+                    <div className="ml-40 mt-10 text-2xl font-bold text-[#275c9d]">
                     Working with a Technical Specialist
                     </div>
                 </div>
 
                 <div className="flex flex-col items-center justify-center">
-                    <p className="leading-tight text-center pl-20 pr-20 text-l text-[#275c9d]">
+                    <p className="leading-tight text-center pl-35 pr-35 text-lg text-[#275c9d]">
                         The EPA states <span className="font-bold">1 mitigation point</span> is available to grower / applicators
                         that work with a runoff / erosion technical expert that meets the 
                         characteristics described below. 
@@ -35,14 +34,14 @@ export default function TechSpecialist() {
                     
 
 
-                    <div className="flex items-center mt-7 w-130 h-20 rounded-t-xl bg-[#577bb5]">
-                        <p className="pl-5 leading-tight text-lg text-white font-bold">
+                    <div className="flex items-center mt-7 w-170 h-20 rounded-t-xl bg-[#577bb5]">
+                        <p className="pl-5 pr-10 leading-tight text-lg text-white font-bold">
                             Expert has technical training, education, and/or experience in:
                         </p>
 
                         <div 
                             onClick={() => setChecked1(!checked1)}
-                            className={`w-9 h-7 mr-5 rounded-sm flex items-center justify-center ${
+                            className={`w-8 h-7 ml-10 mr-5 rounded-sm flex items-center justify-center ${
                             checked1 ? "bg-white hover:cursor-pointer" : "bg-white hover:cursor-pointer"
                             }`}
                         >
@@ -50,7 +49,7 @@ export default function TechSpecialist() {
                         </div>
                     </div>
 
-                    <div className="w-130 h-40 bg-white rounded-b-xl">
+                    <div className="w-170 h-30 bg-white rounded-b-xl">
                         <ul className="mt-5 ml-5 leading-tight font-medium text-lg pl-5 text-[#275c9d] list-disc list-outside">
                             <li>Agricultural discipline</li>
                             <li>Water or soil conservation</li>
@@ -59,8 +58,8 @@ export default function TechSpecialist() {
 
                     </div>
 
-                    <div className="flex items-center mt-7 w-130 h-30 rounded-t-xl bg-[#577bb5]">
-                        <p className="w-130 pl-5 leading-tight text-lg text-white font-bold">
+                    <div className="flex items-center mt-7 w-170 h-30 rounded-xl bg-[#577bb5]">
+                        <p className="w-170 pl-5 pr-10 leading-tight text-lg text-white font-bold">
                             Expert participates in continued education or training in the area of expertise which should include run off and erosion control.                        
                         </p>
 
@@ -74,8 +73,8 @@ export default function TechSpecialist() {
                         </div>
                     </div>
 
-                    <div className="flex items-center mt-7 w-130 h-35 rounded-t-xl bg-[#577bb5]">
-                        <p className="w-130 pl-5 pr-6 leading-tight text-lg text-white font-bold">
+                    <div className="flex items-center mt-7 w-170 h-35 rounded-xl bg-[#577bb5]">
+                        <p className="w-170 pl-5 pr-6 leading-tight text-lg text-white font-bold">
                             Have experience advising on conservation measures designed to develop site specific runoff and erosion plans that include mitigation measures described in EPA’s Mitigation Website.                        
                         </p>
 
@@ -94,7 +93,6 @@ export default function TechSpecialist() {
 
             
           </div>
-        </div>
 
     );
 
