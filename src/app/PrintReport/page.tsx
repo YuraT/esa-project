@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { PDFDocument, rgb, StandardFonts, PDFFont } from 'pdf-lib';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -20,7 +20,7 @@ type LimitationItem = {
   last_update?: string;
 };
 
-const PrintReport: React.FC = () => {
+const PrintReportContent: React.FC = () => {
   const searchParams = useSearchParams();
 
   const month = searchParams.get('month') ?? '';
@@ -356,7 +356,14 @@ const PrintReport: React.FC = () => {
     <Footer></Footer>
   </div>
 );
+};
 
+const PrintReport: React.FC = () => {
+  return (
+    <Suspense fallback={<div className="flex justify-center items-center min-h-screen">Loading...</div>}>
+      <PrintReportContent />
+    </Suspense>
+  );
 };
 
 export default PrintReport;
