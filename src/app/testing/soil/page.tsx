@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import LoadingIndicator from "@/app/components/LoadingIndicator";
 import BackButton from "@/app/components/BackButton";
+import ErrorDisplay from "@/app/components/ErrorDisplay";
 
 export default function page() {
   const [loading, setLoading] = useState(false);
@@ -31,7 +32,11 @@ export default function page() {
       ) : soilData ? (
         <p>Yes data</p>
       ) : (
-        <p>No data</p>
+        <>
+          <div className="flex flex-col items-center justify-center">
+            <ErrorDisplay message={"No soil data"} />
+          </div>
+        </>
       )}
     </div>
   );
