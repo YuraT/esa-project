@@ -21,6 +21,12 @@ export default function page() {
       >
         Soil
       </button>
+      <button
+        className={testButtonStyling}
+        onClick={() => router.push("./testing/mitigation-menu")}
+      >
+        Mitigation Menu
+      </button>
     </div>
   );
 }
