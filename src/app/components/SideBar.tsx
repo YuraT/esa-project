@@ -4,37 +4,45 @@ import React from "react";
 interface SidebarProps {
   currentStep: number;
   steps: string[];
-  onStepClick: (step: number) => void;
+  onStepClickAction: (step: number) => void;
 }
 
 export default function Sidebar({
   currentStep,
   steps,
-  onStepClick,
+  onStepClickAction,
 }: SidebarProps) {
   return (
-    <div className="w-60 bg-blue-50 p-4">
-      <div className="items-center">
-        <p className="text-sm text-gray-700 mb-4">
+    <div className="flex items-center flex-col w-[clamp(5rem,20vw,40rem)] min-h-screen bg-[#DAE8F8]">
+      <div className="pt-[clamp(1rem,3vw,5rem)]">
+        <p className="text-[clamp(0.5rem,3vw,3rem)] text-[#375B85] font-bold">
           Step {currentStep} of {steps.length}
         </p>
       </div>
-      <ol className="space-y-2">
-        {steps.map((step, index) => (
-          <li
-            key={index}
-            onClick={() => onStepClick(index + 1)}
-            className={`px-3 py-2 rounded-md cursor-pointer ${
-              currentStep === index + 1
-                ? "bg-blue-100 text-blue-700 font-semibold"
-                : "hover:bg-blue-100 text-gray-700"
-            }`}
-          >
-            <span className="mr-2 font-bold">{index + 1}</span>
-            {step}
-          </li>
-        ))}
-      </ol>
+      <div className="pt-[clamp(0.5rem,1vw,3rem)]">
+        <ol>
+          {steps.map((step, index) => (
+            <li
+              key={index}
+              onClick={() => onStepClickAction(index + 1)}
+              className={`cursor-pointer text-[#375B85] rounded-lg ${
+                currentStep === index + 1
+                  ? "bg-[#bacfe8]"
+                  : "hover:bg-[#CEE0F5]"
+              }`}
+            >
+              <div className="flex items-center my-[clamp(0.4rem,2vw,5rem)]">
+                <div className="flex items-center justify-center bg-[#537BBA] text-white text-[clamp(0.3rem,1vw,2rem)] font-extrabold w-[clamp(0.6rem,3vw,3rem)] h-[clamp(0.6rem,3vw,3rem)] rounded-full">
+                  {index + 1}
+                </div>
+                <div className="font-bold w-[clamp(3.9rem,15vw,30rem)] p-[clamp(0.3rem,1vw,3rem)] text-[clamp(0.3rem,1vw,2rem)]">
+                  {step}
+                </div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
     </div>
   );
 }
