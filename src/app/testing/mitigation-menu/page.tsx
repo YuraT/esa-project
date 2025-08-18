@@ -21,11 +21,11 @@ export default function page() {
         <SideBar
           currentStep={currentStep}
           steps={steps}
-          onStepClick={setCurrentStep}
+          onStepClickAction={setCurrentStep}
         />
 
-        <div className="w-3/4 p-10 bg-white">
-          <h1 className="text-3xl font-bold text-[#375B85] mb-4">
+        <div className="w-3/4 p-4 bg-white">
+          <h1 className="text-xl font-bold text-[#375B85] mb-4">
             Mitigation Menu
           </h1>
           <h2 className="text-xl font-semibold text-[#375B85] mb-2">
@@ -47,7 +47,7 @@ export default function page() {
             </p>
           </div>
 
-          {currentStep === 1 && (
+          {/* {currentStep === 1 && ( */}
             <div className="bg-gray-100 p-6 rounded-lg shadow">
               <h4 className="text-blue-900 font-bold mb-2">
                 County Pesticide Runoff Vulnerability
@@ -72,7 +72,7 @@ export default function page() {
                 <span className="bg-red-300 px-2 py-1 rounded">High</span>
               </div>
             </div>
-          )}
+          {/* )} */}
         </div>
       </div>
     </div>
