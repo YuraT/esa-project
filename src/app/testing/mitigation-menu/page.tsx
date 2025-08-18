@@ -25,10 +25,10 @@ export default function page() {
         />
 
         <div className="w-3/4 p-4 bg-white">
-          <h1 className="text-xl font-bold text-[#375B85] mb-4">
+          <h1 className="text-xl font-extrabold text-[#375B85] mb-4">
             Mitigation Menu
           </h1>
-          <h2 className="text-xl font-semibold text-[#375B85] mb-2">
+          <h2 className="text-xl font-bold text-[#375B85] mb-2">
             Runoff & Erosion Mitigation Options
           </h2>
           <p className="mb-6 text-gray-700">
@@ -58,7 +58,7 @@ export default function page() {
               </p>
               <div className="bg-blue-200 w-full h-48 flex items-center justify-center mb-4">
                 {/* placeholder for map */}
-                <span className="text-white">map image</span>
+                <span className="text-white">placeholder for map image</span>
               </div>
               <div className="mb-2">
                 <select className="w-full p-2 border border-gray-300 rounded">
