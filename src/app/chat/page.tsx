@@ -1,13 +1,11 @@
 import React from "react";
-import BackButton from "../components/BackButton";
 
-export default function Chat() {
+const Chat = () => {
   return (
-    <div className="bg-white">
-      <div>
-        <BackButton />
-        <h1>chat</h1>
-      </div>
+    <div>
+      <h1>chat</h1>
     </div>
   );
-}
+};
+
+export default Chat;

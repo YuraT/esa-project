@@ -1,14 +1,14 @@
 import Link from "next/link";
 import React from "react";
 
-export default function Footer() {
+const Footer = () => {
   const footer =
     "font-bold text-[clamp(0.6rem,2vw,4rem)] pb-[clamp(0.2rem,1vw,1rem)]";
   const footerLinks =
     "flex text-[clamp(0.27rem,1vw,2rem)] w-[clamp(4rem,20vw,20rem)] hover:underline";
 
   return (
-    <div className="bg-[#3E4651]">
+    <div className="w-full bg-[#3E4651]">
       <div className="flex text-white justify-center gap-x-[clamp(2rem,10vw,20rem)] p-[clamp(1rem,3vw,4rem)]">
         {/* About EPA */}
         <div>
@@ -101,4 +101,6 @@ export default function Footer() {
       </div>
     </div>
   );
-}
+};
+
+export default Footer;

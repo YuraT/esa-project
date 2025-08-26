@@ -37,7 +37,7 @@ export const metadata: Metadata = {
         sizes: "512x512",
       },
     ],
-    apple: "/favicon-512x512.png",
+    apple: "/apple-icon.png",
   },
 };
 
@@ -51,7 +51,6 @@ export default function RootLayout({
       <head>
         <meta name="apple-mobile-web-app-title" content="EPA ESA" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" sizes="512x512" href="/favicon-512x512.png" />
       </head>
       <body
         className={`${merriweatherSans.variable} ${geistMono.variable} antialiased`}
