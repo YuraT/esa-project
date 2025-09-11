@@ -398,7 +398,7 @@ const PrintReportContent: React.FC = () => {
   let mitigationMenuRows: {relief: string; characteristic: string; points: number}[] = [];
   if (mitigationsParam) {
     const mitigations = mitigationsParam.split(',').map(Number);
-    if (mitigations.length === 6) {
+    if (mitigations.length > 0) {
       // Step 1: County Based
       const countyPoints = mitigations[0];
       const vulnMap: Record<number, string> = {
@@ -459,6 +459,39 @@ const PrintReportContent: React.FC = () => {
           relief: conservationPoints[mitigations[5]] ?? 'Conservation Program',
           characteristic: '',
           points: mitigations[5],
+        });
+      }
+
+      // Step 7: Application Parameters
+      if (mitigations[6] > 0) {
+        mitigationMenuRows.push({
+          relief: "Application Parameters",
+          characteristic: '',
+          points: mitigations[6],
+        });
+      }
+      // Step 8: In-field Mitigation Measures
+      if (mitigations[7] > 0) {
+        mitigationMenuRows.push({
+          relief: "In-field Mitigation Measures",
+          characteristic: '',
+          points: mitigations[7],
+        });
+      }
+      // Step 9: Field-adjacent Mitigation Measures
+      if (mitigations[8] > 0) {
+        mitigationMenuRows.push({
+          relief: "Field-adjacent Mitigation Measures",
+          characteristic: '',
+          points: mitigations[8],
+        });
+      }
+      // Step 10: Systems That Capture Runoff and Discharge
+      if (mitigations[9] > 0) {
+        mitigationMenuRows.push({
+          relief: "Systems That Capture Runoff and Discharge",
+          characteristic: '',
+          points: mitigations[9],
         });
       }
     }
