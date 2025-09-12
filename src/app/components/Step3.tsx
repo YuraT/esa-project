@@ -77,12 +77,6 @@ export default function Step3({ value, setValue }: stepProps) {
             Other/Not Sandy
           </button>
         </div>
-        <p className="mt-4 leading-tight text-center pl-50 pr-50 text-lg text-black">
-          If you are unsure about your soil group, use the soil survey map below
-          or visit the{" "}
-          <span className="font-bold">USDA's Web Soil Texture Survey Tool</span>{" "}
-          and begin a soil survey.
-        </p>
       </div>
 
       {/* Soil Survey Map Section */}
