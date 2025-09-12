@@ -1,10 +1,26 @@
 "use client";
 
 import { stepProps } from "../utils/props";
+import SoilSurveyMap from "./SoilSurveyMap";
+import { IPolygon } from "@esri/arcgis-rest-request";
+import { useSearchParams } from "next/navigation";
 
 export default function Step3({ value, setValue }: stepProps) {
+  const searchParams = useSearchParams();
+  const regionParam = searchParams.get("region");
+
+  // Parse the region from URL params if available
+  let selectedRegion: IPolygon | null = null;
+  if (regionParam) {
+    try {
+      selectedRegion = JSON.parse(decodeURIComponent(regionParam));
+    } catch (error) {
+      console.error("Error parsing region parameter:", error);
+    }
+  }
+
   return (
-    <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240 h-90">
+    <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240">
       <div className="flex items-center gap-22 mb-4 ">
         <div className="w-8 h-8 mt-10 ml-10 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
           3
@@ -62,10 +78,16 @@ export default function Step3({ value, setValue }: stepProps) {
           </button>
         </div>
         <p className="mt-4 leading-tight text-center pl-50 pr-50 text-lg text-black">
-          If you are unsure about your soil group, visit the{" "}
-          <span className="font-bold">USDA’s Web Soil Texture Survey Tool</span>{" "}
+          If you are unsure about your soil group, use the soil survey map below
+          or visit the{" "}
+          <span className="font-bold">USDA's Web Soil Texture Survey Tool</span>{" "}
           and begin a soil survey.
         </p>
+      </div>
+
+      {/* Soil Survey Map Section */}
+      <div className="mt-8 px-10 pb-10">
+        <SoilSurveyMap region={selectedRegion} className="w-full" />
       </div>
     </div>
   );
