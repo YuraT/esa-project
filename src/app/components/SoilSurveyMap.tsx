@@ -142,27 +142,42 @@ const SoilSurveyMap: React.FC<SoilSurveyMapProps> = ({ region, className }) => {
               "Unable to determine soil group at this location.";
 
             if (data.value !== undefined && data.value !== null) {
-              // Map pixel values to soil groups (this may need adjustment based on actual service values)
-              switch (data.value) {
+              // Map pixel values to soil groups based on USDA classifications
+              switch (Number(data.value)) {
                 case 1:
                   soilGroup = "Group A";
                   soilDescription =
-                    "Sandy soils with low runoff potential. Good drainage and high infiltration rates.";
+                    "Group A soils consist of deep, well drained sands or gravelly sands with high infiltration and low runoff rates.";
                   break;
                 case 2:
                   soilGroup = "Group B";
                   soilDescription =
-                    "Moderately well-drained soils with moderate infiltration rates.";
+                    "Group B soils consist of deep well drained soils with a moderately fine to moderately coarse texture and a moderate rate of infiltration and runoff.";
                   break;
                 case 3:
                   soilGroup = "Group C";
                   soilDescription =
-                    "Soils with slow infiltration rates when thoroughly wetted.";
+                    "Group C consists of soils with a layer that impedes the downward movement of water or fine textured soils and a slow rate of infiltration.";
                   break;
                 case 4:
                   soilGroup = "Group D";
                   soilDescription =
-                    "Clay soils with very slow infiltration rates and high runoff potential.";
+                    "Group D consists of soils with a very slow infiltration rate and high runoff potential. This group is composed of clays that have a high shrink-swell potential, soils with a high water table, soils that have a clay pan or clay layer at or near the surface, and soils that are shallow over nearly impervious material.";
+                  break;
+                case 5:
+                  soilGroup = "Group A/D";
+                  soilDescription =
+                    "Group A/D soils naturally have a very slow infiltration rate due to a high water table but will have high infiltration and low runoff rates if drained.";
+                  break;
+                case 6:
+                  soilGroup = "Group B/D";
+                  soilDescription =
+                    "Group B/D soils naturally have a very slow infiltration rate due to a high water table but will have a moderate rate of infiltration and runoff if drained.";
+                  break;
+                case 7:
+                  soilGroup = "Group C/D";
+                  soilDescription =
+                    "Group C/D soils naturally have a very slow infiltration rate due to a high water table but will have a slow rate of infiltration if drained.";
                   break;
                 default:
                   soilGroup = `Value: ${data.value}`;
@@ -280,29 +295,62 @@ const SoilSurveyMap: React.FC<SoilSurveyMapProps> = ({ region, className }) => {
       />
 
       <div className="mt-3 text-sm text-gray-600 space-y-1">
-        <div className="grid grid-cols-1 gap-2">
-          <p className="font-semibold text-[#275c9d] mb-1">
+        <div className="grid grid-cols-1 gap-1">
+          <p className="font-semibold text-[#275c9d] mb-2">
             Hydrologic Soil Groups:
           </p>
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            <div className="space-y-1">
+          <div className="grid grid-cols-1 gap-1 text-xs">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1">
               <p>
-                <span className="inline-block w-3 h-3 bg-green-400 mr-2 border border-gray-300"></span>
-                Group A - Sandy soils, low runoff
+                <span
+                  className="inline-block w-3 h-3 mr-2 border border-gray-300"
+                  style={{ backgroundColor: "#9be600" }}
+                ></span>
+                <strong>Group A</strong> - Deep, well-drained sands
               </p>
               <p>
-                <span className="inline-block w-3 h-3 bg-yellow-400 mr-2 border border-gray-300"></span>
-                Group B - Moderate infiltration
+                <span
+                  className="inline-block w-3 h-3 mr-2 border border-gray-300"
+                  style={{ backgroundColor: "#69b300" }}
+                ></span>
+                <strong>Group A/D</strong> - A soils with high water table
+              </p>
+              <p>
+                <span
+                  className="inline-block w-3 h-3 mr-2 border border-gray-300"
+                  style={{ backgroundColor: "#6ccbff" }}
+                ></span>
+                <strong>Group B</strong> - Moderate texture, drainage
+              </p>
+              <p>
+                <span
+                  className="inline-block w-3 h-3 mr-2 border border-gray-300"
+                  style={{ backgroundColor: "#3899cc" }}
+                ></span>
+                <strong>Group B/D</strong> - B soils with high water table
+              </p>
+              <p>
+                <span
+                  className="inline-block w-3 h-3 mr-2 border border-gray-300"
+                  style={{ backgroundColor: "#ffe000" }}
+                ></span>
+                <strong>Group C</strong> - Impeded drainage
+              </p>
+              <p>
+                <span
+                  className="inline-block w-3 h-3 mr-2 border border-gray-300"
+                  style={{ backgroundColor: "#d9ba00" }}
+                ></span>
+                <strong>Group C/D</strong> - C soils with high water table
               </p>
             </div>
-            <div className="space-y-1">
+            <div className="mt-1">
               <p>
-                <span className="inline-block w-3 h-3 bg-orange-400 mr-2 border border-gray-300"></span>
-                Group C - Slow infiltration
-              </p>
-              <p>
-                <span className="inline-block w-3 h-3 bg-red-400 mr-2 border border-gray-300"></span>
-                Group D - High runoff potential
+                <span
+                  className="inline-block w-3 h-3 mr-2 border border-gray-300"
+                  style={{ backgroundColor: "#868686" }}
+                ></span>
+                <strong>Group D</strong> - Very slow infiltration, high runoff
               </p>
             </div>
           </div>
@@ -320,7 +368,8 @@ const SoilSurveyMap: React.FC<SoilSurveyMapProps> = ({ region, className }) => {
             <strong>💡 How to Use:</strong> Click anywhere on the map to
             identify the soil group at that location. Groups A and B are
             considered sandy soils with good drainage. Groups C and D have
-            slower infiltration and higher runoff potential.
+            slower infiltration and higher runoff potential. Dual groups (A/D,
+            B/D, C/D) indicate soils that change characteristics when drained.
           </p>
         </div>
 
