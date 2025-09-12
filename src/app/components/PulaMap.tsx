@@ -1,0 +1,167 @@
+"use client";
+
+import React, { useEffect, useRef } from "react";
+import { IPolygon } from "@esri/arcgis-rest-request";
+
+interface PulaMapProps {
+  pulaData: any[];
+  region: IPolygon;
+  className?: string;
+}
+
+const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (!mapRef.current || typeof window === "undefined") return;
+
+    // Dynamically load Leaflet
+    const loadLeaflet = async () => {
+      // Load Leaflet CSS
+      if (!document.querySelector('link[href*="leaflet"]')) {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+        document.head.appendChild(link);
+      }
+
+      // Load Leaflet JS
+      if (!(window as any).L) {
+        await new Promise((resolve) => {
+          const script = document.createElement("script");
+          script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+          script.onload = resolve;
+          document.head.appendChild(script);
+        });
+      }
+
+      // Load Esri-Leaflet
+      if (!(window as any).L.esri) {
+        await new Promise((resolve) => {
+          const script = document.createElement("script");
+          script.src =
+            "https://unpkg.com/esri-leaflet@3.0.12/dist/esri-leaflet.js";
+          script.onload = resolve;
+          document.head.appendChild(script);
+        });
+      }
+
+      initializeMap();
+    };
+
+    const initializeMap = () => {
+      const L = (window as any).L;
+
+      // Clean up existing map
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+      }
+
+      // Calculate center and bounds from IPolygon
+      const ring = region.rings[0];
+      const west = ring[0][0];
+      const south = ring[0][1];
+      const east = ring[1][0];
+      const north = ring[2][1];
+
+      const centerLat = (north + south) / 2;
+      const centerLng = (east + west) / 2;
+
+      // Initialize map
+      const map = L.map(mapRef.current).setView([centerLat, centerLng], 10);
+      mapInstanceRef.current = map;
+
+      // Add base layer
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: "© OpenStreetMap contributors",
+      }).addTo(map);
+
+      // Add selection area outline
+      const selectionBounds = [
+        [south, west],
+        [north, east],
+      ];
+
+      L.rectangle(selectionBounds, {
+        color: "#2c5aa0",
+        weight: 3,
+        fillOpacity: 0.1,
+        fillColor: "#2c5aa0",
+      }).addTo(map);
+
+      // Add PULA polygons
+      if (pulaData && pulaData.length > 0) {
+        pulaData.forEach((pula) => {
+          if (pula.geometry) {
+            const pulaLayer = L.geoJSON(pula, {
+              style: {
+                color: "#e60000",
+                weight: 2,
+                fillOpacity: 0.3,
+                fillColor: "#ff9999",
+              },
+            });
+
+            // Add popup with PULA details
+            const attrs = pula.attributes;
+            const popupContent = `
+              <div style="max-width: 300px;">
+                <h4 style="margin: 0 0 10px 0; color: #e60000;">PULA Details</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                  <tr><td style="padding: 4px; border-bottom: 1px solid #eee; font-weight: bold; width: 30%;">PULA ID:</td><td style="padding: 4px; border-bottom: 1px solid #eee;">${attrs.pula_id || "N/A"}</td></tr>
+                  <tr><td style="padding: 4px; border-bottom: 1px solid #eee; font-weight: bold;">Event:</td><td style="padding: 4px; border-bottom: 1px solid #eee;">${attrs.event_name || "N/A"}</td></tr>
+                  <tr><td style="padding: 4px; border-bottom: 1px solid #eee; font-weight: bold;">Effective Date:</td><td style="padding: 4px; border-bottom: 1px solid #eee;">${attrs.effective_date ? new Date(attrs.effective_date).toLocaleDateString() : "N/A"}</td></tr>
+                  <tr><td style="padding: 4px; border-bottom: 1px solid #eee; font-weight: bold;">Published:</td><td style="padding: 4px; border-bottom: 1px solid #eee;">${attrs.published_time_stamp ? new Date(attrs.published_time_stamp).toLocaleDateString() : "N/A"}</td></tr>
+                </table>
+              </div>
+            `;
+
+            pulaLayer.bindPopup(popupContent);
+            pulaLayer.addTo(map);
+          }
+        });
+      }
+
+      // Fit map to show selection area
+      map.fitBounds(selectionBounds, { padding: [20, 20] });
+    };
+
+    loadLeaflet();
+
+    // Cleanup on unmount
+    return () => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+    };
+  }, [pulaData, region]);
+
+  return (
+    <div className={className}>
+      <div
+        ref={mapRef}
+        style={{
+          height: "400px",
+          width: "100%",
+          border: "1px solid #ddd",
+          borderRadius: "8px",
+        }}
+      />
+      <div className="mt-2 text-sm text-gray-600">
+        <p>
+          <span className="inline-block w-4 h-3 bg-blue-200 border-2 border-blue-600 mr-2"></span>
+          Selected Region
+        </p>
+        <p>
+          <span className="inline-block w-4 h-3 bg-red-200 border-2 border-red-600 mr-2"></span>
+          PULA Areas ({pulaData.length} found)
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default PulaMap;
