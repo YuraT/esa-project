@@ -16,13 +16,13 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
 });
 
+interface GeoJSONPolygon {
+  type: "Polygon";
+  coordinates: number[][][];
+}
+
 interface RegionSelectorProps {
-  onRegionSelected?: (bounds: {
-    north: number;
-    south: number;
-    east: number;
-    west: number;
-  }) => void;
+  onRegionSelected?: (geoJson: GeoJSONPolygon) => void;
   className?: string;
 }
 
@@ -34,18 +34,15 @@ export default function RegionSelector({
   const mapInstanceRef = useRef<L.Map | null>(null);
   const drawnItemsRef = useRef<L.FeatureGroup | null>(null);
   const [status, setStatus] = useState("Initializing map...");
-  const [selectedRegion, setSelectedRegion] = useState<{
-    north: number;
-    south: number;
-    east: number;
-    west: number;
-  } | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<GeoJSONPolygon | null>(
+    null,
+  );
 
   // Stabilize the callback to prevent unnecessary re-renders
   const stableOnRegionSelected = useCallback(
-    (bounds: { north: number; south: number; east: number; west: number }) => {
+    (geoJson: GeoJSONPolygon) => {
       if (onRegionSelected) {
-        onRegionSelected(bounds);
+        onRegionSelected(geoJson);
       }
     },
     [onRegionSelected],
@@ -103,22 +100,34 @@ export default function RegionSelector({
       drawnItems.clearLayers();
       drawnItems.addLayer(layer);
 
-      // Get bounds of the rectangle
+      // Get bounds of the rectangle and convert to GeoJSON
       const bounds = layer.getBounds();
-      const regionBounds = {
-        north: bounds.getNorth(),
-        south: bounds.getSouth(),
-        east: bounds.getEast(),
-        west: bounds.getWest(),
+      const north = bounds.getNorth();
+      const south = bounds.getSouth();
+      const east = bounds.getEast();
+      const west = bounds.getWest();
+
+      // Create GeoJSON Polygon (coordinates in [longitude, latitude] format)
+      const geoJsonRegion: GeoJSONPolygon = {
+        type: "Polygon",
+        coordinates: [
+          [
+            [west, south],
+            [east, south],
+            [east, north],
+            [west, north],
+            [west, south],
+          ],
+        ],
       };
 
-      setSelectedRegion(regionBounds);
+      setSelectedRegion(geoJsonRegion);
       setStatus(
-        `Region selected: ${regionBounds.north.toFixed(4)}°N, ${regionBounds.south.toFixed(4)}°S, ${regionBounds.east.toFixed(4)}°E, ${regionBounds.west.toFixed(4)}°W`,
+        `Region selected: ${north.toFixed(4)}°N, ${south.toFixed(4)}°S, ${east.toFixed(4)}°E, ${west.toFixed(4)}°W`,
       );
 
       // Notify parent component
-      stableOnRegionSelected(regionBounds);
+      stableOnRegionSelected(geoJsonRegion);
     };
 
     const handleDrawDeleted = (e: L.DrawEvents.Deleted) => {
@@ -134,19 +143,31 @@ export default function RegionSelector({
       layers.eachLayer((layer: L.Layer) => {
         if (layer instanceof L.Rectangle) {
           const bounds = layer.getBounds();
-          const regionBounds = {
-            north: bounds.getNorth(),
-            south: bounds.getSouth(),
-            east: bounds.getEast(),
-            west: bounds.getWest(),
+          const north = bounds.getNorth();
+          const south = bounds.getSouth();
+          const east = bounds.getEast();
+          const west = bounds.getWest();
+
+          // Create GeoJSON Polygon (coordinates in [longitude, latitude] format)
+          const geoJsonRegion: GeoJSONPolygon = {
+            type: "Polygon",
+            coordinates: [
+              [
+                [west, south],
+                [east, south],
+                [east, north],
+                [west, north],
+                [west, south],
+              ],
+            ],
           };
 
-          setSelectedRegion(regionBounds);
+          setSelectedRegion(geoJsonRegion);
           setStatus(
-            `Region updated: ${regionBounds.north.toFixed(4)}°N, ${regionBounds.south.toFixed(4)}°S, ${regionBounds.east.toFixed(4)}°E, ${regionBounds.west.toFixed(4)}°W`,
+            `Region updated: ${north.toFixed(4)}°N, ${south.toFixed(4)}°S, ${east.toFixed(4)}°E, ${west.toFixed(4)}°W`,
           );
 
-          stableOnRegionSelected(regionBounds);
+          stableOnRegionSelected(geoJsonRegion);
         }
       });
     };
@@ -210,12 +231,20 @@ export default function RegionSelector({
 
           {selectedRegion && (
             <div className="mt-3 p-2 bg-blue-50 rounded text-xs">
-              <strong>Selected Region:</strong>
+              <strong>Selected Region (GeoJSON):</strong>
               <div className="mt-1">
-                <div>North: {selectedRegion.north.toFixed(4)}°</div>
-                <div>South: {selectedRegion.south.toFixed(4)}°</div>
-                <div>East: {selectedRegion.east.toFixed(4)}°</div>
-                <div>West: {selectedRegion.west.toFixed(4)}°</div>
+                <div>
+                  West: {selectedRegion.coordinates[0][0][0].toFixed(4)}°
+                </div>
+                <div>
+                  South: {selectedRegion.coordinates[0][0][1].toFixed(4)}°
+                </div>
+                <div>
+                  East: {selectedRegion.coordinates[0][1][0].toFixed(4)}°
+                </div>
+                <div>
+                  North: {selectedRegion.coordinates[0][2][1].toFixed(4)}°
+                </div>
               </div>
               <button
                 onClick={clearSelection}
