@@ -113,6 +113,93 @@ const SoilSurveyMap: React.FC<SoilSurveyMapProps> = ({ region, className }) => {
           })
           .addTo(map);
 
+        // Add click handler to identify soil group
+        map.on("click", async (e) => {
+          const { lat, lng } = e.latlng;
+
+          try {
+            // Query the soil service at the clicked location
+            const identifyUrl = `https://landscape11.arcgis.com/arcgis/rest/services/USA_Soils_Hydrologic_Group/ImageServer/identify`;
+            const params = new URLSearchParams({
+              f: "json",
+              geometry: JSON.stringify({
+                x: lng,
+                y: lat,
+                spatialReference: { wkid: 4326 },
+              }),
+              geometryType: "esriGeometryPoint",
+              returnGeometry: "false",
+              returnCatalogItems: "false",
+              pixelSize: "100,100",
+              token: apiKey,
+            });
+
+            const response = await fetch(`${identifyUrl}?${params}`);
+            const data = await response.json();
+
+            let soilGroup = "Unknown";
+            let soilDescription =
+              "Unable to determine soil group at this location.";
+
+            if (data.value !== undefined && data.value !== null) {
+              // Map pixel values to soil groups (this may need adjustment based on actual service values)
+              switch (data.value) {
+                case 1:
+                  soilGroup = "Group A";
+                  soilDescription =
+                    "Sandy soils with low runoff potential. Good drainage and high infiltration rates.";
+                  break;
+                case 2:
+                  soilGroup = "Group B";
+                  soilDescription =
+                    "Moderately well-drained soils with moderate infiltration rates.";
+                  break;
+                case 3:
+                  soilGroup = "Group C";
+                  soilDescription =
+                    "Soils with slow infiltration rates when thoroughly wetted.";
+                  break;
+                case 4:
+                  soilGroup = "Group D";
+                  soilDescription =
+                    "Clay soils with very slow infiltration rates and high runoff potential.";
+                  break;
+                default:
+                  soilGroup = `Value: ${data.value}`;
+                  soilDescription =
+                    "Soil data available but group classification needs verification.";
+              }
+            }
+
+            // Create popup with soil information
+            const popupContent = `
+              <div style="max-width: 300px;">
+                <h4 style="margin: 0 0 10px 0; color: #275c9d;">Soil Information</h4>
+                <p style="margin: 0 0 8px 0; font-weight: bold;">Hydrologic Soil Group: ${soilGroup}</p>
+                <p style="margin: 0; font-size: 12px; line-height: 1.4;">${soilDescription}</p>
+                <p style="margin: 8px 0 0 0; font-size: 11px; color: #666;">
+                  Coordinates: ${lat.toFixed(4)}°, ${lng.toFixed(4)}°
+                </p>
+              </div>
+            `;
+
+            L.popup().setLatLng(e.latlng).setContent(popupContent).openOn(map);
+          } catch (error) {
+            console.error("Error identifying soil group:", error);
+
+            const errorPopup = `
+              <div style="max-width: 250px;">
+                <h4 style="margin: 0 0 10px 0; color: #d63384;">Error</h4>
+                <p style="margin: 0; font-size: 12px;">
+                  Unable to identify soil group at this location. Please try again or check your internet connection.
+                </p>
+              </div>
+            `;
+
+            L.popup().setLatLng(e.latlng).setContent(errorPopup).openOn(map);
+          }
+        });
+
         console.log("SoilSurveyMap: Soil survey layer added");
       } catch (error) {
         console.error("SoilSurveyMap: Error adding soil survey layer:", error);
@@ -148,17 +235,6 @@ const SoilSurveyMap: React.FC<SoilSurveyMapProps> = ({ region, className }) => {
         fillColor: "#2c5aa0",
       }).addTo(map);
 
-      // Add popup to selection area
-      selectionLayer.bindPopup(`
-        <div style="max-width: 250px;">
-          <h4 style="margin: 0 0 10px 0; color: #2c5aa0;">Selected Region</h4>
-          <p style="margin: 0; font-size: 12px;">
-            This is your selected area for soil analysis. The soil survey data
-            shows hydrologic soil groups that help determine runoff potential.
-          </p>
-        </div>
-      `);
-
       console.log("SoilSurveyMap: Selection area added to map");
 
       // Fit map to show selection area
@@ -185,7 +261,11 @@ const SoilSurveyMap: React.FC<SoilSurveyMapProps> = ({ region, className }) => {
         <p className="text-sm text-gray-600 mb-2">
           This map shows USDA soil hydrologic groups that indicate how quickly
           water moves through soil. Use the layer control in the top-right to
-          toggle the soil data overlay.
+          toggle the soil data overlay.{" "}
+          <strong>
+            Click anywhere on the map to identify the soil group at that
+            location.
+          </strong>
         </p>
       </div>
 
@@ -237,9 +317,10 @@ const SoilSurveyMap: React.FC<SoilSurveyMapProps> = ({ region, className }) => {
 
         <div className="mt-3 p-2 bg-blue-50 border border-blue-200 rounded">
           <p className="text-xs text-blue-800">
-            <strong>Soil Group Selection:</strong> Groups A and B are considered
-            sandy soils with good drainage. Groups C and D have slower
-            infiltration and higher runoff potential.
+            <strong>💡 How to Use:</strong> Click anywhere on the map to
+            identify the soil group at that location. Groups A and B are
+            considered sandy soils with good drainage. Groups C and D have
+            slower infiltration and higher runoff potential.
           </p>
         </div>
 
