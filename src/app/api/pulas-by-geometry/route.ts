@@ -67,10 +67,19 @@ export async function GET(request: Request) {
     // 2. Get limitations
     const limitations = await getLimitationsForPulas(uniquePulaIds, prodRegNum);
 
-    // 3. Process PULA features based on returnGeometry parameter
+    // 3. Filter PULAs to only include ones with applicable limitations
+    const pulaIdsWithLimitations = new Set(
+      limitations.map((limitation: any) => limitation.pula_id),
+    );
+
+    const filteredPulaFeatures = pulaData.features.filter((feature: any) =>
+      pulaIdsWithLimitations.has(feature.attributes.pula_id),
+    );
+
+    // 4. Process PULA features based on returnGeometry parameter
     const processedPulas = returnGeometry
-      ? pulaData.features
-      : pulaData.features.map((feature: any) => ({
+      ? filteredPulaFeatures
+      : filteredPulaFeatures.map((feature: any) => ({
           attributes: feature.attributes,
         }));
 
