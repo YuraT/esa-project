@@ -5,7 +5,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 import countiesData from "../data/uscounties.json";
 import { useRouter } from "next/navigation";
-import RegionSelector from "../components/RegionSelector";
+import dynamic from "next/dynamic";
+const RegionSelector = dynamic(() => import("../components/RegionSelector"), {
+  ssr: false,
+});
 import { IPolygon } from "@esri/arcgis-rest-request";
 
 function getLastSixMonths(): string[] {

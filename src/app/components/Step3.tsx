@@ -1,10 +1,12 @@
 "use client";
 
 import { stepProps } from "../utils/props";
-import SoilSurveyMap from "./SoilSurveyMap";
+import dynamic from "next/dynamic";
 import { IPolygon } from "@esri/arcgis-rest-request";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
+
+const SoilSurveyMap = dynamic(() => import("./SoilSurveyMap"), { ssr: false });
 
 export default function Step3({ value, setValue }: stepProps) {
   const searchParams = useSearchParams();

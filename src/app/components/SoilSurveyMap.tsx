@@ -6,18 +6,7 @@ import L from "leaflet";
 import * as esri from "esri-leaflet";
 import "leaflet/dist/leaflet.css";
 
-// Fix for default markers in Next.js
-if (typeof window !== "undefined") {
-  delete (L.Icon.Default.prototype as any)._getIconUrl;
-  L.Icon.Default.mergeOptions({
-    iconRetinaUrl:
-      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png",
-    iconUrl:
-      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
-    shadowUrl:
-      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-  });
-}
+// Fix for default markers in Next.js (must be inside useEffect for SSR)
 
 interface SoilSurveyMapProps {
   region?: IPolygon | null;
@@ -30,6 +19,17 @@ const SoilSurveyMap: React.FC<SoilSurveyMapProps> = ({ region, className }) => {
 
   useEffect(() => {
     if (!mapRef.current || typeof window === "undefined") return;
+
+    // Fix for default markers in Next.js (must be inside useEffect for SSR)
+    delete (L.Icon.Default.prototype as any)._getIconUrl;
+    L.Icon.Default.mergeOptions({
+      iconRetinaUrl:
+        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png",
+      iconUrl:
+        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
+      shadowUrl:
+        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+    });
 
     console.log("SoilSurveyMap: Initializing map with region:", region);
 
