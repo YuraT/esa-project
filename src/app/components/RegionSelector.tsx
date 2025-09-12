@@ -87,7 +87,8 @@ export default function RegionSelector({
     map.addControl(drawControl);
 
     // Event handlers
-    const handleDrawCreated = (e: L.DrawEvents.Created) => {
+    const handleDrawCreated = (event: L.LeafletEvent) => {
+      const e = event as L.DrawEvents.Created;
       const layer = e.layer as L.Rectangle;
 
       // Clear previous rectangles (only allow one selection at a time)
@@ -127,14 +128,16 @@ export default function RegionSelector({
       stableOnRegionSelected(esriGeometry);
     };
 
-    const handleDrawDeleted = (e: L.DrawEvents.Deleted) => {
+    const handleDrawDeleted = (event: L.LeafletEvent) => {
+      // Cast to correct type
       setSelectedRegion(null);
       setStatus(
         "Ready to select a region. Click the rectangle tool and draw your area of interest.",
       );
     };
 
-    const handleDrawEdited = (e: L.DrawEvents.Edited) => {
+    const handleDrawEdited = (event: L.LeafletEvent) => {
+      const e = event as L.DrawEvents.Edited;
       // Handle rectangle edits
       const layers = e.layers;
       layers.eachLayer((layer: L.Layer) => {
@@ -172,9 +175,9 @@ export default function RegionSelector({
     };
 
     // Attach event listeners
-    map.on(L.Draw.Event.CREATED, handleDrawCreated);
-    map.on(L.Draw.Event.DELETED, handleDrawDeleted);
-    map.on(L.Draw.Event.EDITED, handleDrawEdited);
+    map.on(L.Draw.Event.CREATED, handleDrawCreated as L.LeafletEventHandlerFn);
+    map.on(L.Draw.Event.DELETED, handleDrawDeleted as L.LeafletEventHandlerFn);
+    map.on(L.Draw.Event.EDITED, handleDrawEdited as L.LeafletEventHandlerFn);
 
     setStatus(
       "Ready to select a region. Click the rectangle tool and draw your area of interest.",
