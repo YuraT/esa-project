@@ -4,10 +4,19 @@ interface PulaID {
   pulaId: number;
 }
 
+/**
+ * GET /api/pulas-by-geometry
+ *
+ * Query parameters:
+ * - geometry: JSON string representing the geometry to search within
+ * - prod_reg_num: Product registration number to filter limitations
+ * - returnGeometry: "true" to include geometry in PULA features, "false" or omitted for attributes only
+ */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const geometryParam = searchParams.get("geometry");
   const prodRegNum = searchParams.get("prod_reg_num");
+  const returnGeometry = searchParams.get("returnGeometry") === "true";
 
   if (!geometryParam || !prodRegNum) {
     return NextResponse.json(
@@ -35,7 +44,7 @@ export async function GET(request: Request) {
     inSR: "4326",
     spatialRel: "esriSpatialRelIntersects",
     f: "json",
-    returnGeometry: "true",
+    returnGeometry: returnGeometry.toString(),
     outFields: "*",
   });
 
@@ -58,7 +67,14 @@ export async function GET(request: Request) {
     // 2. Get limitations
     const limitations = await getLimitationsForPulas(uniquePulaIds, prodRegNum);
 
-    return NextResponse.json({ limitations, pulas: pulaData.features });
+    // 3. Process PULA features based on returnGeometry parameter
+    const processedPulas = returnGeometry
+      ? pulaData.features
+      : pulaData.features.map((feature: any) => ({
+          attributes: feature.attributes,
+        }));
+
+    return NextResponse.json({ limitations, pulas: processedPulas });
   } catch (error) {
     console.error("Error in /api/pulas-by-geometry:", error);
     return NextResponse.json(
