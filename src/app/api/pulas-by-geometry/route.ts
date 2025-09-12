@@ -59,7 +59,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ limitations: [], pulas: [] });
     }
 
-    const pulaIds = pulaData.features.map(
+    const pulaIds: number[] = pulaData.features.map(
       (feature: any) => feature.attributes.pula_id,
     );
     const uniquePulaIds = [...new Set(pulaIds)];
