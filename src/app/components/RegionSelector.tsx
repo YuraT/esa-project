@@ -4,6 +4,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw";
 import "leaflet-draw/dist/leaflet.draw.css";
+import { IPolygon } from "@esri/arcgis-rest-request";
 
 // Fix for default markers in Next.js
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -16,13 +17,8 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
 });
 
-interface GeoJSONPolygon {
-  type: "Polygon";
-  coordinates: number[][][];
-}
-
 interface RegionSelectorProps {
-  onRegionSelected?: (geoJson: GeoJSONPolygon) => void;
+  onRegionSelected?: (geometry: IPolygon) => void;
   className?: string;
 }
 
@@ -34,15 +30,13 @@ export default function RegionSelector({
   const mapInstanceRef = useRef<L.Map | null>(null);
   const drawnItemsRef = useRef<L.FeatureGroup | null>(null);
   const [status, setStatus] = useState("Initializing map...");
-  const [selectedRegion, setSelectedRegion] = useState<GeoJSONPolygon | null>(
-    null,
-  );
+  const [selectedRegion, setSelectedRegion] = useState<IPolygon | null>(null);
 
   // Stabilize the callback to prevent unnecessary re-renders
   const stableOnRegionSelected = useCallback(
-    (geoJson: GeoJSONPolygon) => {
+    (geometry: IPolygon) => {
       if (onRegionSelected) {
-        onRegionSelected(geoJson);
+        onRegionSelected(geometry);
       }
     },
     [onRegionSelected],
@@ -100,17 +94,16 @@ export default function RegionSelector({
       drawnItems.clearLayers();
       drawnItems.addLayer(layer);
 
-      // Get bounds of the rectangle and convert to GeoJSON
+      // Get bounds of the rectangle and convert to Esri geometry format
       const bounds = layer.getBounds();
       const north = bounds.getNorth();
       const south = bounds.getSouth();
       const east = bounds.getEast();
       const west = bounds.getWest();
 
-      // Create GeoJSON Polygon (coordinates in [longitude, latitude] format)
-      const geoJsonRegion: GeoJSONPolygon = {
-        type: "Polygon",
-        coordinates: [
+      // Create Esri Polygon geometry (coordinates in [longitude, latitude] format)
+      const esriGeometry: IPolygon = {
+        rings: [
           [
             [west, south],
             [east, south],
@@ -119,15 +112,19 @@ export default function RegionSelector({
             [west, south],
           ],
         ],
+        spatialReference: {
+          wkid: 4326, // WGS84
+        },
       };
 
-      setSelectedRegion(geoJsonRegion);
+      setSelectedRegion(esriGeometry);
+      console.log("Selected Region Esri Geometry:", esriGeometry);
       setStatus(
         `Region selected: ${north.toFixed(4)}°N, ${south.toFixed(4)}°S, ${east.toFixed(4)}°E, ${west.toFixed(4)}°W`,
       );
 
       // Notify parent component
-      stableOnRegionSelected(geoJsonRegion);
+      stableOnRegionSelected(esriGeometry);
     };
 
     const handleDrawDeleted = (e: L.DrawEvents.Deleted) => {
@@ -148,10 +145,9 @@ export default function RegionSelector({
           const east = bounds.getEast();
           const west = bounds.getWest();
 
-          // Create GeoJSON Polygon (coordinates in [longitude, latitude] format)
-          const geoJsonRegion: GeoJSONPolygon = {
-            type: "Polygon",
-            coordinates: [
+          // Create Esri Polygon geometry (coordinates in [longitude, latitude] format)
+          const esriGeometry: IPolygon = {
+            rings: [
               [
                 [west, south],
                 [east, south],
@@ -160,14 +156,17 @@ export default function RegionSelector({
                 [west, south],
               ],
             ],
+            spatialReference: {
+              wkid: 4326, // WGS84
+            },
           };
 
-          setSelectedRegion(geoJsonRegion);
+          setSelectedRegion(esriGeometry);
           setStatus(
             `Region updated: ${north.toFixed(4)}°N, ${south.toFixed(4)}°S, ${east.toFixed(4)}°E, ${west.toFixed(4)}°W`,
           );
 
-          stableOnRegionSelected(geoJsonRegion);
+          stableOnRegionSelected(esriGeometry);
         }
       });
     };
@@ -231,20 +230,12 @@ export default function RegionSelector({
 
           {selectedRegion && (
             <div className="mt-3 p-2 bg-blue-50 rounded text-xs">
-              <strong>Selected Region (GeoJSON):</strong>
+              <strong>Selected Region (Esri Geometry):</strong>
               <div className="mt-1">
-                <div>
-                  West: {selectedRegion.coordinates[0][0][0].toFixed(4)}°
-                </div>
-                <div>
-                  South: {selectedRegion.coordinates[0][0][1].toFixed(4)}°
-                </div>
-                <div>
-                  East: {selectedRegion.coordinates[0][1][0].toFixed(4)}°
-                </div>
-                <div>
-                  North: {selectedRegion.coordinates[0][2][1].toFixed(4)}°
-                </div>
+                <div>West: {selectedRegion.rings[0][0][0].toFixed(4)}°</div>
+                <div>South: {selectedRegion.rings[0][0][1].toFixed(4)}°</div>
+                <div>East: {selectedRegion.rings[0][1][0].toFixed(4)}°</div>
+                <div>North: {selectedRegion.rings[0][2][1].toFixed(4)}°</div>
               </div>
               <button
                 onClick={clearSelection}
