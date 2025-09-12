@@ -137,6 +137,17 @@ export default function SearchContainer() {
       if (Array.isArray(data) && data.length > 0) {
         localStorage.setItem("esa_limitations", JSON.stringify(data));
         console.log("FULL LIMITATION DATA SAVED TO STORAGE:", data);
+        // Route to mitigation menu if any limitation requires calculating mitigation points
+        if (
+          data.some(({ limitation }) => {
+            return limitation.includes("runoff mitigation points");
+          })
+        ) {
+          router.push(
+            `/mitigation-table?month=${selected}&product=${selectedProduct}&county=${selectedCounty}`,
+          );
+          return;
+        }
       } else {
         const fallback = [
           {
@@ -150,11 +161,8 @@ export default function SearchContainer() {
         console.log("NO MATCH — SAVED DEFAULT MESSAGE TO STORAGE");
       }
 
-      //router.push(`/PrintReport?month=${selected}&product=${selectedProduct}&county=${selectedCounty}`);
-
-      // NEW:
       router.push(
-        `/mitigation-table?month=${selected}&product=${selectedProduct}&county=${selectedCounty}`,
+        `/PrintReport?month=${selected}&product=${selectedProduct}&county=${selectedCounty}`,
       );
     } catch (error) {
       console.error("Error fetching limitations:", error);
