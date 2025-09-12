@@ -38,6 +38,7 @@ function MitigationTableContent() {
   const month = searchParams.get("month");
   const product = searchParams.get("product");
   const county = searchParams.get("county") ?? "";
+  const region = searchParams.get("region");
 
   // Build mitigations param
   const mitigations = [
@@ -69,7 +70,13 @@ function MitigationTableContent() {
             className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
             onClick={() => scrollToStep("step1")}
           >
-            <div className={"w-9 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg"}>1</div>
+            <div
+              className={
+                "w-9 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg"
+              }
+            >
+              1
+            </div>
             <div className="leading-tight ml-5 text-[#275c9d] font-semibold">
               County Pesticide Runoff Vulnerability
             </div>
@@ -247,12 +254,14 @@ function MitigationTableContent() {
           <div className="mt-10 mb-10">
             <Link
               href={`/PrintReport?month=${encodeURIComponent(
-                month || ""
+                month || "",
               )}&product=${encodeURIComponent(
-                product || ""
+                product || "",
               )}&county=${encodeURIComponent(
-                county || ""
-              )}&mitigations=${mitigations}`}
+                county || "",
+              )}&mitigations=${mitigations}${
+                region ? `&region=${encodeURIComponent(region)}` : ""
+              }`}
               className="ml-220 bg-[#275c9d] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#1f4b7a] transition duration-200"
             >
               Next

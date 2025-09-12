@@ -6,6 +6,7 @@ import { ChevronDown } from "lucide-react";
 import countiesData from "../data/uscounties.json";
 import { useRouter } from "next/navigation";
 import RegionSelector from "../components/RegionSelector";
+import { IPolygon } from "@esri/arcgis-rest-request";
 
 function getLastSixMonths(): string[] {
   const months = [];
@@ -39,12 +40,7 @@ export default function SearchContainer() {
   const [allProducts, setAllProducts] = useState<string[]>([]);
 
   // State: Region Selection
-  const [selectedRegion, setSelectedRegion] = useState<{
-    north: number;
-    south: number;
-    east: number;
-    west: number;
-  } | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<IPolygon | null>(null);
 
   // Data: Counties
   const allCounties: string[] = countiesData.map(
@@ -91,14 +87,9 @@ export default function SearchContainer() {
   }
 
   // Handle region selection
-  function handleRegionSelected(bounds: {
-    north: number;
-    south: number;
-    east: number;
-    west: number;
-  }) {
-    setSelectedRegion(bounds);
-    console.log("Region selected:", bounds);
+  function handleRegionSelected(geometry: IPolygon) {
+    setSelectedRegion(geometry);
+    console.log("Region selected:", geometry);
   }
 
   const router = useRouter();
@@ -143,8 +134,11 @@ export default function SearchContainer() {
             return limitation.includes("runoff mitigation points");
           })
         ) {
+          const regionParam = selectedRegion
+            ? `&region=${encodeURIComponent(JSON.stringify(selectedRegion))}`
+            : "";
           router.push(
-            `/mitigation-table?month=${selected}&product=${selectedProduct}&county=${selectedCounty}`,
+            `/mitigation-table?month=${selected}&product=${selectedProduct}&county=${selectedCounty}${regionParam}`,
           );
           return;
         }
@@ -161,8 +155,11 @@ export default function SearchContainer() {
         console.log("NO MATCH — SAVED DEFAULT MESSAGE TO STORAGE");
       }
 
+      const regionParam = selectedRegion
+        ? `&region=${encodeURIComponent(JSON.stringify(selectedRegion))}`
+        : "";
       router.push(
-        `/PrintReport?month=${selected}&product=${selectedProduct}&county=${selectedCounty}`,
+        `/PrintReport?month=${selected}&product=${selectedProduct}&county=${selectedCounty}${regionParam}`,
       );
     } catch (error) {
       console.error("Error fetching limitations:", error);
