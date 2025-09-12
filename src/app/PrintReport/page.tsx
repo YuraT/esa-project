@@ -249,6 +249,9 @@ const PrintReportContent: React.FC = () => {
     const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
     const regularFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
+    // Get current date for printing
+    const printDate = new Date().toLocaleDateString();
+
     page.drawRectangle({
       x: 0,
       y: 842 - 50,
@@ -289,6 +292,7 @@ const PrintReportContent: React.FC = () => {
     const rowGap = 24;
 
     const rows: [string, string][] = [
+      ["Print Date", printDate],
       ["Application Month", reportData.month],
       ["Product", reportData.product],
       ["County", reportData.county],
@@ -656,11 +660,15 @@ const PrintReportContent: React.FC = () => {
       </div>
 
       {/* --- Preview Box --- */}
-      <div className="mb-35 mt-15 max-w-3xl mx-auto mt-8 p-4 border rounded-3xl shadow bg-gray-100 overflow-y-auto max-h-[40vh]">
+      <div className="mb-15 mt-15 max-w-4xl mx-auto mt-8 p-4 border rounded-3xl shadow bg-gray-100 overflow-y-auto max-h-[80vh]">
         <h2 className="text-xl mb-4 text-center text-black">
           Endangered Species Protection Report Preview
         </h2>
         <div className="mb-4 space-y-1 text-gray-800">
+          <p>
+            <span className="font-semibold">Print Date:</span>{" "}
+            {new Date().toLocaleDateString()}
+          </p>
           <p>
             <span className="font-semibold">Application Month:</span>{" "}
             {reportData.month}
