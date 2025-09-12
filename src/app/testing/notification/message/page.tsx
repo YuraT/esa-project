@@ -2,7 +2,9 @@
 import React from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function page() {
+import { Suspense } from "react";
+
+function MessagePageContent() {
   const searchParams = useSearchParams();
   const title = searchParams.get("title");
   const body = searchParams.get("body");
@@ -13,5 +15,13 @@ export default function page() {
         <p>Body: {body}</p>
       </div>
     </>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <MessagePageContent />
+    </Suspense>
   );
 }

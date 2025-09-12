@@ -5,7 +5,8 @@ import React, { useEffect, useState, Suspense } from "react";
 import { PDFDocument, rgb, StandardFonts, PDFFont } from "pdf-lib";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import PulaMap from "../components/PulaMap";
+import dynamic from "next/dynamic";
+const PulaMap = dynamic(() => import("../components/PulaMap"), { ssr: false });
 import { IPolygon } from "@esri/arcgis-rest-request";
 
 type UMFEntry = {
@@ -638,7 +639,10 @@ const PrintReportContent: React.FC = () => {
     }
 
     const pdfBytes = await pdfDoc.save();
-    const blob = new Blob([pdfBytes], { type: "application/pdf" });
+    const blob = new Blob(
+      [pdfBytes instanceof Uint8Array ? pdfBytes.slice().buffer : pdfBytes],
+      { type: "application/pdf" },
+    );
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
