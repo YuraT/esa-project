@@ -104,8 +104,10 @@ export default function SearchContainer() {
   const router = useRouter();
 
   async function handleSearch() {
-    if (!selected || !selectedCounty || !selectedProduct) {
-      alert("Please fill out all fields.");
+    if (!selected || !selectedCounty || !selectedProduct || !selectedRegion) {
+      alert(
+        "Please fill out all fields, select a county, and select a region on the map.",
+      );
       return;
     }
 
@@ -117,29 +119,43 @@ export default function SearchContainer() {
     // Extract product registration number
     const prodRegNum = selectedProduct.match(/^\s*[\d\-]+/)?.[0] ?? "";
 
-    // Extract county and state separately
-    const [countyRaw, stateRaw] = selectedCounty
-      .split(",")
-      .map((s) => s.trim());
-    const county = countyRaw.endsWith("County")
-      ? countyRaw
-      : `${countyRaw} County`;
-    const state = stateRaw ?? "";
+    // Create geometry from selected region bounds
+    const geometry = {
+      rings: [
+        [
+          [selectedRegion.west, selectedRegion.north],
+          [selectedRegion.east, selectedRegion.north],
+          [selectedRegion.east, selectedRegion.south],
+          [selectedRegion.west, selectedRegion.south],
+          [selectedRegion.west, selectedRegion.north],
+        ],
+      ],
+    };
 
     try {
-      const response = await fetch(
-        `/api/esa-reqs?date=${encodeURIComponent(formattedDate)}&county=${encodeURIComponent(county)}&state=${encodeURIComponent(state)}&prod_reg_num=${encodeURIComponent(prodRegNum)}`,
-      );
+      const response = await fetch("/api/pulas-by-geometry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          geometry,
+          prod_reg_num: prodRegNum,
+        }),
+      });
 
       const data = await response.json();
-      console.log("API Response:", data);
+      console.log("Geometry API Response:", data);
 
-      if (Array.isArray(data) && data.length > 0) {
-        localStorage.setItem("esa_limitations", JSON.stringify(data));
-        console.log("FULL LIMITATION DATA SAVED TO STORAGE:", data);
+      if (data.limitations && data.limitations.length > 0) {
+        localStorage.setItem(
+          "esa_limitations",
+          JSON.stringify(data.limitations),
+        );
+        console.log("FULL LIMITATION DATA SAVED TO STORAGE:", data.limitations);
         // Route to mitigation menu if any limitation requires calculating mitigation points
         if (
-          data.some(({ limitation }) => {
+          data.limitations.some(({ limitation }) => {
             return limitation.includes("runoff mitigation points");
           })
         ) {
@@ -152,7 +168,7 @@ export default function SearchContainer() {
         const fallback = [
           {
             limitation:
-              "No pesticide use limitations exist for your selected county, date, and product at this time. Simply ensure compliance with the pesticide use instructions on your product label.",
+              "No pesticide use limitations exist for your selected region, date, and product at this time. Simply ensure compliance with the pesticide use instructions on your product label.",
             last_update: null,
             umf: [],
           },
@@ -412,6 +428,33 @@ export default function SearchContainer() {
                     </div>
                   ))}
                 </div>
+              )}
+            </div>
+          </div>
+
+          {/* Region Selection Status */}
+          <div className="flex flex-col">
+            <div className="w-[23vw] h-[6vh] bg-[#678dc9] rounded-t-[0.5rem] flex items-center justify-start pl-3">
+              <h1 className="text-white text-[20px] font-bold">
+                Selected Region
+              </h1>
+            </div>
+            <div className="w-[23vw] h-[6vh] bg-[#edebeb] rounded-b-[0.5rem] flex items-center justify-start px-4">
+              {selectedRegion ? (
+                <div className="text-[#275c9d] text-sm">
+                  <div>
+                    Bounds: {selectedRegion.north.toFixed(2)}°N,{" "}
+                    {selectedRegion.south.toFixed(2)}°S
+                  </div>
+                  <div>
+                    {selectedRegion.west.toFixed(2)}°W,{" "}
+                    {selectedRegion.east.toFixed(2)}°E
+                  </div>
+                </div>
+              ) : (
+                <span className="text-[#678dc9]">
+                  Select a region on the map →
+                </span>
               )}
             </div>
           </div>
