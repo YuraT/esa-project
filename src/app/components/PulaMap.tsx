@@ -2,6 +2,9 @@
 
 import React, { useEffect, useRef } from "react";
 import { IPolygon } from "@esri/arcgis-rest-request";
+import L from "leaflet";
+import * as esriLeaflet from "esri-leaflet";
+import "leaflet/dist/leaflet.css";
 
 interface PulaMapProps {
   pulaData: any[];
@@ -11,44 +14,10 @@ interface PulaMapProps {
 
 const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<any>(null);
+  const mapInstanceRef = useRef<L.Map | null>(null);
 
   useEffect(() => {
     if (!mapRef.current || typeof window === "undefined") return;
-
-    // Dynamically load Leaflet
-    const loadLeaflet = async () => {
-      // Load Leaflet CSS
-      if (!document.querySelector('link[href*="leaflet"]')) {
-        const link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-        document.head.appendChild(link);
-      }
-
-      // Load Leaflet JS
-      if (!(window as any).L) {
-        await new Promise((resolve) => {
-          const script = document.createElement("script");
-          script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
-          script.onload = resolve;
-          document.head.appendChild(script);
-        });
-      }
-
-      // Load Esri-Leaflet
-      if (!(window as any).L.esri) {
-        await new Promise((resolve) => {
-          const script = document.createElement("script");
-          script.src =
-            "https://unpkg.com/esri-leaflet@3.0.12/dist/esri-leaflet.js";
-          script.onload = resolve;
-          document.head.appendChild(script);
-        });
-      }
-
-      initializeMap();
-    };
 
     // Convert ArcGIS feature to GeoJSON format
     const convertArcGISToGeoJSON = (arcgisFeature: any) => {
@@ -93,8 +62,6 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
     };
 
     const initializeMap = () => {
-      const L = (window as any).L;
-
       console.log("PulaMap: Initializing map with data:", pulaData);
       console.log("PulaMap: Region:", region);
 
@@ -116,7 +83,7 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
       const centerLng = (east + west) / 2;
 
       // Initialize map
-      const map = L.map(mapRef.current).setView([centerLat, centerLng], 10);
+      const map = L.map(mapRef.current!).setView([centerLat, centerLng], 10);
       mapInstanceRef.current = map;
 
       // Add base layer
@@ -126,7 +93,7 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
       }).addTo(map);
 
       // Add selection area outline
-      const selectionBounds = [
+      const selectionBounds: L.LatLngBoundsExpression = [
         [south, west],
         [north, east],
       ];
@@ -207,7 +174,7 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
       console.log("PulaMap: Map bounds fitted to selection area");
     };
 
-    loadLeaflet();
+    initializeMap();
 
     // Cleanup on unmount
     return () => {
