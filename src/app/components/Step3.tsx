@@ -4,20 +4,23 @@ import { stepProps } from "../utils/props";
 import SoilSurveyMap from "./SoilSurveyMap";
 import { IPolygon } from "@esri/arcgis-rest-request";
 import { useSearchParams } from "next/navigation";
+import { useMemo } from "react";
 
 export default function Step3({ value, setValue }: stepProps) {
   const searchParams = useSearchParams();
   const regionParam = searchParams.get("region");
 
-  // Parse the region from URL params if available
-  let selectedRegion: IPolygon | null = null;
-  if (regionParam) {
+  // Memoize the region parsing to prevent unnecessary map reloads
+  const selectedRegion = useMemo<IPolygon | null>(() => {
+    if (!regionParam) return null;
+
     try {
-      selectedRegion = JSON.parse(decodeURIComponent(regionParam));
+      return JSON.parse(decodeURIComponent(regionParam));
     } catch (error) {
       console.error("Error parsing region parameter:", error);
+      return null;
     }
-  }
+  }, [regionParam]);
 
   return (
     <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240">
