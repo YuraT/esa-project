@@ -61,13 +61,13 @@ function MitigationTableContent() {
   return (
     <>
       <div className="flex">
-        <div className="sticky top-0 flex flex-col items-center w-[sm:0.2rem,md:3rem] h-screen bg-[#cee0f5]">
+        <div className="sticky top-0 gap-8 flex flex-col items-center h-screen bg-[#cee0f5]">
           <div className="mt-18 mb-5 text-[#275c9d] text-2xl font-bold">
             Step _ of 6
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
             onClick={() => scrollToStep("step1")}
           >
             <div
@@ -83,7 +83,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
             onClick={() => scrollToStep("step2")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -95,7 +95,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
             onClick={() => scrollToStep("step3")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -107,7 +107,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
             onClick={() => scrollToStep("step4")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -119,7 +119,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
             onClick={() => scrollToStep("step5")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -131,7 +131,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
             onClick={() => scrollToStep("step6")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -143,7 +143,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
             onClick={() => scrollToStep("step7")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -155,7 +155,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
             onClick={() => scrollToStep("step8")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -167,7 +167,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
             onClick={() => scrollToStep("step9")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -179,7 +179,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
             onClick={() => scrollToStep("step10")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -190,11 +190,11 @@ function MitigationTableContent() {
             </div>
           </div>
 
-          <div className="flex items-center mt-10 bg-[#cee0f5] w-80 h-15"></div>
+          <div className="flex items-center bg-[#cee0f5] w-80 h-15"></div>
         </div>
 
         <div className="bg-white m-20">
-          <p className="mt-10 mb-10 text-[#275c9d] text-4xl font-bold ">
+          <p className="mb-10 text-[#275c9d] text-4xl font-bold ">
             Mitigation Menu
           </p>
           <p className="mb-5 text-[#275c9d] text-2xl font-bold ">
@@ -251,7 +251,7 @@ function MitigationTableContent() {
             <Step10 value={systems} setValue={setSystems} />
           </div>
 
-          <div className="mt-10 mb-10">
+          <div className="mb-10">
             <Link
               href={`/PrintReport?month=${encodeURIComponent(
                 month || "",
