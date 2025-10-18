@@ -6,14 +6,21 @@ import "leaflet-draw";
 import "leaflet-draw/dist/leaflet.draw.css";
 import { IPolygon } from "@esri/arcgis-rest-request";
 
+interface MapPosition {
+  center: L.LatLngExpression;
+  zoom?: number;
+}
+
 interface RegionSelectorProps {
   onRegionSelected?: (geometry: IPolygon) => void;
   className?: string;
+  mapPosition?: MapPosition | null;
 }
 
 export default function RegionSelector({
   onRegionSelected,
   className = "",
+  mapPosition,
 }: RegionSelectorProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -34,8 +41,12 @@ export default function RegionSelector({
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
 
-    // Initialize map
-    const map = L.map(mapRef.current).setView([39.8, -98.6], 4);
+    // Initialize map with default or provided position
+    const initialCenter: L.LatLngExpression = mapPosition?.center ?? [
+      39.8, -98.6,
+    ];
+    const initialZoom = mapPosition?.zoom ?? 4;
+    const map = L.map(mapRef.current).setView(initialCenter, initialZoom);
     mapInstanceRef.current = map;
 
     // Add base layer
@@ -152,6 +163,13 @@ export default function RegionSelector({
       }
     };
   }, []);
+
+  // Handle map position changes
+  useEffect(() => {
+    if (mapPosition && mapInstanceRef.current) {
+      mapInstanceRef.current.setView(mapPosition.center, mapPosition.zoom);
+    }
+  }, [mapPosition]);
 
   const clearSelection = () => {
     if (drawnItemsRef.current) {

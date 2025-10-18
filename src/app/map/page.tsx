@@ -1,6 +1,5 @@
 "use client";
 import Footer from "../components/Footer";
-import Header from "../components/Header";
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 import countiesData from "../data/uscounties.json";
@@ -44,6 +43,12 @@ export default function SearchContainer() {
 
   // State: Region Selection
   const [selectedRegion, setSelectedRegion] = useState<IPolygon | null>(null);
+
+  // State: Map Position for county zoom
+  const [mapPosition, setMapPosition] = useState<{
+    center: L.LatLngExpression;
+    zoom?: number;
+  } | null>(null);
 
   // Data: Counties
   const allCounties: string[] = countiesData.map(
@@ -188,6 +193,20 @@ export default function SearchContainer() {
     setSelectedCounty(value);
     setCountyQuery(value);
     setFilteredCounties([]);
+
+    // Find county coordinates and update map position
+    const [countyName, state] = value.split(",").map((s) => s.trim());
+    const countyData = countiesData.find(
+      (item: { county: string; state_id: string; lat: number; lng: number }) =>
+        item.county === countyName && item.state_id === state,
+    );
+
+    if (countyData) {
+      setMapPosition({
+        center: [countyData.lat, countyData.lng],
+        zoom: 9, // Appropriate zoom level for county view
+      });
+    }
   }
 
   // Product: Input & Select
@@ -342,7 +361,9 @@ export default function SearchContainer() {
           {/* Date Dropdown */}
           <div className="flex flex-col" ref={dateDropdownRef}>
             <div className="w-[23vw] h-[6vh] bg-[#678dc9] rounded-t-[0.5rem] flex items-center justify-start pl-3">
-              <h1 className="text-white text-[20px] font-bold">Date</h1>
+              <h1 className="text-white text-[20px] font-bold">
+                Application Date
+              </h1>
             </div>
             <div className="relative">
               <div
@@ -375,9 +396,7 @@ export default function SearchContainer() {
           {/* County Input */}
           <div className="flex flex-col" ref={countyDropdownRef}>
             <div className="w-[23vw] h-[6vh] bg-[#678dc9] rounded-t-[0.5rem] flex items-center justify-start pl-3">
-              <h1 className="text-white text-[20px] font-bold">
-                Soil Data (County Level)
-              </h1>
+              <h1 className="text-white text-[20px] font-bold">County</h1>
             </div>
             <div className="relative">
               <div className="relative w-[23vw]">
@@ -429,6 +448,7 @@ export default function SearchContainer() {
         <div className="w-[50vw] h-[75vh]">
           <RegionSelector
             onRegionSelected={handleRegionSelected}
+            mapPosition={mapPosition}
             className="rounded-[2rem] overflow-hidden shadow-lg"
           />
         </div>
