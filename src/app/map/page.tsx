@@ -31,7 +31,9 @@ export default function SearchContainer() {
 
   // State: County
   const [countyQuery, setCountyQuery] = useState("");
-  const [filteredCounties, setFilteredCounties] = useState<string[]>([]);
+  const [filteredCounties, setFilteredCounties] = useState<
+    { county: string; countyIndex: number }[]
+  >([]);
   const [selectedCounty, setSelectedCounty] = useState("");
 
   // State: Product
@@ -180,31 +182,27 @@ export default function SearchContainer() {
     setCountyQuery(query);
 
     if (query.length > 0) {
-      const filtered = allCounties.filter((county) =>
-        county.toLowerCase().includes(query.toLowerCase()),
-      );
+      const filtered = allCounties
+        .map((county, index) => ({ county, countyIndex: index }))
+        .filter(({ county }) =>
+          county.toLowerCase().includes(query.toLowerCase()),
+        );
       setFilteredCounties(filtered);
     } else {
       setFilteredCounties([]);
     }
   }
 
-  function handleCountySelect(value: string) {
+  function handleCountySelect(value: string, countyIndex: number) {
     setSelectedCounty(value);
     setCountyQuery(value);
     setFilteredCounties([]);
 
-    // Find county coordinates and update map position
-    const [countyName, state] = value.split(",").map((s) => s.trim());
-    const countyData = countiesData.find(
-      (item: { county: string; state_id: string; lat: number; lng: number }) =>
-        item.county === countyName && item.state_id === state,
-    );
-
+    const countyData = countiesData[countyIndex];
     if (countyData) {
       setMapPosition({
         center: [countyData.lat, countyData.lng],
-        zoom: 9, // Appropriate zoom level for county view
+        zoom: 8.5, // Appropriate zoom level for county view
       });
     }
   }
@@ -406,11 +404,16 @@ export default function SearchContainer() {
                   onChange={handleCountyInputChange}
                   onFocus={() => {
                     if (countyQuery.length > 0) {
-                      const filtered = allCounties.filter((county) =>
-                        county
-                          .toLowerCase()
-                          .includes(countyQuery.toLowerCase()),
-                      );
+                      const filtered = allCounties
+                        .map((county, index) => ({
+                          county,
+                          countyIndex: index,
+                        }))
+                        .filter(({ county }) =>
+                          county
+                            .toLowerCase()
+                            .includes(countyQuery.toLowerCase()),
+                        );
                       setFilteredCounties(filtered);
                     }
                   }}
@@ -421,10 +424,10 @@ export default function SearchContainer() {
               </div>
               {filteredCounties.length > 0 && (
                 <div className="text-[#275c9d] absolute w-[23vw] bg-white border rounded mt-1 shadow z-10 max-h-60 overflow-y-auto">
-                  {filteredCounties.map((county) => (
+                  {filteredCounties.map(({ county, countyIndex }) => (
                     <div
-                      key={county}
-                      onClick={() => handleCountySelect(county)}
+                      key={countyIndex}
+                      onClick={() => handleCountySelect(county, countyIndex)}
                       className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
                     >
                       {county}
