@@ -69,7 +69,19 @@ export default function RegionSelector({
         marker: false,
         circle: false,
         circlemarker: false,
-        polygon: false, // Disable polygon for now
+        polygon: {
+          allowIntersection: false,
+          drawError: {
+            color: "#e1e100",
+            message: "<strong>Error:</strong> Polygon edges cannot cross!",
+          },
+          shapeOptions: {
+            color: "#2c5aa0",
+            weight: 2,
+            fillOpacity: 0.2,
+            fillColor: "#2c5aa0",
+          },
+        },
         rectangle: {
           shapeOptions: {
             color: "#2c5aa0",
@@ -181,8 +193,9 @@ export default function RegionSelector({
             <strong>Instructions:</strong>
           </p>
           <ol className="list-decimal list-inside space-y-1 text-xs">
-            <li>Click the rectangle tool in the top-left corner</li>
-            <li>Click and drag to draw a rectangular area</li>
+            <li>Click the rectangle or polygon tool in the top-left corner</li>
+            <li>For rectangle: Click and drag to draw a rectangular area</li>
+            <li>For polygon: Click to place points, double-click to finish</li>
             <li>Use the edit tool to modify your selection</li>
             <li>Use the delete tool to remove your selection</li>
           </ol>
