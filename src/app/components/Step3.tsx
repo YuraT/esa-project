@@ -2,10 +2,8 @@
 
 import { stepProps } from "../utils/props";
 import dynamic from "next/dynamic";
-import { IPolygon } from "@esri/arcgis-rest-request";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
-import { Polygon } from "leaflet";
 
 const SoilSurveyMap = dynamic(() => import("./SoilSurveyMap"), { ssr: false });
 

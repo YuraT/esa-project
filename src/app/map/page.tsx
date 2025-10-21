@@ -8,7 +8,6 @@ import dynamic from "next/dynamic";
 const RegionSelector = dynamic(() => import("../components/RegionSelector"), {
   ssr: false,
 });
-import { IPolygon } from "@esri/arcgis-rest-request";
 
 function getLastSixMonths(): string[] {
   const months = [];

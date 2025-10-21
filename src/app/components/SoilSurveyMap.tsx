@@ -28,31 +28,29 @@ const SoilSurveyMap: React.FC<SoilSurveyMapProps> = ({ region, className }) => {
     let centerLat = 39.8; // Default center (continental US)
     let centerLng = -98.6;
     let zoom = 4;
-    let selectionBounds = null;
+    let regionLayer = null;
 
     if (region) {
       console.log("SoilSurveyMap: region", region);
-      const ring = region.geometry.coordinates[0];
-      const west = ring[0][0];
-      const south = ring[0][1];
-      const east = ring[1][0];
-      const north = ring[2][1];
 
-      console.log("SoilSurveyMap: Calculated bounds:", {
-        west,
-        south,
-        east,
-        north,
+      // Create GeoJSON layer directly from the region feature
+      regionLayer = L.geoJSON(region, {
+        style: {
+          color: "#2c5aa0",
+          weight: 3,
+          fillOpacity: 0.1,
+          fillColor: "#2c5aa0",
+        },
       });
 
-      centerLat = (north + south) / 2;
-      centerLng = (east + west) / 2;
-      zoom = 10;
+      // Get bounds automatically from the GeoJSON layer
+      const bounds = regionLayer.getBounds();
 
-      selectionBounds = [
-        [south, west],
-        [north, east],
-      ] as L.LatLngBoundsExpression;
+      // Calculate center from bounds
+      const center = bounds.getCenter();
+      centerLat = center.lat;
+      centerLng = center.lng;
+      zoom = 10;
     }
 
     // Initialize map
@@ -229,18 +227,12 @@ const SoilSurveyMap: React.FC<SoilSurveyMapProps> = ({ region, className }) => {
     }
 
     // Add selection area outline if region is provided
-    if (selectionBounds) {
-      const selectionLayer = L.rectangle(selectionBounds, {
-        color: "#2c5aa0",
-        weight: 3,
-        fillOpacity: 0.1,
-        fillColor: "#2c5aa0",
-      }).addTo(map);
-
+    if (regionLayer) {
+      regionLayer.addTo(map);
       console.log("SoilSurveyMap: Selection area added to map");
 
-      // Fit map to show selection area
-      map.fitBounds(selectionBounds, { padding: [20, 20] });
+      // Fit map to show the actual polygon bounds
+      map.fitBounds(regionLayer.getBounds(), { padding: [20, 20] });
     }
 
     console.log("SoilSurveyMap: Map initialized successfully");

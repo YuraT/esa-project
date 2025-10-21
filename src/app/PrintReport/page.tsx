@@ -298,19 +298,6 @@ const PrintReportContent: React.FC = () => {
       ["County", reportData.county],
     ];
 
-    // Add region information if available
-    if (reportData.region) {
-      const ring = reportData.region.geometry.coordinates[0];
-      const west = ring[0][0].toFixed(4);
-      const south = ring[0][1].toFixed(4);
-      const east = ring[1][0].toFixed(4);
-      const north = ring[2][1].toFixed(4);
-      rows.push([
-        "Selected Region",
-        `${south}°N - ${north}°N, ${west}°W - ${east}°W`,
-      ]);
-    }
-
     rows.forEach(([label, value]) => {
       page.drawText(`${label}:`, {
         x: 40,
@@ -682,21 +669,6 @@ const PrintReportContent: React.FC = () => {
           <p>
             <span className="font-semibold">County:</span> {reportData.county}
           </p>
-          {reportData.region && (
-            <p>
-              <span className="font-semibold">Selected Region:</span>
-              {reportData.region.geometry.coordinates[0][0][1].toFixed(4)}°N -{" "}
-              {reportData.region.geometry.coordinates[0][2][1].toFixed(4)}°N,
-              {reportData.region.geometry.coordinates[0][0][0].toFixed(4)}°W -{" "}
-              {reportData.region.geometry.coordinates[0][1][0].toFixed(4)}°W
-            </p>
-          )}
-          {!reportData.region && (
-            <p>
-              <span className="font-semibold text-yellow-600">Note:</span> No
-              region selected - PULA analysis not available
-            </p>
-          )}
         </div>
         {limitations.map((item, idx) => (
           <div key={idx} className="mb-6 text-gray-800">
