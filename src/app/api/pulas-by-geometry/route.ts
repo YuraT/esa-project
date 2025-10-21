@@ -28,8 +28,7 @@ export async function GET(request: Request) {
 
   let geometry;
   try {
-    geometry = geojsonToArcGIS(JSON.parse(geometryParam).geometry)  ;
-    console.log("Converted geometry:", JSON.stringify(geometry, null, 2));
+    geometry = geojsonToArcGIS(JSON.parse(geometryParam).geometry);
   } catch (error) {
     return NextResponse.json(
       { error: "Invalid geometry parameter - must be valid JSON" },
