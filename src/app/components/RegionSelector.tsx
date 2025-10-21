@@ -4,6 +4,7 @@ import L, { Polygon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw";
 import "leaflet-draw/dist/leaflet.draw.css";
+import assert from "assert";
 
 interface MapPosition {
   center: L.LatLngExpression;
@@ -24,7 +25,8 @@ export default function RegionSelector({
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const drawnItemsRef = useRef<L.FeatureGroup | null>(null);
-  const [selectedRegion, setSelectedRegion] = useState<GeoJSON.Feature<GeoJSON.Polygon> | null>(null);
+  const [selectedRegion, setSelectedRegion] =
+    useState<GeoJSON.Feature<GeoJSON.Polygon> | null>(null);
 
   // Stabilize the callback to prevent unnecessary re-renders
   const stableOnRegionSelected = useCallback(
@@ -87,14 +89,23 @@ export default function RegionSelector({
     // Event handlers
     const handleDrawCreated = (event: L.LeafletEvent) => {
       const e = event as L.DrawEvents.Created;
-      const layer = e.layer as L.Rectangle;
+      const layer = e.layer;
+      assert(
+        layer instanceof L.Polygon,
+        "Expected drawn layer to be a Polygon",
+      );
 
-      // Clear previous rectangles (only allow one selection at a time)
+      // Clear previous polygons (only allow one selection at a time)
       drawnItems.clearLayers();
       drawnItems.addLayer(layer);
-      
+
       // Notify parent component
-      stableOnRegionSelected(layer.toGeoJSON());
+      const region = layer.toGeoJSON();
+      assert(
+        region.geometry.type === "Polygon",
+        "Expected geometry type to be Polygon",
+      );
+      stableOnRegionSelected(region as GeoJSON.Feature<GeoJSON.Polygon>);
     };
 
     const handleDrawDeleted = (event: L.LeafletEvent) => {
@@ -107,11 +118,17 @@ export default function RegionSelector({
       // Handle rectangle edits
       const layers = e.layers;
       layers.eachLayer((layer: L.Layer) => {
-        if (layer instanceof L.Rectangle) {
-          const geoJson = layer.toGeoJSON();
-          setSelectedRegion(geoJson);
-          stableOnRegionSelected(geoJson);
-        }
+        assert(
+          layer instanceof L.Polygon,
+          "Expected edited layer to be a Polygon",
+        );
+        const geoJson = layer.toGeoJSON();
+        assert(
+          geoJson.geometry.type === "Polygon",
+          "Expected geometry type to be Polygon",
+        );
+        setSelectedRegion(geoJson as GeoJSON.Feature<GeoJSON.Polygon>);
+        stableOnRegionSelected(geoJson as GeoJSON.Feature<GeoJSON.Polygon>);
       });
     };
 
