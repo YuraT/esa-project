@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { IPolygon } from "@esri/arcgis-rest-request";
 import L from "leaflet";
 import * as esri from "esri-leaflet";
 import "leaflet/dist/leaflet.css";
 
 interface SoilSurveyMapProps {
-  region?: IPolygon | null;
+  region?: GeoJSON.Feature<GeoJSON.Polygon> | null;
   className?: string;
 }
 
@@ -31,8 +30,9 @@ const SoilSurveyMap: React.FC<SoilSurveyMapProps> = ({ region, className }) => {
     let zoom = 4;
     let selectionBounds = null;
 
-    if (region && region.rings && region.rings[0]) {
-      const ring = region.rings[0];
+    if (region) {
+      console.log("SoilSurveyMap: region", region);
+      const ring = region.geometry.coordinates[0];
       const west = ring[0][0];
       const south = ring[0][1];
       const east = ring[1][0];

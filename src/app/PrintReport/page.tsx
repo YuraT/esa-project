@@ -7,7 +7,6 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import dynamic from "next/dynamic";
 const PulaMap = dynamic(() => import("../components/PulaMap"), { ssr: false });
-import { IPolygon } from "@esri/arcgis-rest-request";
 
 type UMFEntry = {
   use?: string;
@@ -38,7 +37,7 @@ const PrintReportContent: React.FC = () => {
     month: "",
     product: "",
     county: "",
-    region: null as IPolygon | null,
+    region: null as GeoJSON.Feature<GeoJSON.Polygon> | null,
   });
 
   useEffect(() => {
@@ -58,7 +57,7 @@ const PrintReportContent: React.FC = () => {
   }, [month, product, county, region]);
 
   const queryPulasForRegion = async (
-    regionGeometry: IPolygon,
+    regionGeometry: GeoJSON.Feature<GeoJSON.Polygon>,
     productName: string,
   ) => {
     setLoadingPulas(true);
@@ -301,7 +300,7 @@ const PrintReportContent: React.FC = () => {
 
     // Add region information if available
     if (reportData.region) {
-      const ring = reportData.region.rings[0];
+      const ring = reportData.region.geometry.coordinates[0];
       const west = ring[0][0].toFixed(4);
       const south = ring[0][1].toFixed(4);
       const east = ring[1][0].toFixed(4);
@@ -686,10 +685,10 @@ const PrintReportContent: React.FC = () => {
           {reportData.region && (
             <p>
               <span className="font-semibold">Selected Region:</span>
-              {reportData.region.rings[0][0][1].toFixed(4)}°N -{" "}
-              {reportData.region.rings[0][2][1].toFixed(4)}°N,
-              {reportData.region.rings[0][0][0].toFixed(4)}°W -{" "}
-              {reportData.region.rings[0][1][0].toFixed(4)}°W
+              {reportData.region.geometry.coordinates[0][0][1].toFixed(4)}°N -{" "}
+              {reportData.region.geometry.coordinates[0][2][1].toFixed(4)}°N,
+              {reportData.region.geometry.coordinates[0][0][0].toFixed(4)}°W -{" "}
+              {reportData.region.geometry.coordinates[0][1][0].toFixed(4)}°W
             </p>
           )}
           {!reportData.region && (

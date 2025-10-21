@@ -1,14 +1,13 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { IPolygon } from "@esri/arcgis-rest-request";
 import L from "leaflet";
-import * as esriLeaflet from "esri-leaflet";
 import "leaflet/dist/leaflet.css";
+import { arcgisToGeoJSON } from "@terraformer/arcgis";
 
 interface PulaMapProps {
   pulaData: any[];
-  region: IPolygon;
+  region: GeoJSON.Feature<GeoJSON.Polygon>;
   className?: string;
 }
 
@@ -18,48 +17,6 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
 
   useEffect(() => {
     if (!mapRef.current || typeof window === "undefined") return;
-
-    // Convert ArcGIS feature to GeoJSON format
-    const convertArcGISToGeoJSON = (arcgisFeature: any) => {
-      if (!arcgisFeature.geometry) {
-        console.warn("PulaMap: Feature has no geometry");
-        return null;
-      }
-
-      // Check if it's already in GeoJSON format
-      if (arcgisFeature.type === "Feature" && arcgisFeature.geometry.type) {
-        console.log("PulaMap: Feature is already in GeoJSON format");
-        return arcgisFeature;
-      }
-
-      // Handle ArcGIS format
-      if (arcgisFeature.geometry.rings) {
-        console.log("PulaMap: Converting ArcGIS rings to GeoJSON");
-        return {
-          type: "Feature",
-          properties: arcgisFeature.attributes || {},
-          geometry: {
-            type: "Polygon",
-            coordinates: arcgisFeature.geometry.rings,
-          },
-        };
-      }
-
-      // Handle other geometry types
-      if (arcgisFeature.geometry.paths) {
-        return {
-          type: "Feature",
-          properties: arcgisFeature.attributes || {},
-          geometry: {
-            type: "LineString",
-            coordinates: arcgisFeature.geometry.paths[0],
-          },
-        };
-      }
-
-      console.warn("PulaMap: Unknown geometry format", arcgisFeature.geometry);
-      return null;
-    };
 
     const initializeMap = () => {
       console.log("PulaMap: Initializing map with data:", pulaData);
@@ -71,7 +28,7 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
       }
 
       // Calculate center and bounds from IPolygon
-      const ring = region.rings[0];
+      const ring = region.geometry.coordinates[0];
       const west = ring[0][0];
       const south = ring[0][1];
       const east = ring[1][0];
@@ -117,7 +74,7 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
             console.log(`PulaMap: Creating geoJSON layer for PULA ${index}`);
             try {
               // Convert ArcGIS feature to GeoJSON
-              const geoJsonFeature = convertArcGISToGeoJSON(pula);
+              const geoJsonFeature = arcgisToGeoJSON(pula);
               console.log(`PulaMap: Converted to GeoJSON:`, geoJsonFeature);
 
               if (!geoJsonFeature) {

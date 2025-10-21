@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { IPolygon } from "@esri/arcgis-rest-request";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
+import { Polygon } from "leaflet";
 
 const SoilSurveyMap = dynamic(() => import("./SoilSurveyMap"), { ssr: false });
 
@@ -13,16 +14,17 @@ export default function Step3({ value, setValue }: stepProps) {
   const regionParam = searchParams.get("region");
 
   // Memoize the region parsing to prevent unnecessary map reloads
-  const selectedRegion = useMemo<IPolygon | null>(() => {
-    if (!regionParam) return null;
+  const selectedRegion =
+    useMemo<GeoJSON.Feature<GeoJSON.Polygon> | null>(() => {
+      if (!regionParam) return null;
 
-    try {
-      return JSON.parse(decodeURIComponent(regionParam));
-    } catch (error) {
-      console.error("Error parsing region parameter:", error);
-      return null;
-    }
-  }, [regionParam]);
+      try {
+        return JSON.parse(decodeURIComponent(regionParam));
+      } catch (error) {
+        console.error("Error parsing region parameter:", error);
+        return null;
+      }
+    }, [regionParam]);
 
   return (
     <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240">

@@ -44,7 +44,7 @@ export default function SearchContainer() {
   const [allProducts, setAllProducts] = useState<string[]>([]);
 
   // State: Region Selection
-  const [selectedRegion, setSelectedRegion] = useState<IPolygon | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<GeoJSON.Feature<GeoJSON.Polygon> | null>(null);
 
   // State: Map Position for county zoom
   const [mapPosition, setMapPosition] = useState<{
@@ -97,7 +97,7 @@ export default function SearchContainer() {
   }
 
   // Handle region selection
-  function handleRegionSelected(geometry: IPolygon) {
+  function handleRegionSelected(geometry: GeoJSON.Feature<GeoJSON.Polygon>) {
     setSelectedRegion(geometry);
     console.log("Region selected:", geometry);
   }
