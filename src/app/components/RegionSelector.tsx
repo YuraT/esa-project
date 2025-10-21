@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import L from "leaflet";
+import L, { Polygon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw";
 import "leaflet-draw/dist/leaflet.draw.css";
-import { IPolygon } from "@esri/arcgis-rest-request";
+import assert from "assert";
 
 interface MapPosition {
   center: L.LatLngExpression;
@@ -12,7 +12,7 @@ interface MapPosition {
 }
 
 interface RegionSelectorProps {
-  onRegionSelected?: (geometry: IPolygon) => void;
+  onRegionSelected?: (geometry: GeoJSON.Feature<GeoJSON.Polygon>) => void;
   className?: string;
   mapPosition?: MapPosition | null;
 }
@@ -25,11 +25,12 @@ export default function RegionSelector({
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const drawnItemsRef = useRef<L.FeatureGroup | null>(null);
-  const [selectedRegion, setSelectedRegion] = useState<IPolygon | null>(null);
+  const [selectedRegion, setSelectedRegion] =
+    useState<GeoJSON.Feature<GeoJSON.Polygon> | null>(null);
 
   // Stabilize the callback to prevent unnecessary re-renders
   const stableOnRegionSelected = useCallback(
-    (geometry: IPolygon) => {
+    (geometry: GeoJSON.Feature<GeoJSON.Polygon>) => {
       if (onRegionSelected) {
         onRegionSelected(geometry);
       }
@@ -85,44 +86,28 @@ export default function RegionSelector({
     });
     map.addControl(drawControl);
 
-    // Utility function to convert Leaflet bounds to Esri Polygon geometry
-    function boundsToEsriPolygon(bounds: L.LatLngBounds): IPolygon {
-      const north = bounds.getNorth();
-      const south = bounds.getSouth();
-      const east = bounds.getEast();
-      const west = bounds.getWest();
-
-      return {
-        rings: [
-          [
-            [west, south],
-            [east, south],
-            [east, north],
-            [west, north],
-            [west, south],
-          ],
-        ],
-        spatialReference: {
-          wkid: 4326, // WGS84
-        },
-      };
-    }
-
     // Event handlers
     const handleDrawCreated = (event: L.LeafletEvent) => {
       const e = event as L.DrawEvents.Created;
-      const layer = e.layer as L.Rectangle;
+      const layer = e.layer;
+      assert(
+        layer instanceof L.Polygon,
+        "Expected drawn layer to be a Polygon",
+      );
 
-      // Clear previous rectangles (only allow one selection at a time)
+      // Clear previous polygons (only allow one selection at a time)
       drawnItems.clearLayers();
       drawnItems.addLayer(layer);
 
-      // Get bounds of the rectangle and convert to Esri geometry format
-      const bounds = layer.getBounds();
-      const esriGeometry = boundsToEsriPolygon(bounds);
-
       // Notify parent component
-      stableOnRegionSelected(esriGeometry);
+      const region = layer.toGeoJSON();
+      assert(
+        region.geometry.type === "Polygon",
+        "Expected geometry type to be Polygon",
+      );
+      const typedRegion = region as GeoJSON.Feature<GeoJSON.Polygon>;
+      setSelectedRegion(typedRegion);
+      stableOnRegionSelected(typedRegion);
     };
 
     const handleDrawDeleted = (event: L.LeafletEvent) => {
@@ -135,14 +120,17 @@ export default function RegionSelector({
       // Handle rectangle edits
       const layers = e.layers;
       layers.eachLayer((layer: L.Layer) => {
-        if (layer instanceof L.Rectangle) {
-          const bounds = layer.getBounds();
-          const esriGeometry = boundsToEsriPolygon(bounds);
-
-          setSelectedRegion(esriGeometry);
-
-          stableOnRegionSelected(esriGeometry);
-        }
+        assert(
+          layer instanceof L.Polygon,
+          "Expected edited layer to be a Polygon",
+        );
+        const geoJson = layer.toGeoJSON();
+        assert(
+          geoJson.geometry.type === "Polygon",
+          "Expected geometry type to be Polygon",
+        );
+        setSelectedRegion(geoJson as GeoJSON.Feature<GeoJSON.Polygon>);
+        stableOnRegionSelected(geoJson as GeoJSON.Feature<GeoJSON.Polygon>);
       });
     };
 

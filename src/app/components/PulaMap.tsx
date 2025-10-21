@@ -1,14 +1,13 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { IPolygon } from "@esri/arcgis-rest-request";
 import L from "leaflet";
-import * as esriLeaflet from "esri-leaflet";
 import "leaflet/dist/leaflet.css";
+import { arcgisToGeoJSON } from "@terraformer/arcgis";
 
 interface PulaMapProps {
   pulaData: any[];
-  region: IPolygon;
+  region: GeoJSON.Feature<GeoJSON.Polygon>;
   className?: string;
 }
 
@@ -19,48 +18,6 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
   useEffect(() => {
     if (!mapRef.current || typeof window === "undefined") return;
 
-    // Convert ArcGIS feature to GeoJSON format
-    const convertArcGISToGeoJSON = (arcgisFeature: any) => {
-      if (!arcgisFeature.geometry) {
-        console.warn("PulaMap: Feature has no geometry");
-        return null;
-      }
-
-      // Check if it's already in GeoJSON format
-      if (arcgisFeature.type === "Feature" && arcgisFeature.geometry.type) {
-        console.log("PulaMap: Feature is already in GeoJSON format");
-        return arcgisFeature;
-      }
-
-      // Handle ArcGIS format
-      if (arcgisFeature.geometry.rings) {
-        console.log("PulaMap: Converting ArcGIS rings to GeoJSON");
-        return {
-          type: "Feature",
-          properties: arcgisFeature.attributes || {},
-          geometry: {
-            type: "Polygon",
-            coordinates: arcgisFeature.geometry.rings,
-          },
-        };
-      }
-
-      // Handle other geometry types
-      if (arcgisFeature.geometry.paths) {
-        return {
-          type: "Feature",
-          properties: arcgisFeature.attributes || {},
-          geometry: {
-            type: "LineString",
-            coordinates: arcgisFeature.geometry.paths[0],
-          },
-        };
-      }
-
-      console.warn("PulaMap: Unknown geometry format", arcgisFeature.geometry);
-      return null;
-    };
-
     const initializeMap = () => {
       console.log("PulaMap: Initializing map with data:", pulaData);
       console.log("PulaMap: Region:", region);
@@ -70,17 +27,24 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
         mapInstanceRef.current.remove();
       }
 
-      // Calculate center and bounds from IPolygon
-      const ring = region.rings[0];
-      const west = ring[0][0];
-      const south = ring[0][1];
-      const east = ring[1][0];
-      const north = ring[2][1];
+      // Create GeoJSON layer directly from the region feature
+      const regionLayer = L.geoJSON(region, {
+        style: {
+          color: "#2c5aa0",
+          weight: 3,
+          fillOpacity: 0.1,
+          fillColor: "#2c5aa0",
+        },
+      });
 
-      console.log("PulaMap: Calculated bounds:", { west, south, east, north });
+      // Get bounds automatically from the GeoJSON layer
+      const bounds = regionLayer.getBounds();
+      console.log("PulaMap: Calculated bounds:", bounds);
 
-      const centerLat = (north + south) / 2;
-      const centerLng = (east + west) / 2;
+      // Calculate center from bounds
+      const center = bounds.getCenter();
+      const centerLat = center.lat;
+      const centerLng = center.lng;
 
       // Initialize map
       const map = L.map(mapRef.current!).setView([centerLat, centerLng], 10);
@@ -93,17 +57,7 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
       }).addTo(map);
 
       // Add selection area outline
-      const selectionBounds: L.LatLngBoundsExpression = [
-        [south, west],
-        [north, east],
-      ];
-
-      L.rectangle(selectionBounds, {
-        color: "#2c5aa0",
-        weight: 3,
-        fillOpacity: 0.1,
-        fillColor: "#2c5aa0",
-      }).addTo(map);
+      regionLayer.addTo(map);
 
       // Add PULA polygons
       if (pulaData && pulaData.length > 0) {
@@ -117,7 +71,7 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
             console.log(`PulaMap: Creating geoJSON layer for PULA ${index}`);
             try {
               // Convert ArcGIS feature to GeoJSON
-              const geoJsonFeature = convertArcGISToGeoJSON(pula);
+              const geoJsonFeature = arcgisToGeoJSON(pula);
               console.log(`PulaMap: Converted to GeoJSON:`, geoJsonFeature);
 
               if (!geoJsonFeature) {
@@ -170,7 +124,7 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
       console.log(`PulaMap: Map initialized with ${pulaData.length} PULAs`);
 
       // Fit map to show selection area
-      map.fitBounds(selectionBounds, { padding: [20, 20] });
+      map.fitBounds(regionLayer.getBounds(), { padding: [20, 20] });
       console.log("PulaMap: Map bounds fitted to selection area");
     };
 

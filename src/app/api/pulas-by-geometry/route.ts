@@ -1,3 +1,4 @@
+import { geojsonToArcGIS } from "@terraformer/arcgis";
 import { NextResponse } from "next/server";
 
 interface PulaID {
@@ -8,7 +9,7 @@ interface PulaID {
  * GET /api/pulas-by-geometry
  *
  * Query parameters:
- * - geometry: JSON string representing the geometry to search within
+ * - geometry: GeoJSON string representing the geometry to search within
  * - prod_reg_num: Product registration number to filter limitations
  * - returnGeometry: "true" to include geometry in PULA features, "false" or omitted for attributes only
  */
@@ -27,7 +28,7 @@ export async function GET(request: Request) {
 
   let geometry;
   try {
-    geometry = JSON.parse(geometryParam);
+    geometry = geojsonToArcGIS(JSON.parse(geometryParam).geometry);
   } catch (error) {
     return NextResponse.json(
       { error: "Invalid geometry parameter - must be valid JSON" },

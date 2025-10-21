@@ -7,7 +7,6 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import dynamic from "next/dynamic";
 const PulaMap = dynamic(() => import("../components/PulaMap"), { ssr: false });
-import { IPolygon } from "@esri/arcgis-rest-request";
 
 type UMFEntry = {
   use?: string;
@@ -38,7 +37,7 @@ const PrintReportContent: React.FC = () => {
     month: "",
     product: "",
     county: "",
-    region: null as IPolygon | null,
+    region: null as GeoJSON.Feature<GeoJSON.Polygon> | null,
   });
 
   useEffect(() => {
@@ -58,7 +57,7 @@ const PrintReportContent: React.FC = () => {
   }, [month, product, county, region]);
 
   const queryPulasForRegion = async (
-    regionGeometry: IPolygon,
+    regionGeometry: GeoJSON.Feature<GeoJSON.Polygon>,
     productName: string,
   ) => {
     setLoadingPulas(true);
@@ -298,19 +297,6 @@ const PrintReportContent: React.FC = () => {
       ["Product", reportData.product],
       ["County", reportData.county],
     ];
-
-    // Add region information if available
-    if (reportData.region) {
-      const ring = reportData.region.rings[0];
-      const west = ring[0][0].toFixed(4);
-      const south = ring[0][1].toFixed(4);
-      const east = ring[1][0].toFixed(4);
-      const north = ring[2][1].toFixed(4);
-      rows.push([
-        "Selected Region",
-        `${south}°N - ${north}°N, ${west}°W - ${east}°W`,
-      ]);
-    }
 
     rows.forEach(([label, value]) => {
       page.drawText(`${label}:`, {
@@ -683,21 +669,6 @@ const PrintReportContent: React.FC = () => {
           <p>
             <span className="font-semibold">County:</span> {reportData.county}
           </p>
-          {reportData.region && (
-            <p>
-              <span className="font-semibold">Selected Region:</span>
-              {reportData.region.rings[0][0][1].toFixed(4)}°N -{" "}
-              {reportData.region.rings[0][2][1].toFixed(4)}°N,
-              {reportData.region.rings[0][0][0].toFixed(4)}°W -{" "}
-              {reportData.region.rings[0][1][0].toFixed(4)}°W
-            </p>
-          )}
-          {!reportData.region && (
-            <p>
-              <span className="font-semibold text-yellow-600">Note:</span> No
-              region selected - PULA analysis not available
-            </p>
-          )}
         </div>
         {limitations.map((item, idx) => (
           <div key={idx} className="mb-6 text-gray-800">
