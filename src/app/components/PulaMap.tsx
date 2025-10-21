@@ -14,6 +14,13 @@ interface PulaMapProps {
 const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
+  const colors = [
+    "#e41a1c",
+    "#984ea3",
+    "#ff7f00",
+    "#ffff33",
+    "#a65628",
+  ];
 
   useEffect(() => {
     if (!mapRef.current || typeof window === "undefined") return;
@@ -83,10 +90,10 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
 
               const pulaLayer = L.geoJSON(geoJsonFeature, {
                 style: {
-                  color: "#e60000",
+                  color: colors[index % colors.length],
                   weight: 2,
                   fillOpacity: 0.3,
-                  fillColor: "#ff9999",
+                  fillColor: colors[index % colors.length],
                 },
               });
 
