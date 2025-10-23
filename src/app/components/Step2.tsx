@@ -1,10 +1,30 @@
 "use client";
 
 import { stepProps } from "../utils/props";
+import dynamic from "next/dynamic";
+import { useSearchParams } from "next/navigation";
+import { useMemo } from "react";
+
+const SoilSlopeMap = dynamic(() => import("./SoilSlopeMap"), { ssr: false });
 
 export default function Step2({ value, setValue }: stepProps) {
+  const searchParams = useSearchParams();
+  const regionParam = searchParams.get("region");
+
+  // Memoize the region parsing to prevent unnecessary map reloads
+  const selectedRegion =
+    useMemo<GeoJSON.Feature<GeoJSON.Polygon> | null>(() => {
+      if (!regionParam) return null;
+
+      try {
+        return JSON.parse(decodeURIComponent(regionParam));
+      } catch (error) {
+        console.error("Error parsing region parameter:", error);
+        return null;
+      }
+    }, [regionParam]);
   return (
-    <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240 h-80">
+    <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240">
       <div className="flex items-center gap-45 mb-4 ">
         <div className="w-8 h-8 mt-10 ml-10 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
           2
@@ -21,10 +41,6 @@ export default function Step2({ value, setValue }: stepProps) {
             {" "}
             Does your field have a slope less than/equal to 3%?
           </span>
-        </p>
-
-        <p className="mt-4 leading-tight text-center pl-20 pr-20 text-lg text-black">
-          Check using this database:
         </p>
 
         <div className="flex mt-6 gap-4">
@@ -51,6 +67,11 @@ export default function Step2({ value, setValue }: stepProps) {
             No (&gt; 3%)
           </button>
         </div>
+      </div>
+
+      {/* Soil Slope Map Section */}
+      <div className="mt-8 px-10 pb-10">
+        <SoilSlopeMap region={selectedRegion} className="w-full" />
       </div>
     </div>
   );
