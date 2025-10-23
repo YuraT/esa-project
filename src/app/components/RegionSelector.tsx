@@ -185,20 +185,13 @@ export default function RegionSelector({
 
       {/* Control panel */}
       <div className="absolute top-4 right-4 bg-white p-4 rounded-lg shadow-lg max-w-xs z-[1000]">
-        <h3 className="text-lg font-bold mb-2 flex items-center">
-          📍 Region Selector
-        </h3>
         <div className="text-sm space-y-2">
-          <p>
-            <strong>Instructions:</strong>
-          </p>
-          <ol className="list-decimal list-inside space-y-1 text-xs">
-            <li>Click the rectangle or polygon tool in the top-left corner</li>
-            <li>For rectangle: Click and drag to draw a rectangular area</li>
-            <li>For polygon: Click to place points, double-click to finish</li>
-            <li>Use the edit tool to modify your selection</li>
-            <li>Use the delete tool to remove your selection</li>
-          </ol>
+          <ul className="list-disc list-inside space-y-1 text-xs">
+            <li>
+              Use the drawing tools (top-left) to draw a rectangle or polygon
+            </li>
+            <li>Ensure the selection encompasses the area of application</li>
+          </ul>
 
           {selectedRegion && (
             <div className="mt-3 p-2 bg-blue-50 rounded text-xs">
