@@ -117,7 +117,9 @@ export default function RegionSelector({
         region.geometry.type === "Polygon",
         "Expected geometry type to be Polygon",
       );
-      stableOnRegionSelected(region as GeoJSON.Feature<GeoJSON.Polygon>);
+      const typedRegion = region as GeoJSON.Feature<GeoJSON.Polygon>;
+      setSelectedRegion(typedRegion);
+      stableOnRegionSelected(typedRegion);
     };
 
     const handleDrawDeleted = (event: L.LeafletEvent) => {
