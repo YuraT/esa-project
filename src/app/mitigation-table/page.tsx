@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, Suspense, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Step1 from "../components/Step1";
@@ -13,12 +13,26 @@ import Step7 from "../components/Step7";
 import Step8 from "../components/Step8";
 import Step9 from "../components/Step9";
 import Step10 from "../components/Step10";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import BackButton from "../components/BackButton";
-import Head from "next/head";
+
+type UMFEntry = {
+  use?: string;
+  method?: string;
+  form?: string;
+  pula_id?: number;
+};
+
+type LimitationItem = {
+  limitation: string;
+  umf: UMFEntry[];
+  code?: string;
+  last_update?: string;
+};
 
 function MitigationTableContent() {
+  const [limitations, setLimitations] = useState<LimitationItem[]>([]);
+
   // State for each mitigation step (Table 1)
   const [countyVuln, setCountyVuln] = useState<number>(0); // 6, 3, 2, 0
   const [fieldSlope, setFieldSlope] = useState<number>(0); // 3 or 0
@@ -58,12 +72,26 @@ function MitigationTableContent() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  useEffect(() => {
+    const stored = localStorage.getItem("esa_limitations");
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      setLimitations(
+        Array.isArray(parsed)
+          ? parsed.filter((item) =>
+              item.limitation.includes("runoff mitigation points"),
+            )
+          : [parsed],
+      );
+    }
+  }, []);
+
   return (
     <>
       <div className="flex">
         <div className="sticky top-0 gap-8 flex flex-col items-center h-screen bg-[#cee0f5]">
           <div className="mt-18 mb-5 text-[#275c9d] text-2xl font-bold">
-            Step _ of 6
+            Steps
           </div>
 
           <div
@@ -194,6 +222,38 @@ function MitigationTableContent() {
         </div>
 
         <div className="bg-white m-20">
+          {/* Display limitation with mitigations */}
+          <p className="mb-10 text-[#275c9d] text-4xl font-bold ">
+            Required Points for {product} in {county}
+          </p>
+          {limitations.length > 0 ? (
+            limitations.map((item, index) => (
+              <div
+                key={index}
+                className="mb-10 p-4 border border-gray-300 rounded-lg bg-[#f9f9f9]"
+              >
+                <div className="ml-4">
+                  {item.umf.map((umfEntry, umfIndex) => (
+                    <div key={umfIndex} className="mb-2">
+                      <p className="text-md text-black">
+                        Use: {umfEntry.use || "N/A"}
+                      </p>
+                      <p className="text-md text-black">
+                        Method: {umfEntry.method || "N/A"}
+                      </p>
+                      <p className="text-md text-black">
+                        Form: {umfEntry.form || "N/A"}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <p className="mb-2 text-md text-black">{item.limitation}</p>
+              </div>
+            ))
+          ) : (
+            <p className="mb-10 text-black">No limitations found.</p>
+          )}
+
           <p className="mb-10 text-[#275c9d] text-4xl font-bold ">
             Mitigation Menu
           </p>
