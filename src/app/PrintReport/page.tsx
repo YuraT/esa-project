@@ -31,7 +31,6 @@ const PrintReportContent: React.FC = () => {
   const regions = searchParams.get("regions");
   const [limitations, setLimitations] = useState<LimitationItem[]>([]);
   const [pulaData, setPulaData] = useState<any[]>([]);
-  const [loadingPulas, setLoadingPulas] = useState(false);
 
   const [reportData, setReportData] = useState({
     month: "",
@@ -46,58 +45,25 @@ const PrintReportContent: React.FC = () => {
 
     const stored = localStorage.getItem("esa_limitations");
     if (stored) {
-      const parsed = JSON.parse(stored);
-      setLimitations(Array.isArray(parsed) ? parsed : [parsed]);
-    }
-
-    // Check for stored geometry data first
-    const storedGeometry = localStorage.getItem("esa_limitations_geometry");
-    if (storedGeometry) {
       try {
-        const parsed = JSON.parse(storedGeometry);
-        setPulaData(Array.isArray(parsed) ? parsed : []);
-        console.log("Using stored geometry PULA data:", parsed);
-      } catch (error) {
-        console.error("Error parsing stored geometry data:", error);
-        // Fallback to querying if stored data is invalid
-        if (parsedRegions.length > 0 && product) {
-          queryPulasForRegions(parsedRegions, product);
+        const parsed = JSON.parse(stored);
+        // Check if it's the new format with both limitations and pulas
+        if (parsed.limitations && Array.isArray(parsed.limitations)) {
+          setLimitations(parsed.limitations);
+          setPulaData(parsed.pulas || []);
+          console.log("Using stored geometry data:", parsed);
+        } else {
+          // Legacy format - just limitations array
+          setLimitations(Array.isArray(parsed) ? parsed : [parsed]);
+          setPulaData([]);
         }
-      }
-    } else if (parsedRegions.length > 0 && product) {
-      // Query PULAs if regions are provided and no stored data
-      queryPulasForRegions(parsedRegions, product);
-    }
-  }, [month, product, county, regions]);
-
-  const queryPulasForRegions = async (
-    regionGeometries: GeoJSON.Feature<GeoJSON.Polygon>[],
-    productName: string,
-  ) => {
-    setLoadingPulas(true);
-    try {
-      // Extract product registration number from product string
-      const prodRegNum = productName.match(/^\s*[\d\-]+/)?.[0] ?? "";
-
-      // Query PULAs for all regions in a single API call
-      const response = await fetch(
-        `/api/pulas-by-geometry?geometry=${encodeURIComponent(JSON.stringify(regionGeometries))}&prod_reg_num=${encodeURIComponent(prodRegNum)}&returnGeometry=true`,
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        setPulaData(data.pulas || []);
-      } else {
-        console.error("Failed to fetch PULA data");
+      } catch (error) {
+        console.error("Error parsing stored data:", error);
+        setLimitations([]);
         setPulaData([]);
       }
-    } catch (error) {
-      console.error("Error querying PULAs:", error);
-      setPulaData([]);
-    } finally {
-      setLoadingPulas(false);
     }
-  };
+  }, [month, product, county, regions]);
 
   const mitigationsParam = searchParams.get("mitigations");
   let mitigationMenuRows: {
@@ -767,9 +733,7 @@ const PrintReportContent: React.FC = () => {
             <h3 className="font-semibold mb-2 text-lg">
               Applicable PULAs in Selected Regions
             </h3>
-            {loadingPulas ? (
-              <p className="text-gray-600">Loading PULAs...</p>
-            ) : pulaData.length > 0 ? (
+            {pulaData.length > 0 ? (
               <div>
                 <p className="mb-3">
                   Found {pulaData.length} PULA(s) in the selected regions:

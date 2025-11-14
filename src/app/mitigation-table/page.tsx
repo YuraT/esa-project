@@ -75,7 +75,7 @@ function MitigationTableContent() {
   useEffect(() => {
     const stored = localStorage.getItem("esa_limitations");
     if (stored) {
-      const parsed = JSON.parse(stored);
+      const parsed = JSON.parse(stored).limitations;
       setLimitations(
         Array.isArray(parsed)
           ? parsed.filter((item) =>
@@ -235,6 +235,9 @@ function MitigationTableContent() {
                 <div className="ml-4">
                   {item.umf.map((umfEntry, umfIndex) => (
                     <div key={umfIndex} className="mb-2">
+                      <p className="text-md text-black">
+                        Pula ID: {umfEntry.pula_id || "N/A"}
+                      </p>
                       <p className="text-md text-black">
                         Use: {umfEntry.use || "N/A"}
                       </p>

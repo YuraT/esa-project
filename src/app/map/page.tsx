@@ -107,140 +107,83 @@ export default function SearchContainer() {
 
   const router = useRouter();
 
-  // Query geometry API to get PULAs for selected regions
-  async function queryGeometryForRegions(
+  // Query geometry API to get limitations and PULAs for selected regions
+  async function queryGeometryData(
     regionGeometries: GeoJSON.Feature<GeoJSON.Polygon>[],
     productName: string,
-  ): Promise<{ limitations: any[]; pulas: any[] } | undefined> {
+  ): Promise<{ limitations: any[]; pulas: any[] } | null> {
     try {
       // Extract product registration number from product string
       const prodRegNum = productName.match(/^\s*[\d\-]+/)?.[0] ?? "";
 
-      // Query PULAs for all regions in a single API call
+      // Query for all regions in a single API call
       const response = await fetch(
         `/api/pulas-by-geometry?geometry=${encodeURIComponent(JSON.stringify(regionGeometries))}&prod_reg_num=${encodeURIComponent(prodRegNum)}&returnGeometry=true`,
       );
 
       if (!response.ok) {
-        console.error("Failed to fetch geometry PULA data");
-        return;
+        console.error("Failed to fetch geometry data");
+        return null;
       }
-      const data = await response.json();
-      return data;
+      return response.json();
     } catch (error) {
-      console.error("Error querying geometry PULAs:", error);
+      console.error("Error querying geometry data:", error);
+      return null;
     }
   }
 
   async function handleSearch() {
-    if (!selected || !selectedCounty || !selectedProduct) {
+    if (!selected || !selectedCounty || !selectedProduct || !selectedRegions) {
       alert("Please fill out all fields.");
       return;
     }
 
-    // Format the selected date into MM/DD/YYYY
-    const [monthStr, yearStr] = selected.split(" ");
-    const month = new Date(`${monthStr} 1, ${yearStr}`).getMonth() + 1;
-    const formattedDate = `${month}/1/${yearStr}`;
-
-    // Extract product registration number
-    const prodRegNum = selectedProduct.match(/^\s*[\d\-]+/)?.[0] ?? "";
-
-    // Extract county and state separately
-    const [countyRaw, stateRaw] = selectedCounty
-      .split(",")
-      .map((s) => s.trim());
-    const county = countyRaw.endsWith("County")
-      ? countyRaw
-      : `${countyRaw} County`;
-    const state = stateRaw ?? "";
+    if (selectedRegions.length === 0) {
+      alert("Please select at least one region on the map.");
+      return;
+    }
 
     try {
-      const response = await fetch(
-        `/api/esa-reqs?date=${encodeURIComponent(formattedDate)}&county=${encodeURIComponent(county)}&state=${encodeURIComponent(state)}&prod_reg_num=${encodeURIComponent(prodRegNum)}`,
+      console.log("Querying geometry-specific data for selected regions");
+      // TODO: filter by effective date
+      const geometryResult = await queryGeometryData(
+        selectedRegions,
+        selectedProduct,
       );
 
-      const data = await response.json();
-      console.log("API Response:", data);
+      if (geometryResult) {
+        localStorage.setItem("esa_limitations", JSON.stringify(geometryResult));
+        console.log("GEOMETRY DATA SAVED TO STORAGE:", geometryResult);
 
-      // Query geometry data if regions are selected
-      let geometryPulaData = [];
-      if (selectedRegions.length > 0) {
-        geometryPulaData = await queryGeometryForRegions(
-          selectedRegions,
-          selectedProduct,
-        );
-        // Store geometry-specific PULA data
-        localStorage.setItem(
-          "esa_limitations_geometry",
-          JSON.stringify(geometryPulaData),
-        );
-        console.log("GEOMETRY PULA DATA SAVED TO STORAGE:", geometryPulaData);
-      }
-
-      if (Array.isArray(data) && data.length > 0) {
-        let filteredData = data;
-
-        // Filter limitations based on geometry if regions are selected
-        if (selectedRegions.length > 0 && geometryPulaData.length > 0) {
-          // Extract PULA IDs from geometry query
-          const geometryPulaIds = new Set(
-            geometryPulaData
-              .map((pula) => pula.attributes?.pula_id)
-              .filter(Boolean),
-          );
-
-          // Filter limitations to only include those with PULA IDs that match geometry
-          filteredData = data.filter((limitation) => {
-            if (!Array.isArray(limitation.umf)) return true;
-
-            // Keep limitation if any of its UMF entries have a PULA ID that matches geometry
-            return limitation.umf.some(
-              (umfEntry: any) =>
-                umfEntry.pula_id && geometryPulaIds.has(umfEntry.pula_id),
-            );
-          });
-
-          console.log(
-            "FILTERED LIMITATION DATA BASED ON GEOMETRY:",
-            filteredData,
-          );
-        }
-
-        localStorage.setItem("esa_limitations", JSON.stringify(filteredData));
-        console.log("FINAL LIMITATION DATA SAVED TO STORAGE:", filteredData);
         // Route to mitigation menu if any limitation requires calculating mitigation points
         if (
-          filteredData.some(({ limitation }) => {
+          geometryResult.limitations.some(({ limitation }) => {
             return limitation.includes("runoff mitigation points");
           })
         ) {
-          const regionsParam =
-            selectedRegions.length > 0
-              ? `&regions=${encodeURIComponent(JSON.stringify(selectedRegions))}`
-              : "";
+          const regionsParam = `&regions=${encodeURIComponent(JSON.stringify(selectedRegions))}`;
           router.push(
             `/mitigation-table?month=${selected}&product=${selectedProduct}&county=${selectedCounty}${regionsParam}`,
           );
           return;
         }
       } else {
-        const fallback = [
-          {
-            limitation:
-              "No pesticide use limitations exist for your selected county, date, and product at this time. Simply ensure compliance with the pesticide use instructions on your product label.",
-            last_update: null,
-            umf: [],
-          },
-        ];
+        const fallback = {
+          limitations: [
+            {
+              limitation:
+                "No pesticide use limitations exist for your selected regions, date, and product at this time. Simply ensure compliance with the pesticide use instructions on your product label.",
+              last_update: null,
+              umf: [],
+            },
+          ],
+          pulas: [],
+        };
         localStorage.setItem("esa_limitations", JSON.stringify(fallback));
         console.log("NO MATCH — SAVED DEFAULT MESSAGE TO STORAGE");
       }
 
-      const regionsParam =
-        selectedRegions.length > 0
-          ? `&regions=${encodeURIComponent(JSON.stringify(selectedRegions))}`
-          : "";
+      const regionsParam = `&regions=${encodeURIComponent(JSON.stringify(selectedRegions))}`;
       router.push(
         `/PrintReport?month=${selected}&product=${selectedProduct}&county=${selectedCounty}${regionsParam}`,
       );
