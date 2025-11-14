@@ -29,15 +29,12 @@ export default function RegionSelector({
     GeoJSON.Feature<GeoJSON.Polygon>[]
   >([]);
 
-  // Stabilize the callback to prevent unnecessary re-renders
-  const stableOnRegionsSelected = useCallback(
-    (geometries: GeoJSON.Feature<GeoJSON.Polygon>[]) => {
-      if (onRegionsSelected) {
-        onRegionsSelected(geometries);
-      }
-    },
-    [onRegionsSelected],
-  );
+  // Use useEffect to defer callback execution and avoid setState during render
+  useEffect(() => {
+    if (onRegionsSelected && selectedRegions.length >= 0) {
+      onRegionsSelected(selectedRegions);
+    }
+  }, [selectedRegions, onRegionsSelected]);
 
   // Initialize map
   useEffect(() => {
@@ -119,11 +116,7 @@ export default function RegionSelector({
       );
       const typedRegion = region as GeoJSON.Feature<GeoJSON.Polygon>;
 
-      setSelectedRegions((prev) => {
-        const newRegions = [...prev, typedRegion];
-        stableOnRegionsSelected(newRegions);
-        return newRegions;
-      });
+      setSelectedRegions((prev) => [...prev, typedRegion]);
     };
 
     const handleDrawDeleted = (event: L.LeafletEvent) => {
@@ -144,7 +137,6 @@ export default function RegionSelector({
             return geoJson as GeoJSON.Feature<GeoJSON.Polygon>;
           });
 
-        stableOnRegionsSelected(newRegions);
         return newRegions;
       });
     };
@@ -170,7 +162,6 @@ export default function RegionSelector({
             return geoJson as GeoJSON.Feature<GeoJSON.Polygon>;
           });
 
-        stableOnRegionsSelected(newRegions);
         return newRegions;
       });
     };
@@ -204,7 +195,6 @@ export default function RegionSelector({
     if (drawnItemsRef.current) {
       drawnItemsRef.current.clearLayers();
       setSelectedRegions([]);
-      stableOnRegionsSelected([]);
     }
   };
 
