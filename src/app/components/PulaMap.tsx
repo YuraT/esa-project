@@ -7,51 +7,61 @@ import { arcgisToGeoJSON } from "@terraformer/arcgis";
 
 interface PulaMapProps {
   pulaData: any[];
-  region: GeoJSON.Feature<GeoJSON.Polygon>;
+  regions: GeoJSON.Feature<GeoJSON.Polygon>[];
   className?: string;
 }
 
-const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
+const PulaMap: React.FC<PulaMapProps> = ({ pulaData, regions, className }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
-  const colors = [
-    "#e41a1c",
-    "#984ea3",
-    "#ff7f00",
-    "#ffff33",
-    "#a65628",
-  ];
+  const colors = ["#e41a1c", "#984ea3", "#ff7f00", "#ffff33", "#a65628"];
 
   useEffect(() => {
     if (!mapRef.current || typeof window === "undefined") return;
 
     const initializeMap = () => {
       console.log("PulaMap: Initializing map with data:", pulaData);
-      console.log("PulaMap: Region:", region);
+      console.log("PulaMap: Regions:", regions);
 
       // Clean up existing map
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
       }
 
-      // Create GeoJSON layer directly from the region feature
-      const regionLayer = L.geoJSON(region, {
-        style: {
-          color: "#2c5aa0",
-          weight: 3,
-          fillOpacity: 0.1,
-          fillColor: "#2c5aa0",
-        },
+      // Create combined bounds for all regions
+      let combinedBounds: L.LatLngBounds | null = null;
+      const regionLayers: L.Layer[] = [];
+
+      regions.forEach((region, index) => {
+        // Create GeoJSON layer for each region
+        const regionLayer = L.geoJSON(region, {
+          style: {
+            color: "#2c5aa0",
+            weight: 3,
+            fillOpacity: 0.1,
+            fillColor: "#2c5aa0",
+          },
+        });
+
+        regionLayers.push(regionLayer);
+
+        // Extend bounds to include this region
+        const regionBounds = regionLayer.getBounds();
+        if (!combinedBounds) {
+          combinedBounds = regionBounds;
+        } else {
+          combinedBounds.extend(regionBounds);
+        }
       });
 
-      // Get bounds automatically from the GeoJSON layer
-      const bounds = regionLayer.getBounds();
-      console.log("PulaMap: Calculated bounds:", bounds);
-
-      // Calculate center from bounds
-      const center = bounds.getCenter();
-      const centerLat = center.lat;
-      const centerLng = center.lng;
+      // Calculate center from combined bounds
+      let centerLat = 39.8; // Default center
+      let centerLng = -98.6;
+      if (combinedBounds) {
+        const center = (combinedBounds as L.LatLngBounds).getCenter();
+        centerLat = center.lat;
+        centerLng = center.lng;
+      }
 
       // Initialize map
       const map = L.map(mapRef.current!).setView([centerLat, centerLng], 10);
@@ -63,8 +73,8 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
         attribution: "© OpenStreetMap contributors",
       }).addTo(map);
 
-      // Add selection area outline
-      regionLayer.addTo(map);
+      // Add all selection area outlines
+      regionLayers.forEach((layer) => layer.addTo(map));
 
       // Add PULA polygons
       if (pulaData && pulaData.length > 0) {
@@ -130,9 +140,11 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
 
       console.log(`PulaMap: Map initialized with ${pulaData.length} PULAs`);
 
-      // Fit map to show selection area
-      map.fitBounds(regionLayer.getBounds(), { padding: [20, 20] });
-      console.log("PulaMap: Map bounds fitted to selection area");
+      // Fit map to show all selection areas
+      if (combinedBounds) {
+        map.fitBounds(combinedBounds, { padding: [20, 20] });
+        console.log("PulaMap: Map bounds fitted to selection areas");
+      }
     };
 
     initializeMap();
@@ -144,7 +156,7 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
         mapInstanceRef.current = null;
       }
     };
-  }, [pulaData, region]);
+  }, [pulaData, regions]);
 
   return (
     <div className={className}>
@@ -160,7 +172,7 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, region, className }) => {
       <div className="mt-2 text-sm text-gray-600">
         <p>
           <span className="inline-block w-4 h-3 bg-blue-200 border-2 border-blue-600 mr-2"></span>
-          Selected Region
+          Selected Regions ({regions.length})
         </p>
         <p>
           <span className="inline-block w-4 h-3 bg-red-200 border-2 border-red-600 mr-2"></span>

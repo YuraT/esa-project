@@ -9,14 +9,16 @@ const RegionSelector = dynamic(() => import("../components/RegionSelector"), {
   ssr: false,
 });
 
-function getLastSixMonths(): string[] {
+function getLastSixMonths(): { display: string; value: string }[] {
   const months = [];
   const now = new Date();
   for (let i = 0; i < 6; i++) {
     const date = new Date(now.getFullYear(), now.getMonth() + i, 1);
     const month = date.toLocaleString("default", { month: "long" });
     const year = date.getFullYear();
-    months.push(`${month} ${year}`);
+    const display = `${month} ${year}`;
+    const value = date.toISOString().split("T")[0];
+    months.push({ display, value });
   }
   return months;
 }
@@ -26,7 +28,10 @@ let cachedProducts: string[] | null = null;
 export default function SearchContainer() {
   // State: Dropdown open/close
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<{
+    display: string;
+    value: string;
+  } | null>(null);
 
   // State: County
   const [countyQuery, setCountyQuery] = useState("");
@@ -43,7 +48,9 @@ export default function SearchContainer() {
   const [allProducts, setAllProducts] = useState<string[]>([]);
 
   // State: Region Selection
-  const [selectedRegion, setSelectedRegion] = useState<GeoJSON.Feature<GeoJSON.Polygon> | null>(null);
+  const [selectedRegions, setSelectedRegions] = useState<
+    GeoJSON.Feature<GeoJSON.Polygon>[]
+  >([]);
 
   // State: Map Position for county zoom
   const [mapPosition, setMapPosition] = useState<{
@@ -90,85 +97,101 @@ export default function SearchContainer() {
   }, []);
 
   // Event: Select Month
-  function handleSelect(value: string) {
-    setSelected(value);
+  function handleSelect(monthData: { display: string; value: string }) {
+    setSelectedDate(monthData);
     setIsOpen(false);
   }
 
-  // Handle region selection
-  function handleRegionSelected(geometry: GeoJSON.Feature<GeoJSON.Polygon>) {
-    setSelectedRegion(geometry);
-    console.log("Region selected:", geometry);
+  // Handle regions selection
+  function handleRegionsSelected(
+    geometries: GeoJSON.Feature<GeoJSON.Polygon>[],
+  ) {
+    setSelectedRegions(geometries);
+    console.log("Regions selected:", geometries);
   }
 
   const router = useRouter();
 
+  // Query geometry API to get limitations and PULAs for selected regions
+  async function queryGeometryData(
+    regionGeometries: GeoJSON.Feature<GeoJSON.Polygon>[],
+    productName: string,
+    applicationDate: string,
+  ): Promise<{ limitations: any[]; pulas: any[] } | null> {
+    try {
+      // Extract product registration number from product string
+      const prodRegNum = productName.match(/^\s*[\d\-]+/)?.[0] ?? "";
+
+      // Query for all regions in a single API call
+      const response = await fetch(
+        `/api/pulas-by-geometry?geometry=${encodeURIComponent(JSON.stringify(regionGeometries))}&prod_reg_num=${encodeURIComponent(prodRegNum)}&date=${encodeURIComponent(applicationDate)}&returnGeometry=true`,
+      );
+
+      if (!response.ok) {
+        console.error("Failed to fetch geometry data");
+        return null;
+      }
+      return response.json();
+    } catch (error) {
+      console.error("Error querying geometry data:", error);
+      return null;
+    }
+  }
+
   async function handleSearch() {
-    if (!selected || !selectedCounty || !selectedProduct) {
+    if (!selectedDate || !selectedCounty || !selectedProduct || !selectedRegions) {
       alert("Please fill out all fields.");
       return;
     }
 
-    // Format the selected date into MM/DD/YYYY
-    const [monthStr, yearStr] = selected.split(" ");
-    const month = new Date(`${monthStr} 1, ${yearStr}`).getMonth() + 1;
-    const formattedDate = `${month}/1/${yearStr}`;
-
-    // Extract product registration number
-    const prodRegNum = selectedProduct.match(/^\s*[\d\-]+/)?.[0] ?? "";
-
-    // Extract county and state separately
-    const [countyRaw, stateRaw] = selectedCounty
-      .split(",")
-      .map((s) => s.trim());
-    const county = countyRaw.endsWith("County")
-      ? countyRaw
-      : `${countyRaw} County`;
-    const state = stateRaw ?? "";
+    if (selectedRegions.length === 0) {
+      alert("Please select at least one region on the map.");
+      return;
+    }
 
     try {
-      const response = await fetch(
-        `/api/esa-reqs?date=${encodeURIComponent(formattedDate)}&county=${encodeURIComponent(county)}&state=${encodeURIComponent(state)}&prod_reg_num=${encodeURIComponent(prodRegNum)}`,
+      console.log("Querying geometry-specific data for selected regions");
+      const geometryResult = await queryGeometryData(
+        selectedRegions,
+        selectedProduct,
+        selectedDate.value,
       );
 
-      const data = await response.json();
-      console.log("API Response:", data);
+      if (geometryResult) {
+        localStorage.setItem("esa_limitations", JSON.stringify(geometryResult));
+        console.log("GEOMETRY DATA SAVED TO STORAGE:", geometryResult);
 
-      if (Array.isArray(data) && data.length > 0) {
-        localStorage.setItem("esa_limitations", JSON.stringify(data));
-        console.log("FULL LIMITATION DATA SAVED TO STORAGE:", data);
         // Route to mitigation menu if any limitation requires calculating mitigation points
         if (
-          data.some(({ limitation }) => {
+          geometryResult.limitations.some(({ limitation }) => {
             return limitation.includes("runoff mitigation points");
           })
         ) {
-          const regionParam = selectedRegion
-            ? `&region=${encodeURIComponent(JSON.stringify(selectedRegion))}`
-            : "";
+          const regionsParam = `&regions=${encodeURIComponent(JSON.stringify(selectedRegions))}`;
           router.push(
-            `/mitigation-table?month=${selected}&product=${selectedProduct}&county=${selectedCounty}${regionParam}`,
+            `/mitigation-table?month=${selectedDate.display}&product=${selectedProduct}&county=${selectedCounty}${regionsParam}`,
           );
           return;
         }
       } else {
-        const fallback = [
-          {
-            limitation:
-              "No pesticide use limitations exist for your selected county, date, and product at this time. Simply ensure compliance with the pesticide use instructions on your product label.",
-            last_update: null,
-            umf: [],
-          },
-        ];
+        const fallback = {
+          limitations: [
+            {
+              limitation:
+                "No pesticide use limitations exist for your selected regions, date, and product at this time. Simply ensure compliance with the pesticide use instructions on your product label.",
+              last_update: null,
+              umf: [],
+            },
+          ],
+          pulas: [],
+        };
         localStorage.setItem("esa_limitations", JSON.stringify(fallback));
         console.log("NO MATCH — SAVED DEFAULT MESSAGE TO STORAGE");
       }
 
-      const regionParam = selectedRegion
-        ? `&region=${encodeURIComponent(JSON.stringify(selectedRegion))}`
-        : "";
+      const regionsParam = `&regions=${encodeURIComponent(JSON.stringify(selectedRegions))}`;
       router.push(
-        `/PrintReport?month=${selected}&product=${selectedProduct}&county=${selectedCounty}${regionParam}`,
+        `/PrintReport?month=${selectedDate.display}&product=${selectedProduct}&county=${selectedCounty}${regionsParam}`,
       );
     } catch (error) {
       console.error("Error fetching limitations:", error);
@@ -368,21 +391,21 @@ export default function SearchContainer() {
                 className="w-[23vw] h-[6vh] bg-[#edebeb] rounded-b-[0.5rem] flex items-center justify-between px-4 cursor-pointer"
               >
                 <span
-                  className={`flex ${selected ? "text-[#275c9d]" : "text-[#5a86bf]"}`}
+                  className={`flex ${selectedDate ? "text-[#275c9d]" : "text-[#5a86bf]"}`}
                 >
-                  {selected || "Click to select application date. . ."}
+                  {selectedDate?.display || "Click to select application date. . ."}
                 </span>
                 <ChevronDown className="text-[#275c9d] w-4 h-5" />
               </div>
               {isOpen && (
                 <div className="text-[#275c9d] absolute w-[23vw] bg-white border rounded mt-1 shadow z-10">
-                  {getLastSixMonths().map((month) => (
+                  {getLastSixMonths().map((monthData) => (
                     <div
-                      key={month}
-                      onClick={() => handleSelect(month)}
+                      key={monthData.value}
+                      onClick={() => handleSelect(monthData)}
                       className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
                     >
-                      {month}
+                      {monthData.display}
                     </div>
                   ))}
                 </div>
@@ -449,7 +472,7 @@ export default function SearchContainer() {
         {/* Region Selector Map */}
         <div className="w-[50vw] h-[75vh]">
           <RegionSelector
-            onRegionSelected={handleRegionSelected}
+            onRegionsSelected={handleRegionsSelected}
             mapPosition={mapPosition}
             className="rounded-[2rem] overflow-hidden shadow-lg"
           />

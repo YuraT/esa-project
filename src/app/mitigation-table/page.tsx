@@ -52,7 +52,7 @@ function MitigationTableContent() {
   const month = searchParams.get("month");
   const product = searchParams.get("product");
   const county = searchParams.get("county") ?? "";
-  const region = searchParams.get("region");
+  const regions = searchParams.get("regions");
 
   // Build mitigations param
   const mitigations = [
@@ -75,7 +75,7 @@ function MitigationTableContent() {
   useEffect(() => {
     const stored = localStorage.getItem("esa_limitations");
     if (stored) {
-      const parsed = JSON.parse(stored);
+      const parsed = JSON.parse(stored).limitations;
       setLimitations(
         Array.isArray(parsed)
           ? parsed.filter((item) =>
@@ -236,6 +236,9 @@ function MitigationTableContent() {
                   {item.umf.map((umfEntry, umfIndex) => (
                     <div key={umfIndex} className="mb-2">
                       <p className="text-md text-black">
+                        Pula ID: {umfEntry.pula_id || "N/A"}
+                      </p>
+                      <p className="text-md text-black">
                         Use: {umfEntry.use || "N/A"}
                       </p>
                       <p className="text-md text-black">
@@ -320,7 +323,7 @@ function MitigationTableContent() {
               )}&county=${encodeURIComponent(
                 county || "",
               )}&mitigations=${mitigations}${
-                region ? `&region=${encodeURIComponent(region)}` : ""
+                regions ? `&regions=${encodeURIComponent(regions)}` : ""
               }`}
               className="ml-220 bg-[#275c9d] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#1f4b7a] transition duration-200"
             >

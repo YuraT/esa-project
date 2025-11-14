@@ -1,37 +1,58 @@
 import { geojsonToArcGIS } from "@terraformer/arcgis";
 import { NextResponse } from "next/server";
 
-interface PulaID {
-  pulaId: number;
-}
-
 /**
  * GET /api/pulas-by-geometry
  *
  * Query parameters:
- * - geometry: GeoJSON string representing the geometry to search within
+ * - geometry: GeoJSON string representing an array of Polygon features (converted to MultiPolygon)
+ * - date: Filter by application date (YYYY-MM-DD)
  * - prod_reg_num: Product registration number to filter limitations
  * - returnGeometry: "true" to include geometry in PULA features, "false" or omitted for attributes only
  */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const geometryParam = searchParams.get("geometry");
+  const date = searchParams.get("date");
   const prodRegNum = searchParams.get("prod_reg_num");
   const returnGeometry = searchParams.get("returnGeometry") === "true";
 
-  if (!geometryParam || !prodRegNum) {
+  if (!geometryParam || !prodRegNum || !date) {
     return NextResponse.json(
-      { error: "Missing geometry or prod_reg_num query parameters" },
+      { error: "Missing geometry, prod_reg_num, or date query parameters" },
       { status: 400 },
     );
   }
 
   let geometry;
   try {
-    geometry = geojsonToArcGIS(JSON.parse(geometryParam).geometry);
+    const parsedGeometry = JSON.parse(geometryParam);
+
+    // Handle arrays of polygons
+    if (!Array.isArray(parsedGeometry)) {
+      throw new Error("Geometry must be an array of Polygon features");
+    }
+
+    // Convert array of GeoJSON Polygon features to a single MultiPolygon
+    const coordinates = parsedGeometry.map((feature) => {
+      if (feature.geometry.type !== "Polygon") {
+        throw new Error("All features must be Polygon type");
+      }
+      return feature.geometry.coordinates;
+    });
+
+    const multiPolygon: GeoJSON.MultiPolygon = {
+      type: "MultiPolygon",
+      coordinates: coordinates,
+    };
+
+    geometry = geojsonToArcGIS(multiPolygon);
   } catch (error) {
     return NextResponse.json(
-      { error: "Invalid geometry parameter - must be valid JSON" },
+      {
+        error:
+          "Invalid geometry parameter - must be valid JSON array of Polygon features",
+      },
       { status: 400 },
     );
   }
@@ -66,7 +87,11 @@ export async function GET(request: Request) {
     const uniquePulaIds = [...new Set(pulaIds)];
 
     // 2. Get limitations
-    const limitations = await getLimitationsForPulas(uniquePulaIds, prodRegNum);
+    const limitations = await getLimitationsForPulas(
+      uniquePulaIds,
+      prodRegNum,
+      date,
+    );
 
     // 3. Filter PULAs to only include ones with applicable limitations
     const pulaIdsWithLimitations = new Set(
@@ -97,6 +122,7 @@ export async function GET(request: Request) {
 async function getLimitationsForPulas(
   pulaIds: number[],
   prodRegNum: string,
+  date: string,
 ): Promise<any[]> {
   const allLimitations: any[] = [];
   const fetchedPulaIds = new Set();
@@ -109,6 +135,9 @@ async function getLimitationsForPulas(
     const where = {
       pula_id: pulaId,
       product_registration_number: prodRegNum,
+      effective_date: {
+        "<": date,
+      },
     };
 
     const select = {

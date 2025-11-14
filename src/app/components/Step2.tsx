@@ -9,20 +9,19 @@ const SoilSlopeMap = dynamic(() => import("./SoilSlopeMap"), { ssr: false });
 
 export default function Step2({ value, setValue }: stepProps) {
   const searchParams = useSearchParams();
-  const regionParam = searchParams.get("region");
+  const regionsParam = searchParams.get("regions");
 
-  // Memoize the region parsing to prevent unnecessary map reloads
-  const selectedRegion =
-    useMemo<GeoJSON.Feature<GeoJSON.Polygon> | null>(() => {
-      if (!regionParam) return null;
+  // Memoize the regions parsing to prevent unnecessary map reloads
+  const selectedRegions = useMemo<GeoJSON.Feature<GeoJSON.Polygon>[]>(() => {
+    if (!regionsParam) return [];
 
-      try {
-        return JSON.parse(decodeURIComponent(regionParam));
-      } catch (error) {
-        console.error("Error parsing region parameter:", error);
-        return null;
-      }
-    }, [regionParam]);
+    try {
+      return JSON.parse(decodeURIComponent(regionsParam));
+    } catch (error) {
+      console.error("Error parsing regions parameter:", error);
+      return [];
+    }
+  }, [regionsParam]);
   return (
     <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240">
       <div className="flex items-center gap-45 mb-4 ">
@@ -71,7 +70,7 @@ export default function Step2({ value, setValue }: stepProps) {
 
       {/* Soil Slope Map Section */}
       <div className="mt-8 px-10 pb-10">
-        <SoilSlopeMap region={selectedRegion} className="w-full" />
+        <SoilSlopeMap regions={selectedRegions} className="w-full" />
       </div>
     </div>
   );
