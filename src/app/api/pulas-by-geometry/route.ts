@@ -9,8 +9,7 @@ interface PulaID {
  * GET /api/pulas-by-geometry
  *
  * Query parameters:
- * - geometry: GeoJSON string representing the geometry to search within
- *   Can be a single Polygon feature or an array of Polygon features (converted to MultiPolygon)
+ * - geometry: GeoJSON string representing an array of Polygon features (converted to MultiPolygon)
  * - prod_reg_num: Product registration number to filter limitations
  * - returnGeometry: "true" to include geometry in PULA features, "false" or omitted for attributes only
  */
@@ -31,31 +30,30 @@ export async function GET(request: Request) {
   try {
     const parsedGeometry = JSON.parse(geometryParam);
 
-    // Handle both single polygon and array of polygons
-    if (Array.isArray(parsedGeometry)) {
-      // Convert array of GeoJSON Polygon features to a single MultiPolygon
-      const coordinates = parsedGeometry.map((feature) => {
-        if (feature.geometry.type !== "Polygon") {
-          throw new Error("All features must be Polygon type");
-        }
-        return feature.geometry.coordinates;
-      });
-
-      const multiPolygon: GeoJSON.MultiPolygon = {
-        type: "MultiPolygon",
-        coordinates: coordinates,
-      };
-
-      geometry = geojsonToArcGIS(multiPolygon);
-    } else {
-      // Handle single polygon feature (existing behavior)
-      geometry = geojsonToArcGIS(parsedGeometry.geometry);
+    // Handle arrays of polygons
+    if (!Array.isArray(parsedGeometry)) {
+      throw new Error("Geometry must be an array of Polygon features");
     }
+
+    // Convert array of GeoJSON Polygon features to a single MultiPolygon
+    const coordinates = parsedGeometry.map((feature) => {
+      if (feature.geometry.type !== "Polygon") {
+        throw new Error("All features must be Polygon type");
+      }
+      return feature.geometry.coordinates;
+    });
+
+    const multiPolygon: GeoJSON.MultiPolygon = {
+      type: "MultiPolygon",
+      coordinates: coordinates,
+    };
+
+    geometry = geojsonToArcGIS(multiPolygon);
   } catch (error) {
     return NextResponse.json(
       {
         error:
-          "Invalid geometry parameter - must be valid JSON with Polygon feature(s)",
+          "Invalid geometry parameter - must be valid JSON array of Polygon features",
       },
       { status: 400 },
     );
@@ -66,9 +64,7 @@ export async function GET(request: Request) {
     "https://blt.epa.gov/arcgis/rest/services/BLT/PesticideUsageLimitationAreas/MapServer/0/query";
   const params = new URLSearchParams({
     geometry: JSON.stringify(geometry),
-    geometryType: Array.isArray(JSON.parse(geometryParam))
-      ? "esriGeometryPolygon"
-      : "esriGeometryPolygon",
+    geometryType: "esriGeometryPolygon",
     inSR: "4326",
     spatialRel: "esriSpatialRelIntersects",
     f: "json",
