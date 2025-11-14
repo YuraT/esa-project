@@ -107,6 +107,31 @@ export default function SearchContainer() {
 
   const router = useRouter();
 
+  // Query geometry API to get PULAs for selected regions
+  async function queryGeometryForRegions(
+    regionGeometries: GeoJSON.Feature<GeoJSON.Polygon>[],
+    productName: string,
+  ): Promise<{ limitations: any[]; pulas: any[] } | undefined> {
+    try {
+      // Extract product registration number from product string
+      const prodRegNum = productName.match(/^\s*[\d\-]+/)?.[0] ?? "";
+
+      // Query PULAs for all regions in a single API call
+      const response = await fetch(
+        `/api/pulas-by-geometry?geometry=${encodeURIComponent(JSON.stringify(regionGeometries))}&prod_reg_num=${encodeURIComponent(prodRegNum)}&returnGeometry=true`,
+      );
+
+      if (!response.ok) {
+        console.error("Failed to fetch geometry PULA data");
+        return;
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error querying geometry PULAs:", error);
+    }
+  }
+
   async function handleSearch() {
     if (!selected || !selectedCounty || !selectedProduct) {
       alert("Please fill out all fields.");
@@ -138,12 +163,55 @@ export default function SearchContainer() {
       const data = await response.json();
       console.log("API Response:", data);
 
+      // Query geometry data if regions are selected
+      let geometryPulaData = [];
+      if (selectedRegions.length > 0) {
+        geometryPulaData = await queryGeometryForRegions(
+          selectedRegions,
+          selectedProduct,
+        );
+        // Store geometry-specific PULA data
+        localStorage.setItem(
+          "esa_limitations_geometry",
+          JSON.stringify(geometryPulaData),
+        );
+        console.log("GEOMETRY PULA DATA SAVED TO STORAGE:", geometryPulaData);
+      }
+
       if (Array.isArray(data) && data.length > 0) {
-        localStorage.setItem("esa_limitations", JSON.stringify(data));
-        console.log("FULL LIMITATION DATA SAVED TO STORAGE:", data);
+        let filteredData = data;
+
+        // Filter limitations based on geometry if regions are selected
+        if (selectedRegions.length > 0 && geometryPulaData.length > 0) {
+          // Extract PULA IDs from geometry query
+          const geometryPulaIds = new Set(
+            geometryPulaData
+              .map((pula) => pula.attributes?.pula_id)
+              .filter(Boolean),
+          );
+
+          // Filter limitations to only include those with PULA IDs that match geometry
+          filteredData = data.filter((limitation) => {
+            if (!Array.isArray(limitation.umf)) return true;
+
+            // Keep limitation if any of its UMF entries have a PULA ID that matches geometry
+            return limitation.umf.some(
+              (umfEntry: any) =>
+                umfEntry.pula_id && geometryPulaIds.has(umfEntry.pula_id),
+            );
+          });
+
+          console.log(
+            "FILTERED LIMITATION DATA BASED ON GEOMETRY:",
+            filteredData,
+          );
+        }
+
+        localStorage.setItem("esa_limitations", JSON.stringify(filteredData));
+        console.log("FINAL LIMITATION DATA SAVED TO STORAGE:", filteredData);
         // Route to mitigation menu if any limitation requires calculating mitigation points
         if (
-          data.some(({ limitation }) => {
+          filteredData.some(({ limitation }) => {
             return limitation.includes("runoff mitigation points");
           })
         ) {

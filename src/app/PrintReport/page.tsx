@@ -50,8 +50,22 @@ const PrintReportContent: React.FC = () => {
       setLimitations(Array.isArray(parsed) ? parsed : [parsed]);
     }
 
-    // Query PULAs if regions are provided
-    if (parsedRegions.length > 0 && product) {
+    // Check for stored geometry data first
+    const storedGeometry = localStorage.getItem("esa_limitations_geometry");
+    if (storedGeometry) {
+      try {
+        const parsed = JSON.parse(storedGeometry);
+        setPulaData(Array.isArray(parsed) ? parsed : []);
+        console.log("Using stored geometry PULA data:", parsed);
+      } catch (error) {
+        console.error("Error parsing stored geometry data:", error);
+        // Fallback to querying if stored data is invalid
+        if (parsedRegions.length > 0 && product) {
+          queryPulasForRegions(parsedRegions, product);
+        }
+      }
+    } else if (parsedRegions.length > 0 && product) {
+      // Query PULAs if regions are provided and no stored data
       queryPulasForRegions(parsedRegions, product);
     }
   }, [month, product, county, regions]);
