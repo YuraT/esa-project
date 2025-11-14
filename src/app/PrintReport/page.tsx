@@ -733,49 +733,43 @@ const PrintReportContent: React.FC = () => {
             <h3 className="font-semibold mb-2 text-lg">
               Applicable PULAs in Selected Regions
             </h3>
-            {pulaData.length > 0 ? (
-              <div>
-                <p className="mb-3">
-                  Found {pulaData.length} PULA(s) in the selected regions:
-                </p>
-                <div className="space-y-2">
-                  {pulaData.map((pula, index) => {
-                    const attrs = pula.attributes;
-                    return (
-                      <div
-                        key={index}
-                        className="p-3 bg-red-50 border border-red-200 rounded"
-                      >
-                        <div className="font-semibold text-red-800">
-                          PULA ID: {attrs.pula_id || "N/A"} -{" "}
-                          {attrs.event_name || "Unknown Event"}
-                        </div>
-                        {attrs.effective_date && (
-                          <div className="text-sm text-gray-600">
-                            Effective:{" "}
-                            {new Date(
-                              attrs.effective_date,
-                            ).toLocaleDateString()}
-                          </div>
-                        )}
-                        {attrs.published_time_stamp && (
-                          <div className="text-sm text-gray-600">
-                            Published:{" "}
-                            {new Date(
-                              attrs.published_time_stamp,
-                            ).toLocaleDateString()}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : (
-              <p className="text-gray-600">
-                No PULAs found in the selected regions.
+            <div>
+              <p className="mb-3">
+                {pulaData.length > 0
+                  ? `Found ${pulaData.length} PULA(s) in selected region:`
+                  : "No PULAs found in the selected regions."}
               </p>
-            )}
+              <div className="space-y-2">
+                {pulaData.map((pula, index) => {
+                  const attrs = pula.attributes;
+                  return (
+                    <div
+                      key={index}
+                      className="p-3 bg-red-50 border border-red-200 rounded"
+                    >
+                      <div className="font-semibold text-red-800">
+                        PULA ID: {attrs.pula_id || "N/A"} -{" "}
+                        {attrs.event_name || "Unknown Event"}
+                      </div>
+                      {attrs.effective_date && (
+                        <div className="text-sm text-gray-600">
+                          Effective:{" "}
+                          {new Date(attrs.effective_date).toLocaleDateString()}
+                        </div>
+                      )}
+                      {attrs.published_time_stamp && (
+                        <div className="text-sm text-gray-600">
+                          Published:{" "}
+                          {new Date(
+                            attrs.published_time_stamp,
+                          ).toLocaleDateString()}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         ) : (
           <div className="mb-6 text-gray-800">
@@ -791,16 +785,14 @@ const PrintReportContent: React.FC = () => {
         )}
 
         {/* Interactive PULA Map */}
-        {reportData.regions.length > 0 && pulaData.length > 0 && (
-          <div className="mb-6 text-gray-800">
-            <h3 className="font-semibold mb-2 text-lg">Interactive PULA Map</h3>
-            <PulaMap
-              pulaData={pulaData}
-              regions={reportData.regions}
-              className="w-full"
-            />
-          </div>
-        )}
+        <div className="mb-6 text-gray-800">
+          <h3 className="font-semibold mb-2 text-lg">Interactive Map</h3>
+          <PulaMap
+            pulaData={pulaData}
+            regions={reportData.regions}
+            className="w-full"
+          />
+        </div>
       </div>
       <Footer />
     </div>
