@@ -61,7 +61,7 @@ const SoilSurveyMap: React.FC<SoilSurveyMapProps> = ({
 
       // Calculate center from combined bounds
       if (combinedBounds) {
-        const center = combinedBounds.getCenter();
+        const center = (combinedBounds as L.LatLngBounds).getCenter();
         centerLat = center.lat;
         centerLng = center.lng;
         zoom = 10;

@@ -58,7 +58,7 @@ const PulaMap: React.FC<PulaMapProps> = ({ pulaData, regions, className }) => {
       let centerLat = 39.8; // Default center
       let centerLng = -98.6;
       if (combinedBounds) {
-        const center = combinedBounds.getCenter();
+        const center = (combinedBounds as L.LatLngBounds).getCenter();
         centerLat = center.lat;
         centerLng = center.lng;
       }
