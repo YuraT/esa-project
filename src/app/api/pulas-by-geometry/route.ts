@@ -10,11 +10,9 @@ interface PulaID {
  *
  * Query parameters:
  * - geometry: GeoJSON string representing the geometry to search within
+ *   Can be a single Polygon feature or an array of Polygon features (converted to MultiPolygon)
  * - prod_reg_num: Product registration number to filter limitations
  * - returnGeometry: "true" to include geometry in PULA features, "false" or omitted for attributes only
- *
- * Note: This API handles a single geometry per call. For multiple regions,
- * the client should make multiple API calls and combine/deduplicate results.
  */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -31,10 +29,34 @@ export async function GET(request: Request) {
 
   let geometry;
   try {
-    geometry = geojsonToArcGIS(JSON.parse(geometryParam).geometry);
+    const parsedGeometry = JSON.parse(geometryParam);
+
+    // Handle both single polygon and array of polygons
+    if (Array.isArray(parsedGeometry)) {
+      // Convert array of GeoJSON Polygon features to a single MultiPolygon
+      const coordinates = parsedGeometry.map((feature) => {
+        if (feature.geometry.type !== "Polygon") {
+          throw new Error("All features must be Polygon type");
+        }
+        return feature.geometry.coordinates;
+      });
+
+      const multiPolygon: GeoJSON.MultiPolygon = {
+        type: "MultiPolygon",
+        coordinates: coordinates,
+      };
+
+      geometry = geojsonToArcGIS(multiPolygon);
+    } else {
+      // Handle single polygon feature (existing behavior)
+      geometry = geojsonToArcGIS(parsedGeometry.geometry);
+    }
   } catch (error) {
     return NextResponse.json(
-      { error: "Invalid geometry parameter - must be valid JSON" },
+      {
+        error:
+          "Invalid geometry parameter - must be valid JSON with Polygon feature(s)",
+      },
       { status: 400 },
     );
   }
@@ -44,7 +66,9 @@ export async function GET(request: Request) {
     "https://blt.epa.gov/arcgis/rest/services/BLT/PesticideUsageLimitationAreas/MapServer/0/query";
   const params = new URLSearchParams({
     geometry: JSON.stringify(geometry),
-    geometryType: "esriGeometryPolygon",
+    geometryType: Array.isArray(JSON.parse(geometryParam))
+      ? "esriGeometryPolygon"
+      : "esriGeometryPolygon",
     inSR: "4326",
     spatialRel: "esriSpatialRelIntersects",
     f: "json",

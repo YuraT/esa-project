@@ -65,34 +65,21 @@ const PrintReportContent: React.FC = () => {
       // Extract product registration number from product string
       const prodRegNum = productName.match(/^\s*[\d\-]+/)?.[0] ?? "";
 
-      // Query PULAs for each region and combine results
-      const allPulaData: any[] = [];
-      const seenPulaIds = new Set();
+      // Query PULAs for all regions in a single API call
+      const response = await fetch(
+        `/api/pulas-by-geometry?geometry=${encodeURIComponent(JSON.stringify(regionGeometries))}&prod_reg_num=${encodeURIComponent(prodRegNum)}&returnGeometry=true`,
+      );
 
-      for (const regionGeometry of regionGeometries) {
-        const response = await fetch(
-          `/api/pulas-by-geometry?geometry=${encodeURIComponent(JSON.stringify(regionGeometry))}&prod_reg_num=${encodeURIComponent(prodRegNum)}&returnGeometry=true`,
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          const pulas = data.pulas || [];
-
-          // Deduplicate PULAs by ID to avoid showing the same PULA multiple times
-          pulas.forEach((pula: any) => {
-            if (!seenPulaIds.has(pula.attributes.pula_id)) {
-              seenPulaIds.add(pula.attributes.pula_id);
-              allPulaData.push(pula);
-            }
-          });
-        } else {
-          console.error("Failed to fetch PULA data for a region");
-        }
+      if (response.ok) {
+        const data = await response.json();
+        setPulaData(data.pulas || []);
+      } else {
+        console.error("Failed to fetch PULA data");
+        setPulaData([]);
       }
-
-      setPulaData(allPulaData);
     } catch (error) {
       console.error("Error querying PULAs:", error);
+      setPulaData([]);
     } finally {
       setLoadingPulas(false);
     }
