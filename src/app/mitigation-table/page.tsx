@@ -52,7 +52,7 @@ function MitigationTableContent() {
   const month = searchParams.get("month");
   const product = searchParams.get("product");
   const county = searchParams.get("county") ?? "";
-  const region = searchParams.get("region");
+  const regions = searchParams.get("regions");
 
   // Build mitigations param
   const mitigations = [
@@ -320,7 +320,7 @@ function MitigationTableContent() {
               )}&county=${encodeURIComponent(
                 county || "",
               )}&mitigations=${mitigations}${
-                region ? `&region=${encodeURIComponent(region)}` : ""
+                regions ? `&regions=${encodeURIComponent(regions)}` : ""
               }`}
               className="ml-220 bg-[#275c9d] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#1f4b7a] transition duration-200"
             >
