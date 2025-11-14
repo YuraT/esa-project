@@ -1,7 +1,7 @@
 "use client";
 import Footer from "../components/Footer";
 import React, { useState, useEffect, useRef } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, LoaderCircle } from "lucide-react";
 import countiesData from "../data/uscounties.json";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
@@ -57,6 +57,9 @@ export default function SearchContainer() {
     center: L.LatLngExpression;
     zoom?: number;
   } | null>(null);
+
+  // State: Loading
+  const [isLoading, setIsLoading] = useState(false);
 
   // Data: Counties
   const allCounties: string[] = countiesData.map(
@@ -149,6 +152,7 @@ export default function SearchContainer() {
       return;
     }
 
+    setIsLoading(true);
     try {
       console.log("Querying geometry-specific data for selected regions");
       const geometryResult = await queryGeometryData(
@@ -195,6 +199,8 @@ export default function SearchContainer() {
       );
     } catch (error) {
       console.error("Error fetching limitations:", error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -462,10 +468,21 @@ export default function SearchContainer() {
 
           {/* Submit */}
           <div
-            onClick={handleSearch}
-            className="mb-5 w-[10vw] h-[8vh] bg-[#4673ab] flex items-center justify-center rounded-[0.5rem] cursor-pointer"
+            onClick={isLoading ? undefined : handleSearch}
+            className={`mb-5 w-[10vw] h-[8vh] ${
+              isLoading
+                ? "bg-[#678dc9] cursor-not-allowed"
+                : "bg-[#4673ab] cursor-pointer hover:bg-[#3e6293]"
+            } flex items-center justify-center rounded-[0.5rem] transition-colors`}
           >
-            <h1 className="text-white text-2xl font-bold">Next!</h1>
+            {isLoading ? (
+              <div className="flex items-center space-x-2">
+                <LoaderCircle className="w-5 h-5 text-white animate-spin" />
+                <span className="text-white font-bold text-lg">Loading...</span>
+              </div>
+            ) : (
+              <span className="text-white font-bold text-2xl">Next!</span>
+            )}
           </div>
         </div>
 
