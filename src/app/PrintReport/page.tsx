@@ -28,7 +28,7 @@ const PrintReportContent: React.FC = () => {
   const month = searchParams.get("month") ?? "";
   const product = searchParams.get("product") ?? "";
   const county = searchParams.get("county") ?? "";
-  const region = searchParams.get("region");
+  const regions = searchParams.get("regions");
   const [limitations, setLimitations] = useState<LimitationItem[]>([]);
   const [pulaData, setPulaData] = useState<any[]>([]);
   const [loadingPulas, setLoadingPulas] = useState(false);
@@ -37,12 +37,12 @@ const PrintReportContent: React.FC = () => {
     month: "",
     product: "",
     county: "",
-    region: null as GeoJSON.Feature<GeoJSON.Polygon> | null,
+    regions: [] as GeoJSON.Feature<GeoJSON.Polygon>[],
   });
 
   useEffect(() => {
-    const parsedRegion = region ? JSON.parse(region) : null;
-    setReportData({ month, product, county, region: parsedRegion });
+    const parsedRegions = regions ? JSON.parse(regions) : [];
+    setReportData({ month, product, county, regions: parsedRegions });
 
     const stored = localStorage.getItem("esa_limitations");
     if (stored) {
@@ -50,14 +50,14 @@ const PrintReportContent: React.FC = () => {
       setLimitations(Array.isArray(parsed) ? parsed : [parsed]);
     }
 
-    // Query PULAs if region is provided
-    if (parsedRegion && product) {
-      queryPulasForRegion(parsedRegion, product);
+    // Query PULAs if regions are provided
+    if (parsedRegions.length > 0 && product) {
+      queryPulasForRegions(parsedRegions, product);
     }
-  }, [month, product, county, region]);
+  }, [month, product, county, regions]);
 
-  const queryPulasForRegion = async (
-    regionGeometry: GeoJSON.Feature<GeoJSON.Polygon>,
+  const queryPulasForRegions = async (
+    regionGeometries: GeoJSON.Feature<GeoJSON.Polygon>[],
     productName: string,
   ) => {
     setLoadingPulas(true);
@@ -65,16 +65,32 @@ const PrintReportContent: React.FC = () => {
       // Extract product registration number from product string
       const prodRegNum = productName.match(/^\s*[\d\-]+/)?.[0] ?? "";
 
-      const response = await fetch(
-        `/api/pulas-by-geometry?geometry=${encodeURIComponent(JSON.stringify(regionGeometry))}&prod_reg_num=${encodeURIComponent(prodRegNum)}&returnGeometry=true`,
-      );
+      // Query PULAs for each region and combine results
+      const allPulaData: any[] = [];
+      const seenPulaIds = new Set();
 
-      if (response.ok) {
-        const data = await response.json();
-        setPulaData(data.pulas || []);
-      } else {
-        console.error("Failed to fetch PULA data");
+      for (const regionGeometry of regionGeometries) {
+        const response = await fetch(
+          `/api/pulas-by-geometry?geometry=${encodeURIComponent(JSON.stringify(regionGeometry))}&prod_reg_num=${encodeURIComponent(prodRegNum)}&returnGeometry=true`,
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          const pulas = data.pulas || [];
+
+          // Deduplicate PULAs by ID to avoid showing the same PULA multiple times
+          pulas.forEach((pula: any) => {
+            if (!seenPulaIds.has(pula.attributes.pula_id)) {
+              seenPulaIds.add(pula.attributes.pula_id);
+              allPulaData.push(pula);
+            }
+          });
+        } else {
+          console.error("Failed to fetch PULA data for a region");
+        }
       }
+
+      setPulaData(allPulaData);
     } catch (error) {
       console.error("Error querying PULAs:", error);
     } finally {
@@ -745,17 +761,17 @@ const PrintReportContent: React.FC = () => {
         )}
 
         {/* PULA Map Section */}
-        {reportData.region ? (
+        {reportData.regions.length > 0 ? (
           <div className="mb-6 text-gray-800">
             <h3 className="font-semibold mb-2 text-lg">
-              Applicable PULAs in Selected Region
+              Applicable PULAs in Selected Regions
             </h3>
             {loadingPulas ? (
               <p className="text-gray-600">Loading PULAs...</p>
             ) : pulaData.length > 0 ? (
               <div>
                 <p className="mb-3">
-                  Found {pulaData.length} PULA(s) in the selected region:
+                  Found {pulaData.length} PULA(s) in the selected regions:
                 </p>
                 <div className="space-y-2">
                   {pulaData.map((pula, index) => {
@@ -792,7 +808,7 @@ const PrintReportContent: React.FC = () => {
               </div>
             ) : (
               <p className="text-gray-600">
-                No PULAs found in the selected region.
+                No PULAs found in the selected regions.
               </p>
             )}
           </div>
@@ -801,21 +817,21 @@ const PrintReportContent: React.FC = () => {
             <h3 className="font-semibold mb-2 text-lg">PULA Analysis</h3>
             <div className="p-3 bg-yellow-50 border border-yellow-200 rounded">
               <p className="text-yellow-800">
-                No region was selected during the search. To view applicable
-                PULAs, please return to the map page and select a geographic
-                region before running the search.
+                No regions were selected during the search. To view applicable
+                PULAs, please return to the map page and select geographic
+                regions before running the search.
               </p>
             </div>
           </div>
         )}
 
         {/* Interactive PULA Map */}
-        {reportData.region && pulaData.length > 0 && (
+        {reportData.regions.length > 0 && pulaData.length > 0 && (
           <div className="mb-6 text-gray-800">
             <h3 className="font-semibold mb-2 text-lg">Interactive PULA Map</h3>
             <PulaMap
               pulaData={pulaData}
-              region={reportData.region}
+              regions={reportData.regions}
               className="w-full"
             />
           </div>

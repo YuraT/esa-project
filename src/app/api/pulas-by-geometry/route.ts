@@ -12,6 +12,9 @@ interface PulaID {
  * - geometry: GeoJSON string representing the geometry to search within
  * - prod_reg_num: Product registration number to filter limitations
  * - returnGeometry: "true" to include geometry in PULA features, "false" or omitted for attributes only
+ *
+ * Note: This API handles a single geometry per call. For multiple regions,
+ * the client should make multiple API calls and combine/deduplicate results.
  */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

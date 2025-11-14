@@ -12,14 +12,12 @@ interface MapPosition {
 }
 
 interface RegionSelectorProps {
-  onRegionSelected?: (geometry: GeoJSON.Feature<GeoJSON.Polygon>) => void;
   onRegionsSelected?: (geometries: GeoJSON.Feature<GeoJSON.Polygon>[]) => void;
   className?: string;
   mapPosition?: MapPosition | null;
 }
 
 export default function RegionSelector({
-  onRegionSelected,
   onRegionsSelected,
   className = "",
   mapPosition,
@@ -31,16 +29,7 @@ export default function RegionSelector({
     GeoJSON.Feature<GeoJSON.Polygon>[]
   >([]);
 
-  // Stabilize the callbacks to prevent unnecessary re-renders
-  const stableOnRegionSelected = useCallback(
-    (geometry: GeoJSON.Feature<GeoJSON.Polygon>) => {
-      if (onRegionSelected) {
-        onRegionSelected(geometry);
-      }
-    },
-    [onRegionSelected],
-  );
-
+  // Stabilize the callback to prevent unnecessary re-renders
   const stableOnRegionsSelected = useCallback(
     (geometries: GeoJSON.Feature<GeoJSON.Polygon>[]) => {
       if (onRegionsSelected) {
@@ -135,7 +124,6 @@ export default function RegionSelector({
         stableOnRegionsSelected(newRegions);
         return newRegions;
       });
-      stableOnRegionSelected(typedRegion);
     };
 
     const handleDrawDeleted = (event: L.LeafletEvent) => {

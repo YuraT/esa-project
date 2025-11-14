@@ -43,7 +43,9 @@ export default function SearchContainer() {
   const [allProducts, setAllProducts] = useState<string[]>([]);
 
   // State: Region Selection
-  const [selectedRegion, setSelectedRegion] = useState<GeoJSON.Feature<GeoJSON.Polygon> | null>(null);
+  const [selectedRegions, setSelectedRegions] = useState<
+    GeoJSON.Feature<GeoJSON.Polygon>[]
+  >([]);
 
   // State: Map Position for county zoom
   const [mapPosition, setMapPosition] = useState<{
@@ -95,10 +97,12 @@ export default function SearchContainer() {
     setIsOpen(false);
   }
 
-  // Handle region selection
-  function handleRegionSelected(geometry: GeoJSON.Feature<GeoJSON.Polygon>) {
-    setSelectedRegion(geometry);
-    console.log("Region selected:", geometry);
+  // Handle regions selection
+  function handleRegionsSelected(
+    geometries: GeoJSON.Feature<GeoJSON.Polygon>[],
+  ) {
+    setSelectedRegions(geometries);
+    console.log("Regions selected:", geometries);
   }
 
   const router = useRouter();
@@ -143,11 +147,12 @@ export default function SearchContainer() {
             return limitation.includes("runoff mitigation points");
           })
         ) {
-          const regionParam = selectedRegion
-            ? `&region=${encodeURIComponent(JSON.stringify(selectedRegion))}`
-            : "";
+          const regionsParam =
+            selectedRegions.length > 0
+              ? `&regions=${encodeURIComponent(JSON.stringify(selectedRegions))}`
+              : "";
           router.push(
-            `/mitigation-table?month=${selected}&product=${selectedProduct}&county=${selectedCounty}${regionParam}`,
+            `/mitigation-table?month=${selected}&product=${selectedProduct}&county=${selectedCounty}${regionsParam}`,
           );
           return;
         }
@@ -164,11 +169,12 @@ export default function SearchContainer() {
         console.log("NO MATCH — SAVED DEFAULT MESSAGE TO STORAGE");
       }
 
-      const regionParam = selectedRegion
-        ? `&region=${encodeURIComponent(JSON.stringify(selectedRegion))}`
-        : "";
+      const regionsParam =
+        selectedRegions.length > 0
+          ? `&regions=${encodeURIComponent(JSON.stringify(selectedRegions))}`
+          : "";
       router.push(
-        `/PrintReport?month=${selected}&product=${selectedProduct}&county=${selectedCounty}${regionParam}`,
+        `/PrintReport?month=${selected}&product=${selectedProduct}&county=${selectedCounty}${regionsParam}`,
       );
     } catch (error) {
       console.error("Error fetching limitations:", error);
@@ -449,7 +455,7 @@ export default function SearchContainer() {
         {/* Region Selector Map */}
         <div className="w-[50vw] h-[75vh]">
           <RegionSelector
-            onRegionSelected={handleRegionSelected}
+            onRegionsSelected={handleRegionsSelected}
             mapPosition={mapPosition}
             className="rounded-[2rem] overflow-hidden shadow-lg"
           />

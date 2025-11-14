@@ -6,51 +6,63 @@ import * as esri from "esri-leaflet";
 import "leaflet/dist/leaflet.css";
 
 interface SoilSlopeMapProps {
-  region?: GeoJSON.Feature<GeoJSON.Polygon> | null;
+  regions?: GeoJSON.Feature<GeoJSON.Polygon>[] | null;
   className?: string;
 }
 
-const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ region, className }) => {
+const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ regions, className }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
 
   useEffect(() => {
     if (!mapRef.current || typeof window === "undefined") return;
 
-    console.log("SoilSlopeMap: Initializing map with region:", region);
+    console.log("SoilSlopeMap: Initializing map with regions:", regions);
 
     // Clean up existing map
     if (mapInstanceRef.current) {
       mapInstanceRef.current.remove();
     }
 
-    // Calculate center and bounds from region if provided
+    // Calculate center and bounds from regions if provided
     let centerLat = 39.8; // Default center (continental US)
     let centerLng = -98.6;
     let zoom = 4;
-    let regionLayer = null;
+    let combinedBounds: L.LatLngBounds | null = null;
+    const regionLayers: L.Layer[] = [];
 
-    if (region) {
-      console.log("SoilSlopeMap: region", region);
+    if (regions && regions.length > 0) {
+      console.log("SoilSlopeMap: regions", regions);
 
-      // Create GeoJSON layer directly from the region feature
-      regionLayer = L.geoJSON(region, {
-        style: {
-          color: "#2c5aa0",
-          weight: 3,
-          fillOpacity: 0.1,
-          fillColor: "#2c5aa0",
-        },
+      regions.forEach((region) => {
+        // Create GeoJSON layer for each region
+        const regionLayer = L.geoJSON(region, {
+          style: {
+            color: "#2c5aa0",
+            weight: 3,
+            fillOpacity: 0.1,
+            fillColor: "#2c5aa0",
+          },
+        });
+
+        regionLayers.push(regionLayer);
+
+        // Extend bounds to include this region
+        const regionBounds = regionLayer.getBounds();
+        if (!combinedBounds) {
+          combinedBounds = regionBounds;
+        } else {
+          combinedBounds.extend(regionBounds);
+        }
       });
 
-      // Get bounds automatically from the GeoJSON layer
-      const bounds = regionLayer.getBounds();
-
-      // Calculate center from bounds
-      const center = bounds.getCenter();
-      centerLat = center.lat;
-      centerLng = center.lng;
-      zoom = 10;
+      // Calculate center from combined bounds
+      if (combinedBounds) {
+        const center = combinedBounds.getCenter();
+        centerLat = center.lat;
+        centerLng = center.lng;
+        zoom = 10;
+      }
     }
 
     // Initialize map
@@ -268,13 +280,15 @@ const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ region, className }) => {
       L.marker([centerLat, centerLng], { icon: warningDiv }).addTo(map);
     }
 
-    // Add selection area outline if region is provided
-    if (regionLayer) {
-      regionLayer.addTo(map);
-      console.log("SoilSlopeMap: Selection area added to map");
+    // Add selection area outlines if regions are provided
+    if (regionLayers.length > 0) {
+      regionLayers.forEach((layer) => layer.addTo(map));
+      console.log("SoilSlopeMap: Selection areas added to map");
 
-      // Fit map to show the actual polygon bounds
-      map.fitBounds(regionLayer.getBounds(), { padding: [20, 20] });
+      // Fit map to show all region bounds
+      if (combinedBounds) {
+        map.fitBounds(combinedBounds, { padding: [20, 20] });
+      }
     }
 
     console.log("SoilSlopeMap: Map initialized successfully");
@@ -286,7 +300,7 @@ const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ region, className }) => {
         mapInstanceRef.current = null;
       }
     };
-  }, [region]);
+  }, [regions]);
 
   return (
     <div className={className}>
@@ -351,10 +365,10 @@ const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ region, className }) => {
           </div>
         </div>
 
-        {region && (
+        {regions && regions.length > 0 && (
           <p className="mt-2">
             <span className="inline-block w-4 h-3 bg-blue-200 border-2 border-blue-600 mr-2"></span>
-            Your Selected Region
+            Your Selected Regions ({regions.length})
           </p>
         )}
 
