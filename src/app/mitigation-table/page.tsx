@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, Suspense, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Step1 from "../components/Step1";
@@ -13,12 +13,26 @@ import Step7 from "../components/Step7";
 import Step8 from "../components/Step8";
 import Step9 from "../components/Step9";
 import Step10 from "../components/Step10";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import BackButton from "../components/BackButton";
-import Head from "next/head";
+
+type UMFEntry = {
+  use?: string;
+  method?: string;
+  form?: string;
+  pula_id?: number;
+};
+
+type LimitationItem = {
+  limitation: string;
+  umf: UMFEntry[];
+  code?: string;
+  last_update?: string;
+};
 
 function MitigationTableContent() {
+  const [limitations, setLimitations] = useState<LimitationItem[]>([]);
+
   // State for each mitigation step (Table 1)
   const [countyVuln, setCountyVuln] = useState<number>(0); // 6, 3, 2, 0
   const [fieldSlope, setFieldSlope] = useState<number>(0); // 3 or 0
@@ -38,6 +52,7 @@ function MitigationTableContent() {
   const month = searchParams.get("month");
   const product = searchParams.get("product");
   const county = searchParams.get("county") ?? "";
+  const region = searchParams.get("region");
 
   // Build mitigations param
   const mitigations = [
@@ -57,22 +72,40 @@ function MitigationTableContent() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  useEffect(() => {
+    const stored = localStorage.getItem("esa_limitations");
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      setLimitations(
+        Array.isArray(parsed)
+          ? parsed.filter((item) =>
+              item.limitation.includes("runoff mitigation points"),
+            )
+          : [parsed],
+      );
+    }
+  }, []);
+
   return (
     <>
-      <div className="flex flex-col md:flex-row overflow-x-hidden">
-        <div className="hidden md:block sticky top-0 flex flex-col items-center w-20 md:w-40 lg:w-60 min-h-screen bg-[#cee0f5]">
-          <p className="text-center m-5 text-[#275c9d] text-md font-bold">
-            Step #
-          </p>
+      <div className="flex">
+        <div className="sticky top-0 gap-8 flex flex-col items-center h-screen bg-[#cee0f5]">
+          <div className="mt-18 mb-5 text-[#275c9d] text-2xl font-bold">
+            Steps
+          </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-20 md:w-40 lg:w-60 h-15 cursor-pointer"
+            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
             onClick={() => scrollToStep("step1")}
           >
-            <div className="w-9 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
+            <div
+              className={
+                "w-9 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg"
+              }
+            >
               1
             </div>
-            <div className="hidden md:block leading-tight ml-5 text-[#275c9d] font-semibold">
+            <div className="leading-tight ml-5 text-[#275c9d] font-semibold">
               County Pesticide Runoff Vulnerability
             </div>
           </div>
@@ -184,10 +217,44 @@ function MitigationTableContent() {
               Systems That Capture Runoff and Discharge
             </div>
           </div>
+
+          <div className="flex items-center bg-[#cee0f5] w-80 h-15"></div>
         </div>
 
-        <div className="flex-1 bg-white m-5 md:m-10 min-w-full overflow-x-hidden">
-          <p className="mb-10 text-[#275c9d] text-2xl font-bold ">
+        <div className="bg-white m-20">
+          {/* Display limitation with mitigations */}
+          <p className="mb-10 text-[#275c9d] text-4xl font-bold ">
+            Required Points for {product} in {county}
+          </p>
+          {limitations.length > 0 ? (
+            limitations.map((item, index) => (
+              <div
+                key={index}
+                className="mb-10 p-4 border border-gray-300 rounded-lg bg-[#f9f9f9]"
+              >
+                <div className="ml-4">
+                  {item.umf.map((umfEntry, umfIndex) => (
+                    <div key={umfIndex} className="mb-2">
+                      <p className="text-md text-black">
+                        Use: {umfEntry.use || "N/A"}
+                      </p>
+                      <p className="text-md text-black">
+                        Method: {umfEntry.method || "N/A"}
+                      </p>
+                      <p className="text-md text-black">
+                        Form: {umfEntry.form || "N/A"}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <p className="mb-2 text-md text-black">{item.limitation}</p>
+              </div>
+            ))
+          ) : (
+            <p className="mb-10 text-black">No limitations found.</p>
+          )}
+
+          <p className="mb-10 text-[#275c9d] text-4xl font-bold ">
             Mitigation Menu
           </p>
           <p className="mb-5 text-[#275c9d] text-2xl font-bold ">
@@ -244,15 +311,17 @@ function MitigationTableContent() {
             <Step10 value={systems} setValue={setSystems} />
           </div>
 
-          <div className="mt-10 mb-10">
+          <div className="mb-10">
             <Link
               href={`/PrintReport?month=${encodeURIComponent(
-                month || ""
+                month || "",
               )}&product=${encodeURIComponent(
-                product || ""
+                product || "",
               )}&county=${encodeURIComponent(
-                county || ""
-              )}&mitigations=${mitigations}`}
+                county || "",
+              )}&mitigations=${mitigations}${
+                region ? `&region=${encodeURIComponent(region)}` : ""
+              }`}
               className="ml-220 bg-[#275c9d] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#1f4b7a] transition duration-200"
             >
               Next
