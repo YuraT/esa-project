@@ -1,0 +1,492 @@
+[{
+  "_id": {
+    "$oid": "6881937ed59f9a593b7dbfee"
+  },
+  "county": "Nye",
+  "map_unit_symbol": "AR",
+  "map_unit_name": "Ardivey-Wardenot association",
+  "slope_range_percent": "0 to 8 percent",
+  "soil_texture": "gravelly loam",
+  "drainage_class": "Well drained",
+  "depth_to_bedrock_cm": 150,
+  "available_water_capacity_cm": 12.5,
+  "ph_range": "6.0 to 8.0",
+  "ec_range_dS_per_m": "0 to 2",
+  "runoff_class": "Low",
+  "erosion_class": "Slight",
+  "parent_material": "Alluvium derived from mixed rock sources",
+  "land_use_suitability": {
+    "cropland": "Poor",
+    "pasture": "Fair",
+    "urban": "Limited",
+    "wildlife_habitat": "Good"
+  },
+  "limitations": [
+    "shallow rooting depth",
+    "gravelly surface"
+  ],
+  "special_features": [
+    "gypsum layer"
+  ],
+  "map_unit_legend_code": "AR",
+  "notes": "Common in foothill zones with seasonal runoff concerns.",
+  "hydrological_soil_group": "B"
+},
+{
+  "_id": {
+    "$oid": "6881937ed59f9a593b7dbfef"
+  },
+  "county": "Carson City",
+  "map_unit_symbol": "3",
+  "map_unit_name": "Arkson-Rock outcrop complex, 30 to 50 percent slopes",
+  "slope_range_percent": "30 to 50 percent",
+  "soil_texture": "loamy sand",
+  "drainage_class": "Somewhat excessively drained",
+  "depth_to_bedrock_cm": 100,
+  "available_water_capacity_cm": 8.2,
+  "ph_range": "5.5 to 7.0",
+  "ec_range_dS_per_m": "0 to 1",
+  "runoff_class": "High",
+  "erosion_class": "Severe",
+  "parent_material": "Granitic colluvium",
+  "land_use_suitability": {
+    "cropland": "Very limited",
+    "pasture": "Limited",
+    "urban": "Very limited",
+    "wildlife_habitat": "Moderate"
+  },
+  "limitations": [
+    "steep slopes",
+    "shallow depth"
+  ],
+  "special_features": [],
+  "map_unit_legend_code": "3",
+  "notes": "Found in mountainous terrain, unsuitable for most development.",
+  "hydrological_soil_group": "C"
+},
+{
+  "_id": {
+    "$oid": "6881937ed59f9a593b7dbff0"
+  },
+  "county": "Clark",
+  "map_unit_symbol": "100",
+  "map_unit_name": "Newera association",
+  "slope_range_percent": "2 to 15 percent",
+  "soil_texture": "very fine sandy loam",
+  "drainage_class": "Moderately well drained",
+  "depth_to_bedrock_cm": 200,
+  "available_water_capacity_cm": 10,
+  "ph_range": "7.0 to 8.5",
+  "ec_range_dS_per_m": "2 to 4",
+  "runoff_class": "Medium",
+  "erosion_class": "Moderate",
+  "parent_material": "Alluvium from volcanic and sedimentary rocks",
+  "land_use_suitability": {
+    "cropland": "Moderate",
+    "pasture": "Good",
+    "urban": "Fair",
+    "wildlife_habitat": "Good"
+  },
+  "limitations": [
+    "salinity",
+    "moderate erosion"
+  ],
+  "special_features": [
+    "salt accumulation"
+  ],
+  "map_unit_legend_code": "100",
+  "notes": "Sensitive to irrigation practices due to salinity levels.",
+  "hydrological_soil_group": "C"
+},
+{
+  "_id": {
+    "$oid": "6881937ed59f9a593b7dbff1"
+  },
+  "county": "Churchill",
+  "map_unit_symbol": "110",
+  "map_unit_name": "Bimmer-Chill association",
+  "slope_range_percent": "0 to 4 percent",
+  "soil_texture": "loam",
+  "drainage_class": "Moderately well drained",
+  "depth_to_bedrock_cm": 130,
+  "available_water_capacity_cm": 11.3,
+  "ph_range": "6.5 to 7.8",
+  "ec_range_dS_per_m": "0.5 to 2",
+  "runoff_class": "Low",
+  "erosion_class": "Slight",
+  "parent_material": "Mixed alluvium",
+  "land_use_suitability": {
+    "cropland": "Good",
+    "pasture": "Good",
+    "urban": "Fair",
+    "wildlife_habitat": "Good"
+  },
+  "limitations": [
+    "permeability"
+  ],
+  "special_features": [],
+  "map_unit_legend_code": "110",
+  "notes": "Common in agricultural zones, suitable for irrigation with control.",
+  "hydrological_soil_group": "B"
+},
+{
+  "_id": {
+    "$oid": "6881937ed59f9a593b7dbff2"
+  },
+  "county": "Elko",
+  "map_unit_symbol": "011",
+  "map_unit_name": "Cherry Spring-Orovada-Yuko association",
+  "slope_range_percent": "2 to 8 percent",
+  "soil_texture": "silt loam",
+  "drainage_class": "Well drained",
+  "depth_to_bedrock_cm": 160,
+  "available_water_capacity_cm": 14.2,
+  "ph_range": "6.8 to 8.0",
+  "ec_range_dS_per_m": "0 to 1.5",
+  "runoff_class": "Medium",
+  "erosion_class": "Slight to moderate",
+  "parent_material": "Colluvium and residuum",
+  "land_use_suitability": {
+    "cropland": "Fair",
+    "pasture": "Good",
+    "urban": "Fair",
+    "wildlife_habitat": "Moderate"
+  },
+  "limitations": [
+    "slow permeability"
+  ],
+  "special_features": [],
+  "map_unit_legend_code": "011",
+  "notes": "Used mainly for rangeland and some dryland farming.",
+  "hydrological_soil_group": "C"
+},
+{
+  "_id": {
+    "$oid": "6881937ed59f9a593b7dbff3"
+  },
+  "county": "Douglas",
+  "map_unit_symbol": "151",
+  "map_unit_name": "Cagle-Devada-Nosrac association",
+  "slope_range_percent": "0 to 4 percent",
+  "soil_texture": "sandy loam",
+  "drainage_class": "Somewhat excessively drained",
+  "depth_to_bedrock_cm": 180,
+  "available_water_capacity_cm": 9,
+  "ph_range": "6.5 to 7.5",
+  "ec_range_dS_per_m": "0 to 2",
+  "runoff_class": "Low",
+  "erosion_class": "Slight",
+  "parent_material": "Volcanic ash and alluvium",
+  "land_use_suitability": {
+    "cropland": "Limited",
+    "pasture": "Moderate",
+    "urban": "Fair",
+    "wildlife_habitat": "Good"
+  },
+  "limitations": [
+    "low water retention"
+  ],
+  "special_features": [],
+  "map_unit_legend_code": "151",
+  "notes": "Generally used for pasture and occasional cropping.",
+  "hydrological_soil_group": "A"
+},
+{
+  "_id": {
+    "$oid": "6881937ed59f9a593b7dbff4"
+  },
+  "county": "Esmeralda",
+  "map_unit_symbol": "121",
+  "map_unit_name": "Leo-Ardivey association",
+  "slope_range_percent": "0 to 8 percent",
+  "soil_texture": "gravelly fine sandy loam",
+  "drainage_class": "Well drained",
+  "depth_to_bedrock_cm": 140,
+  "available_water_capacity_cm": 10.4,
+  "ph_range": "7.0 to 8.2",
+  "ec_range_dS_per_m": "0.5 to 3.0",
+  "runoff_class": "Low to medium",
+  "erosion_class": "Slight",
+  "parent_material": "Mixed alluvium and volcanic ash",
+  "land_use_suitability": {
+    "cropland": "Limited",
+    "pasture": "Moderate",
+    "urban": "Limited",
+    "wildlife_habitat": "Fair"
+  },
+  "limitations": [
+    "salinity",
+    "gravelly texture"
+  ],
+  "special_features": [],
+  "map_unit_legend_code": "121",
+  "notes": "Used for grazing and sparse vegetation.",
+  "hydrological_soil_group": "C"
+},
+{
+  "_id": {
+    "$oid": "6881937ed59f9a593b7dbff5"
+  },
+  "county": "Diamond Valley",
+  "map_unit_symbol": "112",
+  "map_unit_name": "Lien-Hayeston association",
+  "slope_range_percent": "2 to 6 percent",
+  "soil_texture": "loam",
+  "drainage_class": "Well drained",
+  "depth_to_bedrock_cm": 170,
+  "available_water_capacity_cm": 12,
+  "ph_range": "6.0 to 7.5",
+  "ec_range_dS_per_m": "0 to 1",
+  "runoff_class": "Low",
+  "erosion_class": "Slight",
+  "parent_material": "Lacustrine deposits",
+  "land_use_suitability": {
+    "cropland": "Good",
+    "pasture": "Good",
+    "urban": "Fair",
+    "wildlife_habitat": "Good"
+  },
+  "limitations": [],
+  "special_features": [],
+  "map_unit_legend_code": "112",
+  "notes": "Prime farmland with proper irrigation.",
+  "hydrological_soil_group": "B"
+},
+{
+  "_id": {
+    "$oid": "6881937ed59f9a593b7dbff6"
+  },
+  "county": "Desert NWR",
+  "map_unit_symbol": "140",
+  "map_unit_name": "Stumble loamy fine sand, 0 to 8 percent slopes",
+  "slope_range_percent": "0 to 8 percent",
+  "soil_texture": "loamy fine sand",
+  "drainage_class": "Excessively drained",
+  "depth_to_bedrock_cm": 200,
+  "available_water_capacity_cm": 6.5,
+  "ph_range": "6.5 to 8.0",
+  "ec_range_dS_per_m": "1 to 3",
+  "runoff_class": "Very low",
+  "erosion_class": "Slight",
+  "parent_material": "Aeolian sands",
+  "land_use_suitability": {
+    "cropland": "Poor",
+    "pasture": "Limited",
+    "urban": "Fair",
+    "wildlife_habitat": "Good"
+  },
+  "limitations": [
+    "low water retention"
+  ],
+  "special_features": [],
+  "map_unit_legend_code": "140",
+  "notes": "Very sandy soil suited to wildlife and conservation uses.",
+  "hydrological_soil_group": "A"
+},
+{
+  "_id": {
+    "$oid": "6881937ed59f9a593b7dbff7"
+  },
+  "county": "Duck Valley",
+  "map_unit_symbol": "160",
+  "map_unit_name": "Singatse-Rock outcrop association, very steep",
+  "slope_range_percent": "30 to 75 percent",
+  "soil_texture": "stony loam",
+  "drainage_class": "Well drained",
+  "depth_to_bedrock_cm": 90,
+  "available_water_capacity_cm": 7,
+  "ph_range": "6.2 to 7.8",
+  "ec_range_dS_per_m": "0 to 1",
+  "runoff_class": "High",
+  "erosion_class": "Severe",
+  "parent_material": "Granitic and volcanic rock",
+  "land_use_suitability": {
+    "cropland": "Not suitable",
+    "pasture": "Poor",
+    "urban": "Not suitable",
+    "wildlife_habitat": "Moderate"
+  },
+  "limitations": [
+    "very steep slopes",
+    "rock outcrops"
+  ],
+  "special_features": [
+    "rock fragments"
+  ],
+  "map_unit_legend_code": "160",
+  "notes": "Steep mountainous terrain mostly suited for habitat or conservation.",
+  "hydrological_soil_group": "D"
+},
+{
+  "_id": {
+    "$oid": "688193dcd59f9a593b7dbffa"
+  },
+  "county": "Carson City",
+  "state": "Nevada",
+  "hydrological_soil_group": "B",
+  "features": {
+    "dominant_soil_types": [
+      "Toiyabe loam",
+      "Ormsby fine sandy loam"
+    ],
+    "slope_range": "0-4%",
+    "drainage_class": "Well drained",
+    "land_use": [
+      "Urban",
+      "Recreational",
+      "Residential"
+    ],
+    "erosion_risk": "Moderate"
+  }
+},
+{
+  "_id": {
+    "$oid": "688193dcd59f9a593b7dbffb"
+  },
+  "county": "Douglas",
+  "state": "Nevada",
+  "hydrological_soil_group": "B",
+  "features": {
+    "dominant_soil_types": [
+      "Jacks Valley gravelly loam",
+      "Carson loamy sand"
+    ],
+    "slope_range": "2-15%",
+    "drainage_class": "Moderately well drained",
+    "land_use": [
+      "Residential",
+      "Agricultural"
+    ],
+    "erosion_risk": "Moderate"
+  }
+},
+{
+  "_id": {
+    "$oid": "688193dcd59f9a593b7dbffc"
+  },
+  "county": "Esmeralda",
+  "state": "Nevada",
+  "hydrological_soil_group": "D",
+  "features": {
+    "dominant_soil_types": [
+      "Silverpeak loam",
+      "Columbus clay"
+    ],
+    "slope_range": "0-8%",
+    "drainage_class": "Poorly drained",
+    "land_use": [
+      "Mining",
+      "Rangeland"
+    ],
+    "erosion_risk": "High"
+  }
+},
+{
+  "_id": {
+    "$oid": "688193dcd59f9a593b7dbffd"
+  },
+  "county": "Lander",
+  "state": "Nevada",
+  "hydrological_soil_group": "C",
+  "features": {
+    "dominant_soil_types": [
+      "Austin gravelly loam",
+      "Kingston clay loam"
+    ],
+    "slope_range": "4-20%",
+    "drainage_class": "Well drained",
+    "land_use": [
+      "Forestry",
+      "Livestock grazing"
+    ],
+    "erosion_risk": "High"
+  }
+},
+{
+  "_id": {
+    "$oid": "688193dcd59f9a593b7dbffe"
+  },
+  "county": "Pershing",
+  "state": "Nevada",
+  "hydrological_soil_group": "B",
+  "features": {
+    "dominant_soil_types": [
+      "Rochester fine sandy loam",
+      "Lovelock clay"
+    ],
+    "slope_range": "0-5%",
+    "drainage_class": "Well drained",
+    "land_use": [
+      "Agricultural",
+      "Rural housing"
+    ],
+    "erosion_risk": "Low"
+  }
+},
+{
+  "_id": {
+    "$oid": "688193dcd59f9a593b7dbfff"
+  },
+  "county": "Storey",
+  "state": "Nevada",
+  "hydrological_soil_group": "C",
+  "features": {
+    "dominant_soil_types": [
+      "Old Camp-Aldax",
+      "Cleaver-Stingdorn"
+    ],
+    "slope_range": "2-30%",
+    "drainage_class": "Somewhat excessively drained",
+    "land_use": [
+      "Residential",
+      "Historic mining"
+    ],
+    "erosion_risk": "High"
+  }
+},
+{
+  "_id": {
+    "$oid": "688193dcd59f9a593b7dc000"
+  },
+  "county": "Washoe",
+  "state": "Nevada",
+  "hydrological_soil_group": "A",
+  "features": {
+    "dominant_soil_types": [
+      "Macyflet",
+      "Indian Creek",
+      "Langston"
+    ],
+    "slope_range": "0-30%",
+    "drainage_class": "Well drained",
+    "land_use": [
+      "Urban",
+      "Agricultural",
+      "Rangeland"
+    ],
+    "erosion_risk": "Variable"
+  }
+},
+{
+  "_id": {
+    "$oid": "688193dcd59f9a593b7dc001"
+  },
+  "county": "White Pine",
+  "state": "Nevada",
+  "hydrological_soil_group": "C",
+  "features": {
+    "dominant_soil_types": [
+      "Tecomar",
+      "Pookaloo",
+      "Cavehill"
+    ],
+    "slope_range": "0-30%",
+    "drainage_class": "Moderately well drained",
+    "land_use": [
+      "Agriculture",
+      "Forestry",
+      "Wildlife"
+    ],
+    "erosion_risk": "Moderate to High"
+  }
+}]

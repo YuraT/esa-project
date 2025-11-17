@@ -1,0 +1,804 @@
+[{
+  "_id": {
+    "$oid": "687e77b68cfc5febe7358bb5"
+  },
+  "name": "Bandera",
+  "location": {
+    "landform": [
+      "Lava flows",
+      "Cinder cones"
+    ],
+    "landform_position_2d": "Summit",
+    "landform_position_3d": [
+      "Interfluve",
+      "Side slope"
+    ],
+    "slope_shape": {
+      "down_slope": "Linear",
+      "across_slope": "Convex"
+    },
+    "parent_material": "Volcanic ash and/or cinders"
+  },
+  "profile": [
+    {
+      "horizon": "A1",
+      "depth": "0 to 2 inches",
+      "texture": "gravelly loam"
+    },
+    {
+      "horizon": "A2",
+      "depth": "2 to 19 inches",
+      "texture": "very gravelly loam"
+    },
+    {
+      "horizon": "2Ck",
+      "depth": "19 to 36 inches",
+      "texture": "cinders"
+    },
+    {
+      "horizon": "2C",
+      "depth": "36 to 60 inches",
+      "texture": "cinders"
+    }
+  ],
+  "properties": {
+    "slope_percent": "0 to 8",
+    "depth_to_restrictive_feature_inches": ">80",
+    "drainage_class": "Somewhat excessively drained",
+    "runoff_class": "Low",
+    "ksat_in_per_hr": "1.98 to 5.95",
+    "depth_to_water_table_inches": ">80",
+    "flooding_frequency": "None",
+    "ponding_frequency": "None",
+    "calcium_carbonate_max_percent": 25,
+    "max_salinity_mmhos_cm": "0.0 to 2.0",
+    "available_water_supply_inches": 5.3
+  },
+  "interpretive_groups": {
+    "land_capability_irrigated": null,
+    "land_capability_nonirrigated": "6s",
+    "hydrologic_soil_group": "A",
+    "ecological_site": "R035XG704AZ - Cinder Upland 14-18\" p.z.",
+    "hydric_soil_rating": "No"
+  }
+},
+{
+  "_id": {
+    "$oid": "687e78d38cfc5febe7358bb7"
+  },
+  "name": "Arizo Family",
+  "location": {
+    "landform": [
+      "Flood plains",
+      "Alluvial fans"
+    ],
+    "landform_position_2d": "Summit",
+    "landform_position_3d": [
+      "Tread",
+      "Dip"
+    ],
+    "slope_shape": {
+      "down_slope": "Linear",
+      "across_slope": "Linear"
+    },
+    "parent_material": "Mixed alluvium"
+  },
+  "profile": [
+    {
+      "horizon": "C1",
+      "depth": "0 to 4 inches",
+      "texture": "very cobbly sand"
+    },
+    {
+      "horizon": "C2",
+      "depth": "4 to 12 inches",
+      "texture": "gravelly coarse sand"
+    },
+    {
+      "horizon": "C3",
+      "depth": "12 to 26 inches",
+      "texture": "extremely cobbly coarse sand"
+    },
+    {
+      "horizon": "Ck",
+      "depth": "26 to 60 inches",
+      "texture": "gravelly loamy coarse sand"
+    }
+  ],
+  "properties": {
+    "slope_percent": "0 to 3",
+    "depth_to_restrictive_feature_inches": ">80",
+    "drainage_class": "Excessively drained",
+    "runoff_class": "Very low",
+    "ksat_in_per_hr": "5.95 to 99.90",
+    "depth_to_water_table_inches": ">80",
+    "flooding_frequency": "Occasional",
+    "ponding_frequency": "None",
+    "calcium_carbonate_max_percent": 3,
+    "gypsum_max_percent": 1,
+    "max_salinity_mmhos_cm": "0.0 to 2.0",
+    "available_water_supply_inches": 2.5
+  },
+  "interpretive_groups": {
+    "land_capability_irrigated": null,
+    "land_capability_nonirrigated": "7c",
+    "hydrologic_soil_group": "A",
+    "ecological_site": "R041XB213AZ - Sandy Wash 8-12\" p.z.",
+    "hydric_soil_rating": "No"
+  }
+},
+{
+  "_id": {
+    "$oid": "687e79248cfc5febe7358bb9"
+  },
+  "name": "Brolliar",
+  "location": {
+    "landform": [
+      "Hills"
+    ],
+    "landform_position_2d": "Backslope",
+    "landform_position_3d": [
+      "Base slope"
+    ],
+    "slope_shape": {
+      "down_slope": "Convex",
+      "across_slope": "Convex"
+    },
+    "parent_material": "Colluvium derived from basalt"
+  },
+  "profile": [
+    {
+      "horizon": "A",
+      "depth": "0 to 4 inches",
+      "texture": "gravelly clay loam"
+    },
+    {
+      "horizon": "Bw",
+      "depth": "4 to 10 inches",
+      "texture": "gravelly clay loam"
+    },
+    {
+      "horizon": "Bt1",
+      "depth": "10 to 20 inches",
+      "texture": "gravelly clay"
+    },
+    {
+      "horizon": "Bt2",
+      "depth": "20 to 34 inches",
+      "texture": "gravelly clay"
+    },
+    {
+      "horizon": "R",
+      "depth": "34 to 44 inches",
+      "texture": "bedrock"
+    }
+  ],
+  "properties": {
+    "slope_percent": "10 to 35",
+    "depth_to_restrictive_feature_inches": "20 to 40 (lithic bedrock)",
+    "drainage_class": "Well drained",
+    "runoff_class": "Medium",
+    "ksat_in_per_hr": "0.00 to 0.01",
+    "depth_to_water_table_inches": ">80",
+    "flooding_frequency": "None",
+    "ponding_frequency": "None",
+    "calcium_carbonate_max_percent": 2,
+    "max_salinity_mmhos_cm": "0.0 to 0.5",
+    "available_water_supply_inches": 5.4
+  },
+  "interpretive_groups": {
+    "land_capability_irrigated": null,
+    "land_capability_nonirrigated": "7s",
+    "hydrologic_soil_group": "D",
+    "ecological_site": "F039XA136AZ - Cinder Hills 17-22\" p.z. (PIPO, QUGA)",
+    "hydric_soil_rating": "No"
+  }
+},
+{
+  "_id": {
+    "$oid": "687e7df18cfc5febe7358bbb"
+  },
+  "name": "Kokan",
+  "location": {
+    "landform": [
+      "Fan terraces"
+    ],
+    "landform_position_2d": [
+      "Footslope",
+      "Toeslope"
+    ],
+    "landform_position_3d": [
+      "Tread",
+      "Riser"
+    ],
+    "slope_shape": {
+      "down_slope": "Linear",
+      "across_slope": "Convex"
+    },
+    "parent_material": "Mixed fan alluvium"
+  },
+  "profile": [
+    {
+      "horizon": "C1",
+      "depth": "0 to 1 inches",
+      "texture": "loamy sand"
+    },
+    {
+      "horizon": "C2",
+      "depth": "1 to 9 inches",
+      "texture": "very gravelly loamy sand"
+    },
+    {
+      "horizon": "C3",
+      "depth": "9 to 32 inches",
+      "texture": "very gravelly loamy coarse sand"
+    },
+    {
+      "horizon": "C4",
+      "depth": "32 to 60 inches",
+      "texture": "extremely gravelly coarse sand"
+    }
+  ],
+  "properties": {
+    "slope_percent": "1 to 8",
+    "depth_to_restrictive_feature_inches": ">80",
+    "drainage_class": "Excessively drained",
+    "runoff_class": "Low",
+    "ksat_in_per_hr": "5.95 to 19.98",
+    "depth_to_water_table_inches": ">80",
+    "flooding_frequency": "None",
+    "ponding_frequency": "None",
+    "calcium_carbonate_max_percent": 5,
+    "max_salinity_mmhos_cm": "0.0 to 2.0",
+    "available_water_supply_inches": 1.9
+  },
+  "interpretive_groups": {
+    "land_capability_irrigated": null,
+    "land_capability_nonirrigated": "7c",
+    "hydrologic_soil_group": "A",
+    "ecological_site": "R040XA108AZ - Limy Fan 10\"-13\" p.z.",
+    "hydric_soil_rating": "No"
+  }
+},
+{
+  "_id": {
+    "$oid": "687e7e428cfc5febe7358bbd"
+  },
+  "name": "Anthony",
+  "location": {
+    "landform": [
+      "Alluvial fans",
+      "Flood plains"
+    ],
+    "landform_position_2d": "Summit",
+    "landform_position_3d": [
+      "Tread",
+      "Dip"
+    ],
+    "slope_shape": {
+      "down_slope": "Linear",
+      "across_slope": "Linear"
+    },
+    "parent_material": "Mixed alluvium"
+  },
+  "profile": [
+    {
+      "horizon": "A",
+      "depth": "0 to 3 inches",
+      "texture": "sandy loam"
+    },
+    {
+      "horizon": "C1",
+      "depth": "3 to 45 inches",
+      "texture": "sandy loam"
+    },
+    {
+      "horizon": "C2",
+      "depth": "45 to 60 inches",
+      "texture": "gravelly loamy sand"
+    }
+  ],
+  "properties": {
+    "slope_percent": "0 to 5",
+    "depth_to_restrictive_feature_inches": ">80",
+    "drainage_class": "Well drained",
+    "runoff_class": "Low",
+    "ksat_in_per_hr": "1.98 to 5.95",
+    "depth_to_water_table_inches": ">80",
+    "flooding_frequency": "Rare",
+    "ponding_frequency": "None",
+    "calcium_carbonate_max_percent": 5,
+    "max_salinity_mmhos_cm": "0.0 to 4.0",
+    "available_water_supply_inches": 6.3
+  },
+  "interpretive_groups": {
+    "land_capability_irrigated": "2e",
+    "land_capability_nonirrigated": "7s",
+    "hydrologic_soil_group": "A",
+    "ecological_site": "R041XB215AZ - Sandy Loam Upland 8-12\" p.z.",
+    "hydric_soil_rating": "No"
+  }
+},
+{
+  "_id": {
+    "$oid": "687e7f1a8cfc5febe7358bbf"
+  },
+  "name": "Agualt",
+  "location": {
+    "landform": [
+      "Flood plains"
+    ],
+    "landform_position_2d": "Summit",
+    "landform_position_3d": [
+      "Dip"
+    ],
+    "slope_shape": {
+      "down_slope": "Linear",
+      "across_slope": "Linear"
+    },
+    "parent_material": "Stratified mixed alluvium"
+  },
+  "profile": [
+    {
+      "horizon": "Ap",
+      "depth": "0 to 9 inches",
+      "texture": "loamy fine sand"
+    },
+    {
+      "horizon": "C1",
+      "depth": "9 to 19 inches",
+      "texture": "very fine sandy loam"
+    },
+    {
+      "horizon": "2C2",
+      "depth": "19 to 60 inches",
+      "texture": "sand"
+    }
+  ],
+  "properties": {
+    "slope_percent": "0 to 1",
+    "depth_to_restrictive_feature_inches": ">80",
+    "drainage_class": "Well drained",
+    "runoff_class": "Low",
+    "ksat_in_per_hr": "0.57 to 1.98",
+    "depth_to_water_table_inches": ">80",
+    "flooding_frequency": "Rare",
+    "ponding_frequency": "None",
+    "calcium_carbonate_max_percent": 5,
+    "max_salinity_mmhos_cm": "4.0 to 8.0",
+    "sodium_adsorption_ratio_max": 13,
+    "available_water_supply_inches": 5.1
+  },
+  "interpretive_groups": {
+    "land_capability_irrigated": "2s",
+    "land_capability_nonirrigated": "7c",
+    "hydrologic_soil_group": "B",
+    "ecological_site": "F040XC327AZ - Sandy Bottom, Woodland 3\"-7\" p.z.",
+    "hydric_soil_rating": "No"
+  },
+  "minor_components": [
+    {
+      "name": "Unnamed soils",
+      "percent_of_map_unit": 10,
+      "hydric_soil_rating": "No"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "687e7f658cfc5febe7358bc1"
+  },
+  "name": "Maripo",
+  "location": {
+    "landform": [
+      "Drainageways"
+    ],
+    "landform_position_2d": "Summit",
+    "landform_position_3d": [
+      "Dip"
+    ],
+    "slope_shape": {
+      "down_slope": "Linear",
+      "across_slope": "Linear"
+    },
+    "parent_material": "Mixed alluvium"
+  },
+  "profile": [
+    {
+      "horizon": "A/C1",
+      "depth": "0 to 18 inches",
+      "texture": "sandy loam"
+    },
+    {
+      "horizon": "C2",
+      "depth": "18 to 29 inches",
+      "texture": "sandy loam"
+    },
+    {
+      "horizon": "2C3",
+      "depth": "29 to 60 inches",
+      "texture": "very gravelly loamy sand"
+    }
+  ],
+  "properties": {
+    "slope_percent": "0 to 3",
+    "depth_to_restrictive_feature_inches": ">80",
+    "drainage_class": "Well drained",
+    "ksat_in_per_hr": "1.98 to 5.95",
+    "depth_to_water_table_inches": ">80",
+    "flooding_frequency": "None",
+    "ponding_frequency": "None",
+    "calcium_carbonate_max_percent": 5,
+    "max_salinity_mmhos_cm": "0.0 to 2.0",
+    "sodium_adsorption_ratio_max": 13,
+    "available_water_supply_inches": 5.1
+  },
+  "interpretive_groups": {
+    "land_capability_irrigated": "3e",
+    "land_capability_nonirrigated": "7s",
+    "hydrologic_soil_group": "A",
+    "ecological_site": "R040XB221AZ - Sandy Loam, Deep 7\"-10\" p.z.",
+    "hydric_soil_rating": "No"
+  }
+},
+{
+  "_id": {
+    "$oid": "687e803d8cfc5febe7358bc3"
+  },
+  "name": "Anthony",
+  "setting": {
+    "landform": [
+      "Alluvial fans",
+      "Flood plains"
+    ],
+    "landform_position_2d": "Summit",
+    "landform_position_3d": [
+      "Tread",
+      "Dip"
+    ],
+    "down_slope_shape": "Linear",
+    "across_slope_shape": "Linear",
+    "parent_material": "Mixed alluvium"
+  },
+  "typical_profile": [
+    {
+      "horizon": "A",
+      "depth": "0 to 3 inches",
+      "texture": "sandy loam"
+    },
+    {
+      "horizon": "C1",
+      "depth": "3 to 45 inches",
+      "texture": "sandy loam"
+    },
+    {
+      "horizon": "C2",
+      "depth": "45 to 60 inches",
+      "texture": "gravelly loamy sand"
+    }
+  ],
+  "properties_and_qualities": {
+    "slope_percent": "0 to 5",
+    "depth_to_restrictive_feature": "More than 80 inches",
+    "drainage_class": "Well drained",
+    "runoff_class": "Low",
+    "ksat": "1.98 to 5.95 in/hr",
+    "depth_to_water_table": "More than 80 inches",
+    "flooding_frequency": "Rare",
+    "ponding_frequency": "None",
+    "calcium_carbonate_max": "5 percent",
+    "salinity_max": "0.0 to 4.0 mmhos/cm",
+    "available_water_supply": "Moderate (about 6.3 inches)"
+  },
+  "interpretive_groups": {
+    "land_capability_irrigated": "2e",
+    "land_capability_nonirrigated": "7s",
+    "hydrologic_soil_group": "A",
+    "ecological_site": "R041XB215AZ - Sandy Loam Upland 8-12\" p.z.",
+    "hydric_soil_rating": "No"
+  }
+},
+{
+  "_id": {
+    "$oid": "687e807c8cfc5febe7358bc5"
+  },
+  "name": "Typic Argiustolls",
+  "location": {
+    "landform": [
+      "Mountain slopes",
+      "Terraces"
+    ],
+    "landform_position_2d": "Backslope",
+    "landform_position_3d": [
+      "Mountainflank"
+    ],
+    "slope_shape": {
+      "down_slope": "Linear",
+      "across_slope": "Convex"
+    },
+    "parent_material": "Residuum weathered from basalt"
+  },
+  "profile": [
+    {
+      "horizon": "Oe",
+      "depth": "0 to 1 inches",
+      "texture": "moderately decomposed plant material"
+    },
+    {
+      "horizon": "A",
+      "depth": "1 to 11 inches",
+      "texture": "loam"
+    },
+    {
+      "horizon": "Bt1",
+      "depth": "11 to 20 inches",
+      "texture": "sandy clay loam"
+    },
+    {
+      "horizon": "Bt2",
+      "depth": "20 to 60 inches",
+      "texture": "sandy clay loam"
+    }
+  ],
+  "properties": {
+    "slope_percent": "25 to 65",
+    "depth_to_restrictive_feature_inches": ">80",
+    "drainage_class": "Well drained",
+    "runoff_class": "High",
+    "ksat_in_per_hr": "0.57 to 1.98",
+    "depth_to_water_table_inches": ">80",
+    "flooding_frequency": "None",
+    "ponding_frequency": "None",
+    "calcium_carbonate_max_percent": 2,
+    "gypsum_max_percent": 2,
+    "max_salinity_mmhos_cm": "0.0 to 2.0",
+    "sodium_adsorption_ratio_max": 2,
+    "available_water_supply_inches": 9.4
+  },
+  "interpretive_groups": {
+    "land_capability_irrigated": null,
+    "land_capability_nonirrigated": "5c",
+    "hydrologic_soil_group": "B",
+    "ecological_site": "F035XH818AZ - Sandy Loam Slopes 17-25\" p.z. Cobbly (PIPO, POTR5)"
+  }
+},
+{
+  "_id": {
+    "$oid": "687e82258cfc5febe7358bc7"
+  },
+  "name": "Sasabe",
+  "location": {
+    "landform": [
+      "Fan terraces"
+    ],
+    "landform_position_2d": "Summit",
+    "landform_position_3d": [
+      "Tread"
+    ],
+    "slope_shape": {
+      "down_slope": "Convex",
+      "across_slope": "Convex"
+    },
+    "parent_material": "Mixed alluvium"
+  },
+  "profile": [
+    {
+      "horizon": "A",
+      "depth": "0 to 5 inches",
+      "texture": "sandy loam"
+    },
+    {
+      "horizon": "Bt",
+      "depth": "5 to 22 inches",
+      "texture": "clay"
+    },
+    {
+      "horizon": "Bt",
+      "depth": "22 to 31 inches",
+      "texture": "gravelly clay loam"
+    },
+    {
+      "horizon": "Bt",
+      "depth": "31 to 41 inches",
+      "texture": "gravelly sandy clay loam"
+    },
+    {
+      "horizon": "2Btk",
+      "depth": "41 to 60 inches",
+      "texture": "very gravelly sandy clay loam"
+    }
+  ],
+  "properties": {
+    "slope_percent": "1 to 3",
+    "depth_to_restrictive_feature_inches": ">80",
+    "drainage_class": "Well drained",
+    "runoff_class": "Medium",
+    "ksat_in_per_hr": "0.06 to 0.20",
+    "depth_to_water_table_inches": ">80",
+    "flooding_frequency": "None",
+    "ponding_frequency": "None",
+    "calcium_carbonate_max_percent": 15,
+    "gypsum_max_percent": 1,
+    "max_salinity_mmhos_cm": "2.0 to 4.0",
+    "sodium_adsorption_ratio_max": 5,
+    "available_water_supply_inches": 8
+  },
+  "interpretive_groups": {
+    "land_capability_irrigated": null,
+    "land_capability_nonirrigated": "6c",
+    "hydrologic_soil_group": "C",
+    "ecological_site": "R041XC313AZ - Loamy Upland 12\"-16\" p.z.",
+    "hydric_soil_rating": "No"
+  }
+},
+{
+  "_id": {
+    "$oid": "687e82d18cfc5febe7358bc9"
+  },
+  "name": "Akela",
+  "location": {
+    "landform": [
+      "Hillslopes",
+      "Mountain slopes"
+    ],
+    "landform_position_2d": "Summit",
+    "landform_position_3d": [
+      "Mountainflank",
+      "Side slope"
+    ],
+    "slope_shape": {
+      "down_slope": "Convex",
+      "across_slope": "Convex"
+    },
+    "parent_material": "Eolian deposits derived from basalt and/or slope alluvium derived from basalt"
+  },
+  "profile": [
+    {
+      "horizon": "A",
+      "depth": "0 to 2 inches",
+      "texture": "very cobbly very fine sandy loam"
+    },
+    {
+      "horizon": "Bk",
+      "depth": "2 to 16 inches",
+      "texture": "very cobbly very fine sandy loam"
+    },
+    {
+      "horizon": "R",
+      "depth": "16 to 60 inches",
+      "texture": "bedrock"
+    }
+  ],
+  "properties": {
+    "slope_percent": "10 to 60",
+    "depth_to_restrictive_feature_inches": "4 to 20",
+    "drainage_class": "Well drained",
+    "runoff_class": "High",
+    "ksat_in_per_hr": "0.00 to 0.01",
+    "depth_to_water_table_inches": ">80",
+    "flooding_frequency": "None",
+    "ponding_frequency": "None",
+    "calcium_carbonate_max_percent": 15,
+    "max_salinity_mmhos_cm": "0.0 to 2.0",
+    "available_water_supply_inches": 1.1
+  },
+  "interpretive_groups": {
+    "land_capability_irrigated": null,
+    "land_capability_nonirrigated": "7s",
+    "hydrologic_soil_group": "D",
+    "ecological_site": "R040XA101AZ - Basalt Hills 10\"-13\" p.z.",
+    "hydric_soil_rating": "No"
+  }
+},
+{
+  "_id": {
+    "$oid": "687e840f8cfc5febe7358bcb"
+  },
+  "name": "Anthony",
+  "setting": {
+    "landform": [
+      "Alluvial fans"
+    ],
+    "landform_position_2d": "Summit",
+    "landform_position_3d": [
+      "Tread"
+    ],
+    "slope_shape": {
+      "down_slope": "Linear",
+      "across_slope": "Linear"
+    },
+    "parent_material": "Recent gravelly alluvium derived from granite and/or recent gravelly alluvium derived from limestone"
+  },
+  "profile": [
+    {
+      "horizon": "A/C",
+      "depth": "0 to 16 inches",
+      "texture": "fine sandy loam"
+    },
+    {
+      "horizon": "2C",
+      "depth": "16 to 60 inches",
+      "texture": "very gravelly fine sandy loam"
+    }
+  ],
+  "properties": {
+    "slope_percent": "1 to 5",
+    "depth_to_restrictive_feature_inches": ">80",
+    "drainage_class": "Well drained",
+    "runoff_class": "Medium",
+    "ksat_in_per_hr": "0.60 to 2.00",
+    "depth_to_water_table_inches": ">80",
+    "flooding_frequency": "Occasional",
+    "ponding_frequency": "None",
+    "calcium_carbonate_max_percent": 15,
+    "max_salinity_mmhos_cm": "0.0 to 2.0",
+    "available_water_supply_inches": 5.9
+  },
+  "interpretive_groups": {
+    "land_capability_irrigated": null,
+    "land_capability_nonirrigated": "6s",
+    "hydrologic_soil_group": "B",
+    "ecological_site": "R041XC318AZ - Sandy Loam 12-16\" p.z. Deep",
+    "hydric_soil_rating": "No"
+  }
+},
+{
+  "_id": {
+    "$oid": "687e84698cfc5febe7358bcd"
+  },
+  "name": "Lonti",
+  "setting": {
+    "landform": [
+      "Plains"
+    ],
+    "landform_position_2d": [
+      "Summit",
+      "Backslope",
+      "Toeslope"
+    ],
+    "landform_position_3d": [
+      "Tread"
+    ],
+    "slope_shape": {
+      "down_slope": "Linear",
+      "across_slope": "Convex"
+    },
+    "parent_material": "Mixed alluvium"
+  },
+  "profile": [
+    {
+      "horizon": "H1",
+      "depth": "0 to 5 inches",
+      "texture": "loam"
+    },
+    {
+      "horizon": "H2",
+      "depth": "5 to 45 inches",
+      "texture": "gravelly clay"
+    },
+    {
+      "horizon": "H3",
+      "depth": "45 to 68 inches",
+      "texture": "very gravelly sandy clay loam"
+    }
+  ],
+  "properties": {
+    "slope_percent": "0 to 5",
+    "depth_to_restrictive_feature_inches": ">80",
+    "drainage_class": "Well drained",
+    "ksat_in_per_hr": "0.06 to 0.20",
+    "depth_to_water_table_inches": ">80",
+    "flooding_frequency": "None",
+    "ponding_frequency": "None",
+    "calcium_carbonate_max_percent": 20,
+    "max_salinity_mmhos_cm": "0.0 to 2.0",
+    "available_water_supply_inches": 7.9
+  },
+  "interpretive_groups": {
+    "land_capability_irrigated": null,
+    "land_capability_nonirrigated": "6s",
+    "hydrologic_soil_group": "C",
+    "ecological_site": "R038XA109AZ - Loamy Upland 12-16 p.z.",
+    "hydric_soil_rating": "No"
+  }
+}]
