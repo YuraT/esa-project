@@ -4,7 +4,7 @@ import { stepProps } from "../utils/props";
 
 export default function Step2({ value, setValue }: stepProps) {
   return (
-    <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240 h-80">
+    <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl p-10 my-18">
       <div className="flex items-center gap-45 mb-4 ">
         <div className="w-8 h-8 mt-10 ml-10 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
           2

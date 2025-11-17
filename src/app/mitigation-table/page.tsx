@@ -59,24 +59,26 @@ function MitigationTableContent() {
 
   return (
     <>
-      <div className="flex">
-        <div className="sticky top-0 flex flex-col items-center w-[sm:0.2rem,md:3rem] h-screen bg-[#cee0f5]">
-          <div className="mt-18 mb-5 text-[#275c9d] text-2xl font-bold">
-            Step _ of 6
-          </div>
+      <div className="flex flex-col md:flex-row overflow-x-hidden">
+        <div className="hidden md:block sticky top-0 flex flex-col items-center w-20 md:w-40 lg:w-60 min-h-screen bg-[#cee0f5]">
+          <p className="text-center m-5 text-[#275c9d] text-md font-bold">
+            Step #
+          </p>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center mt-10 bg-[#bed2e8] w-20 md:w-40 lg:w-60 h-15 cursor-pointer"
             onClick={() => scrollToStep("step1")}
           >
-            <div className={"w-9 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg"}>1</div>
-            <div className="leading-tight ml-5 text-[#275c9d] font-semibold">
+            <div className="w-9 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
+              1
+            </div>
+            <div className="hidden md:block leading-tight ml-5 text-[#275c9d] font-semibold">
               County Pesticide Runoff Vulnerability
             </div>
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center mt-10 bg-[#bed2e8] w-20 md:w-40 lg:w-60 h-15 cursor-pointer"
             onClick={() => scrollToStep("step2")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -88,7 +90,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center mt-10 bg-[#bed2e8] w-20 md:w-40 lg:w-60 h-15 cursor-pointer"
             onClick={() => scrollToStep("step3")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -100,7 +102,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center mt-10 bg-[#bed2e8] w-20 md:w-40 lg:w-60 h-15 cursor-pointer"
             onClick={() => scrollToStep("step4")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -112,7 +114,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center mt-10 bg-[#bed2e8] w-20 md:w-40 lg:w-60 h-15 cursor-pointer"
             onClick={() => scrollToStep("step5")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -124,7 +126,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center mt-10 bg-[#bed2e8] w-20 md:w-40 lg:w-60 h-15 cursor-pointer"
             onClick={() => scrollToStep("step6")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -136,7 +138,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center mt-10 bg-[#bed2e8] w-20 md:w-40 lg:w-60 h-15 cursor-pointer"
             onClick={() => scrollToStep("step7")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -148,7 +150,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center mt-10 bg-[#bed2e8] w-20 md:w-40 lg:w-60 h-15 cursor-pointer"
             onClick={() => scrollToStep("step8")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -160,7 +162,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center mt-10 bg-[#bed2e8] w-20 md:w-40 lg:w-60 h-15 cursor-pointer"
             onClick={() => scrollToStep("step9")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -172,7 +174,7 @@ function MitigationTableContent() {
           </div>
 
           <div
-            className="flex items-center mt-10 bg-[#bed2e8] w-70 h-15 cursor-pointer"
+            className="flex items-center mt-10 bg-[#bed2e8] w-20 md:w-40 lg:w-60 h-15 cursor-pointer"
             onClick={() => scrollToStep("step10")}
           >
             <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
@@ -182,25 +184,23 @@ function MitigationTableContent() {
               Systems That Capture Runoff and Discharge
             </div>
           </div>
-
-          <div className="flex items-center mt-10 bg-[#cee0f5] w-80 h-15"></div>
         </div>
 
-        <div className="bg-white m-20">
-          <p className="mt-10 mb-10 text-[#275c9d] text-4xl font-bold ">
+        <div className="flex-1 bg-white m-5 md:m-10 min-w-full overflow-x-hidden">
+          <p className="mb-10 text-[#275c9d] text-2xl font-bold ">
             Mitigation Menu
           </p>
           <p className="mb-5 text-[#275c9d] text-2xl font-bold ">
             Runoff & Erosion Mitigation Options
           </p>
-          <p className="mb-5 leading-tight text-black text-xl font-bold mr-60">
+          <p className="mb-5 leading-tight text-black text-xl font-bold">
             Select a combination of measures within the tables to achieve the
             minimum points required by the label or bulletin.
           </p>
           <p className="text-[#275c9d] text-xl font-bold mb-5 ">
             What are Mitigation Points?
           </p>
-          <p className="mb-15 leading-tight text-black text-xl mr-60">
+          <p className="mb-15 leading-tight text-black text-xl">
             Mitigation points are scores used to show how much action is needed
             to prevent pesticides from polluting water. More points mean less
             risk and fewer actions required.
@@ -266,7 +266,7 @@ function MitigationTableContent() {
 
 export default function MitigationTable() {
   return (
-    <div className="flex flex-col">
+    <div>
       <Header />
       <Suspense fallback={<div>Loading...</div>}>
         <MitigationTableContent />
