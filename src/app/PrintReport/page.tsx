@@ -283,6 +283,20 @@ const PrintReportContent: React.FC = () => {
       y -= rowGap;
     });
 
+    // Add disclaimer
+    y -= 20;
+    page.drawText(
+      "Disclaimer: These are recommendations, not sanctioned or approved",
+      {
+        x: 40,
+        y,
+        size: 12,
+        font: boldFont,
+        color: rgb(0.5, 0.5, 0.5),
+      },
+    );
+    y -= 20;
+
     if (limitations.length > 0) {
       y -= 10;
 
@@ -635,6 +649,11 @@ const PrintReportContent: React.FC = () => {
           </p>
           <p>
             <span className="font-semibold">County:</span> {reportData.county}
+          </p>
+        </div>
+        <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
+          <p className="text-sm text-yellow-800 font-semibold">
+            Disclaimer: These are recommendations, not sanctioned or approved
           </p>
         </div>
         {limitations.map((item, idx) => (
