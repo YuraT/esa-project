@@ -4,7 +4,7 @@ import { stepProps } from "../utils/props";
 
 export default function Step4({ value, setValue }: stepProps) {
   return (
-    <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240 h-150">
+    <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240 pb-10">
       <div className="flex items-center gap-30 mb-4 ">
         <div className="w-8 h-8 mt-10 ml-10 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
           4
@@ -27,7 +27,6 @@ export default function Step4({ value, setValue }: stepProps) {
         <div className="leading-tight pl-20 pr-20 text-lg text-black font-bold">
           number of points listed on pesticide lables or bulletins.
         </div>
-        <div className="mt-5 w-85 h-55 bg-[#969595]"></div>
 
         <div className="mt-10 text-xl font-bold text-[#275c9d]">
           Do you perform Mitigation Tracking?

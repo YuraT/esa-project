@@ -4,7 +4,7 @@ import { stepProps } from "../utils/props";
 
 export default function Step6({ value, setValue }: stepProps) {
   return (
-    <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240 h-160">
+    <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240 pb-10">
       <div className="flex items-center gap-10 mb-4 ">
         <div className="w-8 h-8 mt-10 ml-10 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
           6
@@ -36,8 +36,6 @@ export default function Step6({ value, setValue }: stepProps) {
           .
         </p>
 
-        <div className="mt-5 w-150 h-20 rounded-2xl bg-[#cee0f5]"></div>
-
         <p className="mt-6 leading-tight text-center pl-15 pr-15 text-xl text-[#275c9d] font-bold">
           EPA-Qualified Conservation Program Participation
         </p>
@@ -50,8 +48,6 @@ export default function Step6({ value, setValue }: stepProps) {
           </span>
           , and must keep following those rules after it's approved.
         </p>
-
-        <div className="mt-5 w-150 h-20 rounded-2xl bg-[#cee0f5]"></div>
       </div>
 
       <div className="flex flex-col items-center justify-center">
