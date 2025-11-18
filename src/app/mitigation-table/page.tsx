@@ -86,6 +86,66 @@ function MitigationTableContent() {
     }
   }, []);
 
+  // Single source-of-truth for steps. Use a render function to avoid reusing JSX instances.
+  const steps = [
+    {
+      id: "step1",
+      label: "County Pesticide Runoff Vulnerability",
+      render: () => (
+        <Step1 county={county} value={countyVuln} setValue={setCountyVuln} />
+      ),
+    },
+    {
+      id: "step2",
+      label: "Field Slope",
+      render: () => <Step2 value={fieldSlope} setValue={setFieldSlope} />,
+    },
+    {
+      id: "step3",
+      label: "Predominantly Sandy Soils",
+      render: () => <Step3 value={soilPoints} setValue={setSoilPoints} />,
+    },
+    {
+      id: "step4",
+      label: "Mitigation Tracking",
+      render: () => <Step4 value={tracking} setValue={setTracking} />,
+    },
+    {
+      id: "step5",
+      label: "Technical Specialist",
+      render: () => (
+        <Step5 value={techSpecialist} setValue={setTechSpecialist} />
+      ),
+    },
+    {
+      id: "step6",
+      label: "Conservation Program",
+      render: () => (
+        <Step6 value={conservationProgram} setValue={setConservationProgram} />
+      ),
+    },
+    {
+      id: "step7",
+      label: "Application Parameters",
+      render: () => <Step7 value={appParams} setValue={setAppParams} />,
+    },
+    {
+      id: "step8",
+      label: "In-field Mitigation Measures",
+      render: () => <Step8 value={inField} setValue={setInField} />,
+    },
+    {
+      id: "step9",
+      label: "Field-Adjacent Mitigation Measures",
+      render: () => <Step9 value={fieldAdjacent} setValue={setfieldAdjacent} />,
+    },
+    {
+      id: "step10",
+      label: "Systems That Capture Runoff and Discharge",
+      render: () => <Step10 value={systems} setValue={setSystems} />,
+    },
+  ];
+
   return (
     <>
       <div className="flex">
@@ -94,129 +154,20 @@ function MitigationTableContent() {
             Steps
           </div>
 
-          <div
-            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
-            onClick={() => scrollToStep("step1")}
-          >
+          {steps.map((step, idx) => (
             <div
-              className={
-                "w-9 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg"
-              }
+              key={step.id}
+              className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
+              onClick={() => scrollToStep(step.id)}
             >
-              1
+              <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
+                {idx + 1}
+              </div>
+              <div className="leading-tight ml-5 text-[#275c9d] font-semibold">
+                {step.label}
+              </div>
             </div>
-            <div className="leading-tight ml-5 text-[#275c9d] font-semibold">
-              County Pesticide Runoff Vulnerability
-            </div>
-          </div>
-
-          <div
-            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
-            onClick={() => scrollToStep("step2")}
-          >
-            <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
-              2
-            </div>
-            <div className="leading-tight ml-5 text-[#275c9d] font-semibold">
-              Field Slope
-            </div>
-          </div>
-
-          <div
-            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
-            onClick={() => scrollToStep("step3")}
-          >
-            <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
-              3
-            </div>
-            <div className="leading-tight ml-5 text-[#275c9d] font-semibold">
-              Predominantly Sandy Soils
-            </div>
-          </div>
-
-          <div
-            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
-            onClick={() => scrollToStep("step4")}
-          >
-            <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
-              4
-            </div>
-            <div className="leading-tight ml-5 text-[#275c9d] font-semibold">
-              Mitigation Tracking
-            </div>
-          </div>
-
-          <div
-            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
-            onClick={() => scrollToStep("step5")}
-          >
-            <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
-              5
-            </div>
-            <div className="leading-tight ml-5 text-[#275c9d] font-semibold">
-              Technical Specialist
-            </div>
-          </div>
-
-          <div
-            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
-            onClick={() => scrollToStep("step6")}
-          >
-            <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
-              6
-            </div>
-            <div className="leading-tight ml-5 text-[#275c9d] font-semibold">
-              Conservation Program
-            </div>
-          </div>
-
-          <div
-            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
-            onClick={() => scrollToStep("step7")}
-          >
-            <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
-              7
-            </div>
-            <div className="leading-tight ml-5 text-[#275c9d] font-semibold">
-              Application Parameters
-            </div>
-          </div>
-
-          <div
-            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
-            onClick={() => scrollToStep("step8")}
-          >
-            <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
-              8
-            </div>
-            <div className="leading-tight ml-5 text-[#275c9d] font-semibold">
-              In-field Mitigation Measures
-            </div>
-          </div>
-
-          <div
-            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
-            onClick={() => scrollToStep("step9")}
-          >
-            <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
-              9
-            </div>
-            <div className="leading-tight ml-5 text-[#275c9d] font-semibold">
-              Field-Adjacent Mitigation Measures
-            </div>
-          </div>
-
-          <div
-            className="flex items-center bg-[#bed2e8] w-70 h-15 cursor-pointer"
-            onClick={() => scrollToStep("step10")}
-          >
-            <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
-              10
-            </div>
-            <div className="leading-tight ml-5 text-[#275c9d] font-semibold">
-              Systems That Capture Runoff and Discharge
-            </div>
-          </div>
+          ))}
 
           <div className="flex items-center bg-[#cee0f5] w-80 h-15"></div>
         </div>
@@ -276,43 +227,11 @@ function MitigationTableContent() {
             risk and fewer actions required.
           </p>
 
-          <div id="step1">
-            <Step1
-              county={county}
-              value={countyVuln}
-              setValue={setCountyVuln}
-            />
-          </div>
-          <div id="step2">
-            <Step2 value={fieldSlope} setValue={setFieldSlope} />
-          </div>
-          <div id="step3">
-            <Step3 value={soilPoints} setValue={setSoilPoints} />
-          </div>
-          <div id="step4">
-            <Step4 value={tracking} setValue={setTracking} />
-          </div>
-          <div id="step5">
-            <Step5 value={techSpecialist} setValue={setTechSpecialist} />
-          </div>
-          <div id="step6">
-            <Step6
-              value={conservationProgram}
-              setValue={setConservationProgram}
-            />
-          </div>
-          <div id="step7">
-            <Step7 value={appParams} setValue={setAppParams} />
-          </div>
-          <div id="step8">
-            <Step8 value={inField} setValue={setInField} />
-          </div>
-          <div id="step9">
-            <Step9 value={fieldAdjacent} setValue={setfieldAdjacent} />
-          </div>
-          <div id="step10">
-            <Step10 value={systems} setValue={setSystems} />
-          </div>
+          {steps.map((s) => (
+            <div id={s.id} key={s.id}>
+              {s.render()}
+            </div>
+          ))}
 
           <div className="mb-10">
             <Link
