@@ -6,8 +6,8 @@ import Link from "next/link";
 
 export default function Home() {
   // tools styling
-  const grayTools =
-    "font-bold text-white bg-[#ACADAA] text-lg rounded-full py-3 px-10 transition-colors hover:bg-[#C1C2BF]";
+  const mapButton =
+    "font-bold text-white bg-[#4A7DB8] text-lg rounded-lg py-3 px-8 shadow-lg transition-colors hover:bg-[#5A8DC8]";
   const blueTools =
     "font-bold text-white bg-[#537BBA] text-lg rounded-full py-4 px-12 transition-colors hover:bg-[#648fd1]";
 
@@ -32,13 +32,10 @@ export default function Home() {
           className="w-full max-w-screen-3xl h-auto"
         />
 
-        {/* gray search, map buttons */}
+        {/* map button */}
         <div className="absolute top-[5%] right-[0.01%] z-10">
-          <div className="flex pr-[clamp(0.3rem,3vw,6rem)] gap-x-[clamp(0.2rem,1.5vw,3rem)]">
-            <Link href="/chat" className={grayTools}>
-              CHAT
-            </Link>
-            <Link href="/map" className={grayTools}>
+          <div className="flex pr-[clamp(0.3rem,3vw,6rem)]">
+            <Link href="/map" className={mapButton}>
               MAP
             </Link>
           </div>
@@ -55,13 +52,15 @@ export default function Home() {
             ESA rules, simplified.
           </p>
           <div className="absolute bottom-[-70%]">
-            <p className="text-[clamp(0.2rem,1vw,2rem)] text-[#9E9FA0]">
-              *This site does not store or collect personal data about pesticide
-              application*
-            </p>
-            <p className="text-[clamp(0.2rem,1vw,2rem)] text-[#9E9FA0] mt-2">
-              *These are recommendations, not sanctioned or approved*
-            </p>
+            <div className="bg-black/20 backdrop-blur-sm rounded-lg p-3 max-w-fit">
+              <p className="text-[clamp(0.2rem,1vw,2rem)] text-[#9E9FA0]">
+                *This site does not store or collect personal data about
+                pesticide application*
+              </p>
+              <p className="text-[clamp(0.2rem,1vw,2rem)] text-[#9E9FA0] mt-2">
+                *These are recommendations, not sanctioned or approved*
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -151,17 +150,10 @@ export default function Home() {
           </p>
 
           <div className="flex flex-wrap justify-center gap-[clamp(1rem,4vw,6rem)]">
-            <Link href="/chat" className={blueTools}>
-              CHAT
-            </Link>
             <Link href="/map" className={blueTools}>
               MAP
             </Link>
           </div>
-
-          <p className="font-bold text-[#9E9FA0] text-[clamp(0.5rem,1.5vw,2.5rem)] text-center">
-            *Chat view is experimental and not the most accurate at this time*
-          </p>
         </div>
       </div>
 
