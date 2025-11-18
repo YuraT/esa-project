@@ -254,24 +254,8 @@ const PrintReportContent: React.FC = () => {
       color: rgb(1, 1, 1),
     });
 
-    // Fetch and embed the EPA logo
-    const logoUrl = "/epa-logo.png"; // Must be in the public folder
-    const logoImageBytes = await fetch(logoUrl).then((res) =>
-      res.arrayBuffer(),
-    );
-    const logoImage = await pdfDoc.embedPng(logoImageBytes); // Or use embedJpg if it's a .jpg
-    const logoDims = logoImage.scale(0.4); // Scale image to fit
-
-    // Draw logo below the header title
-    page.drawImage(logoImage, {
-      x: (width - logoDims.width) / 2,
-      y: 670, // Adjust as needed to position under title
-      width: logoDims.width,
-      height: logoDims.height,
-    });
-
     const tableFontSize = 14;
-    let y = 620;
+    let y = 750;
     const rowGap = 24;
 
     const rows: [string, string][] = [
