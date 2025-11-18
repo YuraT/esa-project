@@ -1,9 +1,17 @@
+/// <reference types="@arcgis/map-components/types/react" />
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import L from "leaflet";
-import * as esri from "esri-leaflet";
-import "leaflet/dist/leaflet.css";
+import React, { useRef, useEffect } from "react";
+import esriConfig from "@arcgis/core/config";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import Graphic from "@arcgis/core/Graphic";
+import Polygon from "@arcgis/core/geometry/Polygon";
+import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
+import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
+import MapView from "@arcgis/core/views/MapView";
+import { geojsonToArcGIS } from "@terraformer/arcgis";
+import "@arcgis/map-components/components/arcgis-map";
+import "@arcgis/map-components/components/arcgis-zoom";
 
 interface SoilSlopeMapProps {
   regions?: GeoJSON.Feature<GeoJSON.Polygon>[] | null;
@@ -11,295 +19,99 @@ interface SoilSlopeMapProps {
 }
 
 const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ regions, className }) => {
-  const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<L.Map | null>(null);
+  const mapRef = useRef<any>(null);
+  const regionsLayerRef = useRef<GraphicsLayer | null>(null);
 
   useEffect(() => {
-    if (!mapRef.current || typeof window === "undefined") return;
+    esriConfig.apiKey = process.env.NEXT_PUBLIC_ARCGIS_API_KEY || "";
+  }, []);
 
-    console.log("SoilSlopeMap: Initializing map with regions:", regions);
+  useEffect(() => {
+    if (!mapRef.current) return;
 
-    // Clean up existing map
-    if (mapInstanceRef.current) {
-      mapInstanceRef.current.remove();
-    }
-
-    // Calculate center and bounds from regions if provided
-    let centerLat = 39.8; // Default center (continental US)
-    let centerLng = -98.6;
-    let zoom = 4;
-    let combinedBounds: L.LatLngBounds | null = null;
-    const regionLayers: L.Layer[] = [];
-
-    if (regions && regions.length > 0) {
-      console.log("SoilSlopeMap: regions", regions);
-
-      regions.forEach((region) => {
-        // Create GeoJSON layer for each region
-        const regionLayer = L.geoJSON(region, {
-          style: {
-            color: "#2c5aa0",
-            weight: 3,
-            fillOpacity: 0.1,
-            fillColor: "#2c5aa0",
-          },
-        });
-
-        regionLayers.push(regionLayer);
-
-        // Extend bounds to include this region
-        const regionBounds = regionLayer.getBounds();
-        if (!combinedBounds) {
-          combinedBounds = regionBounds;
-        } else {
-          combinedBounds.extend(regionBounds);
-        }
-      });
-
-      // Calculate center from combined bounds
-      if (combinedBounds) {
-        const center = (combinedBounds as L.LatLngBounds).getCenter();
-        centerLat = center.lat;
-        centerLng = center.lng;
-        zoom = 10;
-      }
-    }
-
-    // Initialize map
-    const map = L.map(mapRef.current).setView([centerLat, centerLng], zoom);
-    mapInstanceRef.current = map;
-
-    // Add base layer
-    const baseLayer = L.tileLayer(
-      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      {
-        maxZoom: 18,
-        attribution: "© OpenStreetMap contributors",
-      },
-    );
-    baseLayer.addTo(map);
-
-    // Add terrain layer for visual reference
-    const terrainLayer = L.tileLayer(
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}",
-      {
-        maxZoom: 18,
-        attribution: "© Esri, USGS, NOAA",
-      },
-    );
-
-    // Add slope analysis functionality
-    const apiKey = process.env.NEXT_PUBLIC_ARCGIS_API_KEY;
-
-    if (apiKey) {
+    const setupMap = async () => {
       try {
-        // Add the World Elevation Terrain layer for slope calculation
-        const elevationLayer = esri.imageMapLayer({
-          url: "https://elevation.arcgis.com/arcgis/rest/services/WorldElevation/Terrain/ImageServer",
-          token: apiKey,
-          renderingRule: {
-            rasterFunction: "Slope",
-          },
-          opacity: 0.8,
-          format: "jpgpng",
+        await mapRef.current.arcgisViewReadyChange;
+        const view = mapRef.current.view as MapView;
+
+        if (!view || !view.map) return;
+
+        // Remove existing regions layer
+        if (regionsLayerRef.current) {
+          view.map.remove(regionsLayerRef.current);
+        }
+
+        // Create new graphics layer for regions
+        regionsLayerRef.current = new GraphicsLayer({
+          title: "Selected Regions",
         });
+        view.map.add(regionsLayerRef.current);
 
-        // Add layer control
-        const baseLayers = {
-          OpenStreetMap: baseLayer,
-          Terrain: terrainLayer,
-        };
+        // Add regions if provided
+        if (regions && regions.length > 0) {
+          const graphics: Graphic[] = [];
+          let allExtents: number[][] = [];
 
-        const overlayLayers = {
-          "Elevation Data": elevationLayer,
-        };
+          regions.forEach((region) => {
+            if (region.geometry) {
+              // Use terraformer to convert GeoJSON to ArcGIS format
+              const arcgisGeometry = geojsonToArcGIS(region.geometry);
 
-        L.control
-          .layers(baseLayers, overlayLayers, {
-            position: "topright",
-            collapsed: false,
-          })
-          .addTo(map);
-
-        elevationLayer.addTo(map);
-
-        // Add click handler to calculate slope
-        map.on("click", async (e) => {
-          const { lat, lng } = e.latlng;
-
-          try {
-            // Query elevation at the clicked point and surrounding points for slope calculation
-            const identifyUrl = `https://elevation.arcgis.com/arcgis/rest/services/WorldElevation/Terrain/ImageServer/identify`;
-
-            // Get elevation at center point and 4 surrounding points to calculate slope
-            const offset = 0.001; // approximately 100m at mid-latitudes
-            const points = [
-              { x: lng, y: lat }, // center
-              { x: lng + offset, y: lat }, // east
-              { x: lng - offset, y: lat }, // west
-              { x: lng, y: lat + offset }, // north
-              { x: lng, y: lat - offset }, // south
-            ];
-
-            const elevationPromises = points.map(async (point) => {
-              const params = new URLSearchParams({
-                f: "json",
-                geometry: JSON.stringify({
-                  x: point.x,
-                  y: point.y,
-                  spatialReference: { wkid: 4326 },
-                }),
-                geometryType: "esriGeometryPoint",
-                returnGeometry: "false",
-                returnCatalogItems: "false",
-                pixelSize: "30,30",
-                token: apiKey,
+              const polygon = new Polygon({
+                ...arcgisGeometry,
+                spatialReference: { wkid: 4326 },
               });
 
-              const response = await fetch(`${identifyUrl}?${params}`);
-              const data = await response.json();
-              return data.value || 0;
-            });
+              // Collect coordinates for extent calculation
+              region.geometry.coordinates.forEach((ring: number[][]) => {
+                allExtents = allExtents.concat(ring);
+              });
 
-            const elevations = await Promise.all(elevationPromises);
-            const [centerElev, eastElev, westElev, northElev, southElev] =
-              elevations;
+              const graphic = new Graphic({
+                geometry: polygon,
+                symbol: new SimpleFillSymbol({
+                  color: [44, 90, 160, 0.1],
+                  outline: new SimpleLineSymbol({
+                    color: [44, 90, 160, 1],
+                    width: 3,
+                  }),
+                }),
+              });
 
-            // Calculate slope using the maximum gradient method
-            const distance = offset * 111320; // Convert degrees to meters (approximate)
-            const eastWestSlope =
-              Math.abs(eastElev - westElev) / (2 * distance);
-            const northSouthSlope =
-              Math.abs(northElev - southElev) / (2 * distance);
-            const maxSlope = Math.max(eastWestSlope, northSouthSlope);
-            const slopePercent = maxSlope * 100;
-
-            let slopeCategory = "";
-            let slopeColor = "";
-            let slopeDescription = "";
-            let suitabilityMessage = "";
-
-            if (slopePercent <= 3) {
-              slopeCategory = "≤ 3% (Low Slope)";
-              slopeColor = "#28a745"; // green
-              slopeDescription =
-                "This area has a gentle slope with low runoff potential.";
-              suitabilityMessage =
-                "✅ Suitable for reduced setback requirements.";
-            } else if (slopePercent <= 8) {
-              slopeCategory = "3-8% (Moderate Slope)";
-              slopeColor = "#ffc107"; // yellow
-              slopeDescription =
-                "This area has a moderate slope with increased runoff potential.";
-              suitabilityMessage = "⚠️ Standard setback requirements apply.";
-            } else if (slopePercent <= 15) {
-              slopeCategory = "8-15% (Steep Slope)";
-              slopeColor = "#fd7e14"; // orange
-              slopeDescription =
-                "This area has a steep slope with high runoff potential.";
-              suitabilityMessage =
-                "⚠️ Increased risk - standard setbacks required.";
-            } else {
-              slopeCategory = "> 15% (Very Steep)";
-              slopeColor = "#dc3545"; // red
-              slopeDescription =
-                "This area has a very steep slope with very high runoff potential.";
-              suitabilityMessage =
-                "❌ High risk - consider additional mitigation measures.";
+              graphics.push(graphic);
             }
+          });
 
-            // Create popup with slope information
-            const popupContent = `
-              <div style="max-width: 320px;">
-                <h4 style="margin: 0 0 10px 0; color: #275c9d;">Slope Analysis</h4>
-                <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                  <div style="width: 12px; height: 12px; background-color: ${slopeColor}; border-radius: 50%; margin-right: 8px;"></div>
-                  <span style="font-weight: bold; font-size: 14px;">${slopeCategory}</span>
-                </div>
-                <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: bold;">
-                  Calculated Slope: ${slopePercent.toFixed(2)}%
-                </p>
-                <p style="margin: 0 0 8px 0; font-size: 12px; line-height: 1.4;">
-                  ${slopeDescription}
-                </p>
-                <div style="background-color: ${slopePercent <= 3 ? "#d4edda" : "#fff3cd"};
-                           border: 1px solid ${slopePercent <= 3 ? "#c3e6cb" : "#ffeaa7"};
-                           border-radius: 4px; padding: 8px; margin: 8px 0;">
-                  <p style="margin: 0; font-size: 12px; font-weight: bold;
-                           color: ${slopePercent <= 3 ? "#155724" : "#856404"};">
-                    ${suitabilityMessage}
-                  </p>
-                </div>
-                <p style="margin: 8px 0 0 0; font-size: 11px; color: #666;">
-                  Coordinates: ${lat.toFixed(4)}°, ${lng.toFixed(4)}°<br>
-                  Elevation: ${centerElev ? Math.round(centerElev) + "m" : "N/A"}
-                </p>
-              </div>
-            `;
+          regionsLayerRef.current.addMany(graphics);
 
-            L.popup().setLatLng(e.latlng).setContent(popupContent).openOn(map);
-          } catch (error) {
-            console.error("Error calculating slope:", error);
+          // Zoom to regions
+          if (allExtents.length > 0) {
+            const lngs = allExtents.map((coord) => coord[0]);
+            const lats = allExtents.map((coord) => coord[1]);
+            const padding = 0.01;
 
-            const errorPopup = `
-              <div style="max-width: 250px;">
-                <h4 style="margin: 0 0 10px 0; color: #d63384;">Error</h4>
-                <p style="margin: 0; font-size: 12px;">
-                  Unable to calculate slope at this location. Please try again or check your internet connection.
-                </p>
-              </div>
-            `;
-
-            L.popup().setLatLng(e.latlng).setContent(errorPopup).openOn(map);
+            // Wait for view to be fully ready before calling goTo
+            view.when(() => {
+              view
+                .goTo({
+                  xmin: Math.min(...lngs) - padding,
+                  ymin: Math.min(...lats) - padding,
+                  xmax: Math.max(...lngs) + padding,
+                  ymax: Math.max(...lats) + padding,
+                  spatialReference: { wkid: 4326 },
+                })
+                .catch((error) => {
+                  console.warn("Failed to zoom to regions:", error);
+                });
+            });
           }
-        });
-
-        console.log("SoilSlopeMap: Elevation layer added");
+        }
       } catch (error) {
-        console.error("SoilSlopeMap: Error adding elevation layer:", error);
-
-        // Add error message to map
-        const errorDiv = L.divIcon({
-          className: "slope-error-message",
-          html: '<div style="background: white; padding: 10px; border: 2px solid red; border-radius: 5px; font-size: 12px;">Error loading elevation data</div>',
-          iconSize: [200, 50],
-        });
-
-        L.marker([centerLat, centerLng], { icon: errorDiv }).addTo(map);
-      }
-    } else {
-      console.warn("SoilSlopeMap: No ArcGIS API key found");
-
-      // Add warning message to map
-      const warningDiv = L.divIcon({
-        className: "slope-warning-message",
-        html: '<div style="background: #fff3cd; padding: 10px; border: 2px solid #ffc107; border-radius: 5px; font-size: 12px; max-width: 250px;">ArcGIS API key required. Add NEXT_PUBLIC_ARCGIS_API_KEY to .env</div>',
-        iconSize: [270, 60],
-      });
-
-      L.marker([centerLat, centerLng], { icon: warningDiv }).addTo(map);
-    }
-
-    // Add selection area outlines if regions are provided
-    if (regionLayers.length > 0) {
-      regionLayers.forEach((layer) => layer.addTo(map));
-      console.log("SoilSlopeMap: Selection areas added to map");
-
-      // Fit map to show all region bounds
-      if (combinedBounds) {
-        map.fitBounds(combinedBounds, { padding: [20, 20] });
-      }
-    }
-
-    console.log("SoilSlopeMap: Map initialized successfully");
-
-    // Cleanup on unmount
-    return () => {
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove();
-        mapInstanceRef.current = null;
+        console.error("Error setting up map:", error);
       }
     };
+
+    setupMap();
   }, [regions]);
 
   return (
@@ -308,100 +120,69 @@ const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ regions, className }) => {
         <h3 className="text-lg font-bold text-[#275c9d] mb-2">
           Field Slope Analysis
         </h3>
-        <p className="text-sm text-gray-600 mb-2">
-          This map helps you determine the slope percentage of your field using
-          elevation data. Fields with slopes ≤ 3% may qualify for reduced
-          setback requirements.{" "}
-          <strong>
-            Click anywhere on the map to calculate the slope at that location.
-          </strong>
-        </p>
       </div>
 
-      <div
-        ref={mapRef}
-        style={{
-          height: "400px",
-          width: "100%",
-          border: "1px solid #ddd",
-          borderRadius: "8px",
-        }}
-      />
+      <div className="h-[26rem] border border-gray-300 rounded-lg overflow-hidden">
+        <arcgis-map
+          ref={mapRef}
+          item-id="aafa01a3b142450cb633a28f37837c95"
+          style={{ width: "100%", height: "100%" }}
+        >
+          <arcgis-zoom slot="top-left" />
+        </arcgis-map>
+      </div>
 
-      <div className="mt-3 text-sm text-gray-600 space-y-1">
-        <div className="grid grid-cols-1 gap-1">
-          <p className="font-semibold text-[#275c9d] mb-2">Slope Categories:</p>
-          <div className="grid grid-cols-1 gap-1 text-xs">
-            <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-              <p>
-                <span
-                  className="inline-block w-3 h-3 mr-2 border border-gray-300 rounded-full"
-                  style={{ backgroundColor: "#28a745" }}
-                ></span>
-                <strong>≤ 3%</strong> - Low slope, suitable for reduced setbacks
+      <div className="mt-3 text-sm text-gray-600">
+        <div className="mb-3">
+          <p className="font-semibold text-[#275c9d] mb-2 text-sm">
+            Slope Categories:
+          </p>
+          <div className="space-y-2 text-xs">
+            <div className="p-2 bg-green-50 border border-green-200 rounded">
+              <p className="font-semibold text-green-800 mb-1">
+                ≤ 3% - Qualifies for EPA Mitigation Relief Points
               </p>
-              <p>
-                <span
-                  className="inline-block w-3 h-3 mr-2 border border-gray-300 rounded-full"
-                  style={{ backgroundColor: "#ffc107" }}
-                ></span>
-                <strong>3-8%</strong> - Moderate slope, standard requirements
-              </p>
-              <p>
-                <span
-                  className="inline-block w-3 h-3 mr-2 border border-gray-300 rounded-full"
-                  style={{ backgroundColor: "#fd7e14" }}
-                ></span>
-                <strong>8-15%</strong> - Steep slope, increased runoff risk
-              </p>
-              <p>
-                <span
-                  className="inline-block w-3 h-3 mr-2 border border-gray-300 rounded-full"
-                  style={{ backgroundColor: "#dc3545" }}
-                ></span>
-                <strong>&gt; 15%</strong> - Very steep, high runoff risk
-              </p>
+              <div className="grid grid-cols-2 gap-1">
+                {[
+                  { range: "0-2%", label: "Very Low", color: "#38a800" },
+                  { range: "2-3%", label: "Low", color: "#b0e200" },
+                ].map((item, index) => (
+                  <div key={index} className="flex items-center">
+                    <span
+                      className="w-3 h-3 mr-2 rounded-full"
+                      style={{ backgroundColor: item.color }}
+                    ></span>
+                    <span>
+                      {item.range} - {item.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { range: "3-4%", label: "Moderate", color: "#ffaa00" },
+                { range: "≥ 4%", label: "High", color: "#ff0000" },
+              ].map((item, index) => (
+                <div key={index} className="flex items-center">
+                  <span
+                    className="w-3 h-3 mr-2 rounded-full"
+                    style={{ backgroundColor: item.color }}
+                  ></span>
+                  <span>
+                    {item.range} - {item.label}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
         {regions && regions.length > 0 && (
-          <p className="mt-2">
+          <p className="text-xs">
             <span className="inline-block w-4 h-3 bg-blue-200 border-2 border-blue-600 mr-2"></span>
-            Your Selected Regions ({regions.length})
+            Selected Regions ({regions.length})
           </p>
-        )}
-
-        <div className="mt-3 p-2 bg-blue-50 border border-blue-200 rounded">
-          <p className="text-xs text-blue-800">
-            <strong>💡 How to Use:</strong> Click anywhere on the map to
-            calculate the slope percentage at that location. The calculation
-            uses elevation data from surrounding points to determine the
-            gradient. Green areas (≤ 3%) may qualify for reduced setback
-            requirements due to lower runoff potential.
-          </p>
-        </div>
-
-        <div className="mt-2 p-2 bg-yellow-50 border border-yellow-200 rounded">
-          <p className="text-xs text-yellow-800">
-            <strong>Note:</strong> Slope calculations are estimates based on
-            elevation data. For critical applications, consider professional
-            surveying. Results may vary based on data resolution and local
-            terrain features.
-          </p>
-        </div>
-
-        {!process.env.NEXT_PUBLIC_ARCGIS_API_KEY && (
-          <div className="mt-2 p-2 bg-yellow-50 border border-yellow-200 rounded">
-            <p className="text-xs text-yellow-800">
-              <strong>API Key Required:</strong> Slope analysis requires an
-              ArcGIS API key. Add
-              <code className="bg-yellow-100 px-1 rounded ml-1">
-                NEXT_PUBLIC_ARCGIS_API_KEY
-              </code>{" "}
-              to your .env file.
-            </p>
-          </div>
         )}
       </div>
     </div>
