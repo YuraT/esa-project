@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { stepProps } from "../utils/props";
+import { stepProps } from "../../utils/props";
 
 export default function Step5({ value, setValue }: stepProps) {
   const [checked1, setChecked1] = useState(value !== 0);

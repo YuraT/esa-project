@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { stepProps } from "../utils/props";
+import { stepProps } from "../../utils/props";
 import { IoClose } from "react-icons/io5";
 
 export default function Step8({ value, setValue }: stepProps) {

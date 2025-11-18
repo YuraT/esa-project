@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { stepProps } from "../utils/props";
+import { stepProps } from "../../utils/props";
 
 export default function Step9({ value, setValue }: stepProps) {
   const [answers, setAnswers] = useState<{ [key: string]: number }>({});

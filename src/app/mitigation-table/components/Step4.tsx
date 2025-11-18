@@ -1,6 +1,6 @@
 "use client";
 
-import { stepProps } from "../utils/props";
+import { stepProps } from "../../utils/props";
 
 export default function Step4({ value, setValue }: stepProps) {
   return (

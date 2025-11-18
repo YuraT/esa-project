@@ -1,6 +1,6 @@
 "use client";
 
-import { stepProps } from "../utils/props";
+import { stepProps } from "../../utils/props";
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";

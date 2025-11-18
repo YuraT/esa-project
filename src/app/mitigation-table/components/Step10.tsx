@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { stepProps } from "../utils/props";
+import { stepProps } from "../../utils/props";
 
 export default function Step10({ value, setValue }: stepProps) {
   const [answers, setAnswers] = useState<{ [key: string]: number }>({});
@@ -15,10 +15,7 @@ export default function Step10({ value, setValue }: stepProps) {
 
   useEffect(() => {
     if (
-      (prac1 && prac2 === true) ||
-      (prac1 && prac3 === true) ||
-      (prac2 && prac3 === true) ||
-      (prac1 && prac2 && prac3 === true)
+      (prac1 && prac2) || (prac1 && prac3) || (prac2 && prac3)
     ) {
       handleAnswer("q3", 1);
     } else {
