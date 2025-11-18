@@ -1,8 +1,6 @@
 "use client";
 
 type ApplicationRateMethodProps = {
-  pesticideType: string;
-  setPesticideType: (v: string) => void;
   applicationRate: string;
   setApplicationRate: (v: string) => void;
   soilDepth: string;
@@ -10,8 +8,6 @@ type ApplicationRateMethodProps = {
 };
 
 export default function ApplicationRateMethod({
-  pesticideType,
-  setPesticideType,
   applicationRate,
   setApplicationRate,
   soilDepth,
@@ -29,20 +25,6 @@ export default function ApplicationRateMethod({
             right mitigation requirements for your application.
           </p>
         </div>
-      </div>
-
-      {/* Pesticide Type */}
-      <div className="mb-6">
-        <label className="block text-[#275c9d] text-xl font-bold mb-2">
-          Pesticide Type
-        </label>
-        <input
-          type="text"
-          placeholder="Type Pesticide Type..."
-          value={pesticideType}
-          onChange={(e) => setPesticideType(e.target.value)}
-          className="w-full h-12 rounded-2xl border border-[#cbd5f5] bg-white px-4 text-[#275c9d] text-base shadow-[0_0_0_2px_rgba(206,224,245,0.7)] focus:outline-none"
-        />
       </div>
 
       {/* Application Rate */}

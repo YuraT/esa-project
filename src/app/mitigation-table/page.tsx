@@ -40,7 +40,6 @@ function MitigationTableContent() {
   const [errorIndex, setErrorIndex] = useState<Record<number, string>>({});
 
   // Application rate & Method inputs
-  const [pesticideType, setPesticideType] = useState("");
   const [applicationRate, setApplicationRate] = useState("");
   const [soilDepth, setSoilDepth] = useState("");
 
@@ -107,7 +106,6 @@ function MitigationTableContent() {
           blt_text: item.limitation,
           use_method_form: useMethodForm,
           application_details: {
-            pesticide_type: pesticideType,
             application_rate: applicationRate,
             soil_incorporation_depth: soilDepth,
           },
@@ -237,8 +235,6 @@ function MitigationTableContent() {
           </p>
 
           <ApplicationRateMethod
-            pesticideType={pesticideType}
-            setPesticideType={setPesticideType}
             applicationRate={applicationRate}
             setApplicationRate={setApplicationRate}
             soilDepth={soilDepth}
@@ -343,7 +339,7 @@ function MitigationTableContent() {
                       <p className="mt-1 text-xs text-[#4b5563]">
                         The AI will rephrase the EPA limitation in simpler
                         language and estimate the runoff mitigation points based
-                        on the pesticide type, rate, and soil depth you entered
+                        on the application rate and soil depth you entered
                         above.
                       </p>
                     )}
