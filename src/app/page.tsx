@@ -12,14 +12,14 @@ export default function Home() {
     "font-bold text-white bg-[#537BBA] text-lg rounded-full py-4 px-12 transition-colors hover:bg-[#648fd1]";
 
   // icons styling
-  const iconsSpacing = "flex flex-col items-center gap-[clamp(0.5rem,2vw,3rem)]";
+  const iconsSpacing =
+    "flex flex-col items-center gap-[clamp(0.5rem,2vw,3rem)]";
   const iconsShape =
     "flex items-center justify-center bg-[#CEDEBD] w-[clamp(2rem,10vw,20rem)] h-[clamp(2rem,10vw,20rem)] rounded-full";
   const iconsSize = "text-[clamp(0.8rem,4vw,8rem)] text-[#3E4651]";
 
   // steps styling
-  const steps =
-    "font-bold text-[#3E4651] leading-tight text-center";
+  const steps = "font-bold text-[#3E4651] leading-tight text-center";
   const stepsDesc =
     "font-normal text-sm text-[#3E4651] max-w-[clamp(10rem,20vw,25rem)] text-center";
 
@@ -59,6 +59,9 @@ export default function Home() {
               *This site does not store or collect personal data about pesticide
               application*
             </p>
+            <p className="text-[clamp(0.2rem,1vw,2rem)] text-[#9E9FA0] mt-2">
+              *These are recommendations, not sanctioned or approved*
+            </p>
           </div>
         </div>
       </div>
@@ -93,8 +96,8 @@ export default function Home() {
                 <h3 className={steps}>1. Choose</h3>
                 <p className={stepsDesc}>
                   the <span className="font-bold">Chat</span> or{" "}
-                  <span className="font-bold">Map Tools</span> to begin
-                  your search.
+                  <span className="font-bold">Map Tools</span> to begin your
+                  search.
                 </p>
               </div>
             </div>
@@ -125,7 +128,9 @@ export default function Home() {
                 <h3 className={steps}>3. Inform</h3>
                 <p className={stepsDesc}>
                   yourself on the latest information for your{" "}
-                  <span className="font-bold">region and state's safe usage</span>
+                  <span className="font-bold">
+                    region and state's safe usage
+                  </span>
                   .
                 </p>
               </div>
