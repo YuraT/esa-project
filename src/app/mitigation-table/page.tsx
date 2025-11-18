@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, Suspense, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Step1 from "./components/Step1";
@@ -13,8 +16,7 @@ import Step7 from "./components/Step7";
 import Step8 from "./components/Step8";
 import Step9 from "./components/Step9";
 import Step10 from "./components/Step10";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
+import ApplicationRateMethod from "./components/ApplicationRateMethod";
 
 type UMFEntry = {
   use?: string;
@@ -32,6 +34,15 @@ type LimitationItem = {
 
 function MitigationTableContent() {
   const [limitations, setLimitations] = useState<LimitationItem[]>([]);
+
+  const [aiResults, setAiResults] = useState<Record<number, any>>({});
+  const [loadingIndex, setLoadingIndex] = useState<number | null>(null);
+  const [errorIndex, setErrorIndex] = useState<Record<number, string>>({});
+
+  // Application rate & Method inputs
+  const [pesticideType, setPesticideType] = useState("");
+  const [applicationRate, setApplicationRate] = useState("");
+  const [soilDepth, setSoilDepth] = useState("");
 
   // State for each mitigation step (Table 1)
   const [countyVuln, setCountyVuln] = useState<number>(0); // 6, 3, 2, 0
@@ -70,6 +81,53 @@ function MitigationTableContent() {
 
   const scrollToStep = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleExplainLimitation = async (
+    item: LimitationItem,
+    index: number,
+  ) => {
+    setLoadingIndex(index);
+    setErrorIndex((prev) => ({ ...prev, [index]: "" }));
+
+    try {
+      const useMethodForm = item.umf
+        .map(
+          (u) =>
+            `Use: ${u.use || "N/A"}, Method: ${u.method || "N/A"}, Form: ${
+              u.form || "N/A"
+            }`,
+        )
+        .join("\n");
+
+      const res = await fetch("/api/mitigation-llm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          blt_text: item.limitation,
+          use_method_form: useMethodForm,
+          application_details: {
+            pesticide_type: pesticideType,
+            application_rate: applicationRate,
+            soil_incorporation_depth: soilDepth,
+          },
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Request failed with status ${res.status}`);
+      }
+
+      const data = await res.json();
+      setAiResults((prev) => ({ ...prev, [index]: data }));
+    } catch (error: any) {
+      setErrorIndex((prev) => ({
+        ...prev,
+        [index]: error?.message || "Failed to get AI explanation",
+      }));
+    } finally {
+      setLoadingIndex(null);
+    }
   };
 
   useEffect(() => {
@@ -175,33 +233,122 @@ function MitigationTableContent() {
         <div className="bg-white m-20">
           {/* Display limitation with mitigations */}
           <p className="mb-10 text-[#275c9d] text-4xl font-bold ">
-            Required Points for {product} in {county}
+            Mitigation Point Requirements for {product} in {county}
           </p>
+
+          <ApplicationRateMethod
+            pesticideType={pesticideType}
+            setPesticideType={setPesticideType}
+            applicationRate={applicationRate}
+            setApplicationRate={setApplicationRate}
+            soilDepth={soilDepth}
+            setSoilDepth={setSoilDepth}
+          />
           {limitations.length > 0 ? (
             limitations.map((item, index) => (
               <div
                 key={index}
-                className="mb-10 p-4 border border-gray-300 rounded-lg bg-[#f9f9f9]"
+                className="mb-10 rounded-2xl border border-gray-300 bg-white p-4 shadow-sm"
               >
-                <div className="ml-4">
-                  {item.umf.map((umfEntry, umfIndex) => (
-                    <div key={umfIndex} className="mb-2">
-                      <p className="text-md text-black">
-                        Pula ID: {umfEntry.pula_id || "N/A"}
-                      </p>
-                      <p className="text-md text-black">
-                        Use: {umfEntry.use || "N/A"}
-                      </p>
-                      <p className="text-md text-black">
-                        Method: {umfEntry.method || "N/A"}
-                      </p>
-                      <p className="text-md text-black">
-                        Form: {umfEntry.form || "N/A"}
-                      </p>
+                <div className="mb-4 flex flex-col gap-4 md:flex-row">
+                  {/* Left: EPA / BLT section */}
+                  <div className="flex-1 rounded-2xl bg-[#f9f9f9] p-4">
+                    <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[#6b7280]">
+                      EPA label limitation
+                    </p>
+                    <div className="ml-2">
+                      {item.umf.map((umfEntry, umfIndex) => (
+                        <div key={umfIndex} className="mb-2">
+                          <p className="text-sm text-black">
+                            <span className="font-semibold">Use:</span>{" "}
+                            {umfEntry.use || "N/A"}
+                          </p>
+                          <p className="text-sm text-black">
+                            <span className="font-semibold">Method:</span>{" "}
+                            {umfEntry.method || "N/A"}
+                          </p>
+                          <p className="text-sm text-black">
+                            <span className="font-semibold">Form:</span>{" "}
+                            {umfEntry.form || "N/A"}
+                          </p>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                    <p className="mt-2 text-sm leading-relaxed text-black">
+                      {item.limitation}
+                    </p>
+                  </div>
+
+                  {/* Right: AI helper section */}
+                  <div className="flex-1 rounded-2xl bg-[#eef3fb] p-4">
+                    <div className="mb-3 flex items-center justify-between">
+                      <p className="text-sm font-semibold uppercase tracking-wide text-[#275c9d]">
+                        AI assistant (draft guidance)
+                      </p>
+                      <span className="rounded-full bg-white px-3 py-1 text-xs font-medium text-[#6b7280]">
+                        Uses your inputs above
+                      </span>
+                    </div>
+
+                    <button
+                      type="button"
+                      className="mb-3 rounded-lg bg-[#275c9d] px-4 py-2 text-sm font-bold text-white hover:bg-[#1f4b7a] disabled:opacity-60"
+                      onClick={() => handleExplainLimitation(item, index)}
+                      disabled={loadingIndex === index}
+                    >
+                      {loadingIndex === index
+                        ? "Analyzing limitation..."
+                        : "Generate AI summary"}
+                    </button>
+
+                    {errorIndex[index] && (
+                      <p className="text-sm text-red-600">
+                        {errorIndex[index]}
+                      </p>
+                    )}
+
+                    {aiResults[index] && (
+                      <div className="mt-2 text-sm text-black">
+                        <p className="mb-1 font-bold text-[#275c9d]">
+                          Plain-language explanation
+                        </p>
+                        <p className="mb-3 whitespace-pre-line leading-relaxed">
+                          {aiResults[index].cleaned_text}
+                        </p>
+
+                        {aiResults[index].required_points !== null && (
+                          <p className="mb-1 text-md font-bold text-[#275c9d]">
+                            Required runoff mitigation points:{" "}
+                            <span className="text-black">
+                              {aiResults[index].required_points}
+                            </span>
+                          </p>
+                        )}
+
+                        {aiResults[index].points_explanation && (
+                          <p className="mb-1 leading-relaxed">
+                            {aiResults[index].points_explanation}
+                          </p>
+                        )}
+
+                        {aiResults[index].notes && (
+                          <p className="mt-2 text-xs text-gray-600">
+                            {aiResults[index].notes}
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    {!aiResults[index] && !errorIndex[index] && (
+                      <p className="mt-1 text-xs text-[#4b5563]">
+                        The AI will rephrase the EPA limitation in simpler
+                        language and estimate the runoff mitigation points based
+                        on the pesticide type, rate, and soil depth you entered
+                        above.
+                      </p>
+                    )}
+                  </div>
                 </div>
-                <p className="mb-2 text-md text-black">{item.limitation}</p>
               </div>
             ))
           ) : (
