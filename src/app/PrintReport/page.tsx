@@ -58,7 +58,7 @@ const PrintReportContent: React.FC = () => {
 
   const queryPulasForRegion = async (
     regionGeometry: GeoJSON.Feature<GeoJSON.Polygon>,
-    productName: string,
+    productName: string
   ) => {
     setLoadingPulas(true);
     try {
@@ -66,7 +66,9 @@ const PrintReportContent: React.FC = () => {
       const prodRegNum = productName.match(/^\s*[\d\-]+/)?.[0] ?? "";
 
       const response = await fetch(
-        `/api/pulas-by-geometry?geometry=${encodeURIComponent(JSON.stringify(regionGeometry))}&prod_reg_num=${encodeURIComponent(prodRegNum)}&returnGeometry=true`,
+        `/api/pulas-by-geometry?geometry=${encodeURIComponent(
+          JSON.stringify(regionGeometry)
+        )}&prod_reg_num=${encodeURIComponent(prodRegNum)}&returnGeometry=true`
       );
 
       if (response.ok) {
@@ -190,11 +192,32 @@ const PrintReportContent: React.FC = () => {
     }
   }
 
+   const downloadPDF = async () => {
+    const params = new URLSearchParams({
+      month: month ?? "",
+      product: product ?? "",
+      county: county ?? "",
+      region: region ?? "",
+      limitation: JSON.stringify(limitations) ?? "na",
+      pulaData: JSON.stringify(pulaData) ?? "na",
+      mitigationsParam: mitigationsParam ?? "na",
+    });
+
+    const res = await fetch(`/api/report?${params.toString()}`);
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Endangered_Species_Protection_Report.pdf";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const wrapText = (
     text: string,
     maxWidth: number,
     font: PDFFont,
-    fontSize: number,
+    fontSize: number
   ): string[] => {
     const tokens = text.split(/\s+/); // split by space
     const lines: string[] = [];
@@ -215,7 +238,7 @@ const PrintReportContent: React.FC = () => {
         ) {
           const subtokens = token.split("-");
           const hyphenJoined = subtokens.map((sub, i) =>
-            i < subtokens.length - 1 ? sub + "-" : sub,
+            i < subtokens.length - 1 ? sub + "-" : sub
           );
 
           for (const part of hyphenJoined) {
@@ -274,7 +297,7 @@ const PrintReportContent: React.FC = () => {
     // Fetch and embed the EPA logo
     const logoUrl = "/epa-logo.png"; // Must be in the public folder
     const logoImageBytes = await fetch(logoUrl).then((res) =>
-      res.arrayBuffer(),
+      res.arrayBuffer()
     );
     const logoImage = await pdfDoc.embedPng(logoImageBytes); // Or use embedJpg if it's a .jpg
     const logoDims = logoImage.scale(0.4); // Scale image to fit
@@ -409,7 +432,7 @@ const PrintReportContent: React.FC = () => {
             });
 
             const maxLines = Math.max(
-              ...wrappedLinesPerCol.map((lines) => lines.length),
+              ...wrappedLinesPerCol.map((lines) => lines.length)
             );
             rowHeight = maxLines * lineHeight + 2 * cellPadding;
 
@@ -521,7 +544,7 @@ const PrintReportContent: React.FC = () => {
       colX = 40;
       const totalPoints = mitigationMenuRows.reduce(
         (sum, row) => sum + row.points,
-        0,
+        0
       );
       page.drawRectangle({
         x: colX,
@@ -592,27 +615,31 @@ const PrintReportContent: React.FC = () => {
       pulaData.forEach((pula, index) => {
         const attrs = pula.attributes;
         page.drawText(
-          `• PULA ID: ${attrs.pula_id || "N/A"} - ${attrs.event_name || "Unknown Event"}`,
+          `• PULA ID: ${attrs.pula_id || "N/A"} - ${
+            attrs.event_name || "Unknown Event"
+          }`,
           {
             x: 50,
             y,
             size: 10,
             font: regularFont,
             color: rgb(0, 0, 0),
-          },
+          }
         );
         y -= 14;
 
         if (attrs.effective_date) {
           page.drawText(
-            `  Effective: ${new Date(attrs.effective_date).toLocaleDateString()}`,
+            `  Effective: ${new Date(
+              attrs.effective_date
+            ).toLocaleDateString()}`,
             {
               x: 60,
               y,
               size: 9,
               font: regularFont,
               color: rgb(0.3, 0.3, 0.3),
-            },
+            }
           );
           y -= 12;
         }
@@ -627,7 +654,7 @@ const PrintReportContent: React.FC = () => {
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob(
       [pdfBytes instanceof Uint8Array ? pdfBytes.slice().buffer : pdfBytes],
-      { type: "application/pdf" },
+      { type: "application/pdf" }
     );
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -642,7 +669,7 @@ const PrintReportContent: React.FC = () => {
       <Header />
       <div className="flex justify-center mt-2">
         <button
-          onClick={generatePDF}
+          onClick={downloadPDF}
           className="bg-lime-200 text-blue-900 font-bold text-2xl px-15 py-4 rounded-full shadow-md hover:bg-lime-300 transition"
         >
           Download Printable Report
@@ -734,7 +761,7 @@ const PrintReportContent: React.FC = () => {
                     <td className="p-2 border">
                       {mitigationMenuRows.reduce(
                         (sum, row) => sum + row.points,
-                        0,
+                        0
                       )}
                     </td>
                   </tr>
@@ -773,7 +800,7 @@ const PrintReportContent: React.FC = () => {
                           <div className="text-sm text-gray-600">
                             Effective:{" "}
                             {new Date(
-                              attrs.effective_date,
+                              attrs.effective_date
                             ).toLocaleDateString()}
                           </div>
                         )}
@@ -781,7 +808,7 @@ const PrintReportContent: React.FC = () => {
                           <div className="text-sm text-gray-600">
                             Published:{" "}
                             {new Date(
-                              attrs.published_time_stamp,
+                              attrs.published_time_stamp
                             ).toLocaleDateString()}
                           </div>
                         )}
