@@ -2,7 +2,7 @@ import { $typst } from "@myriaddreamin/typst.ts";
 
 export async function GET(req: { url: string | URL }) {
   const url = new URL(req.url);
-  const pdfBytes = await generatePdf(url.searchParams);
+  const pdfBytes = await generatePdf(url.searchParams) as Uint8Array<ArrayBuffer>;
 
   return new Response(pdfBytes, {
     status: 200,
@@ -10,7 +10,7 @@ export async function GET(req: { url: string | URL }) {
   });
 }
 
-async function generatePdf(searchParams: URLSearchParams): Promise<Uint8Array> {
+async function generatePdf(searchParams: URLSearchParams) {
   const date = new Date().toLocaleDateString();
   const applicationMonth = searchParams.get("month") || "N/A";
   const product = searchParams.get("product") || "N/A";
