@@ -173,26 +173,13 @@ const PrintReportContent: React.FC = () => {
     }
   }
 
-  const downloadPDF = async () => {
-    const params = new URLSearchParams({
-      month: month ?? "",
-      product: product ?? "",
-      county: county ?? "",
-      regions: regions ?? "",
-      limitation: JSON.stringify(limitations) ?? "na",
-      pulaData: JSON.stringify(pulaData) ?? "na",
-      mitigationsParam: mitigationsParam ?? "na",
-    });
-
-    const res = await fetch(`/api/report?${params.toString()}`);
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "Endangered_Species_Protection_Report.pdf";
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+  const reportUrlParams = new URLSearchParams({
+    month: month ?? "",
+    product: product ?? "",
+    county: county ?? "",
+    regions: regions ?? "",
+  });
+  const reportUrl = `/api/report?${reportUrlParams.toString()}`;
 
   const wrapText = (
     text: string,
@@ -643,12 +630,13 @@ const PrintReportContent: React.FC = () => {
     <div className="bg-white min-h-screen flex flex-col">
       <Header />
       <div className="flex justify-center mt-2">
-        <button
-          onClick={downloadPDF}
+        <a
+          href={reportUrl}
+          download={`esa-report-${month}-${product}-${county}.pdf`}
           className="bg-lime-200 text-blue-900 font-bold text-2xl px-15 py-4 rounded-full shadow-md hover:bg-lime-300 transition"
         >
           Download Printable Report
-        </button>
+        </a>
       </div>
 
       {/* --- Preview Box --- */}
