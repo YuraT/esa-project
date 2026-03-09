@@ -5,6 +5,7 @@ import { ChevronDown, LoaderCircle } from "lucide-react";
 import countiesData from "../data/uscounties.json";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import { LimitationTypes } from "@/lib/limitation-types";
 const RegionSelector = dynamic(() => import("../components/RegionSelector"), {
   ssr: false,
 });
@@ -168,7 +169,7 @@ export default function SearchContainer() {
         // Route to mitigation menu if any limitation requires calculating mitigation points
         if (
           geometryResult.limitations.some(({ limitation }) => {
-            return limitation.includes("runoff mitigation points");
+            return limitation.includes(LimitationTypes.t1RunoffErosion);
           })
         ) {
           const regionsParam = `&regions=${encodeURIComponent(JSON.stringify(selectedRegions))}`;
@@ -473,7 +474,7 @@ export default function SearchContainer() {
               isLoading
                 ? "bg-[#678dc9] cursor-not-allowed"
                 : "bg-[#4673ab] cursor-pointer hover:bg-[#3e6293]"
-            } flex items-center justify-center rounded-[0.5rem] transition-colors`}
+              } flex items-center justify-center rounded-[0.5rem] transition-colors`}
           >
             {isLoading ? (
               <div className="flex items-center space-x-2">

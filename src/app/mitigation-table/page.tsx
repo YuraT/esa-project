@@ -4,6 +4,7 @@ import { useState, Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
+import { LimitationTypes } from "@/lib/limitation-types";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Step1 from "./components/Step1";
@@ -147,8 +148,8 @@ function MitigationTableContent() {
       setLimitations(
         Array.isArray(parsed)
           ? parsed.filter((item) =>
-              item.limitation.includes("runoff mitigation points"),
-            )
+            item.limitation.includes(LimitationTypes.t1RunoffErosion),
+          )
           : [parsed],
       );
     }
@@ -409,7 +410,7 @@ function MitigationTableContent() {
                 county || "",
               )}&mitigations=${mitigations}${
                 regions ? `&regions=${encodeURIComponent(regions)}` : ""
-              }`}
+                }`}
               className="ml-220 bg-[#275c9d] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#1f4b7a] transition duration-200"
             >
               Next
