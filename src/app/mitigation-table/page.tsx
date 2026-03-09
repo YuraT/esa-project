@@ -78,6 +78,18 @@ function MitigationTableContent() {
     systems,
   ].join(",");
 
+  const totalMitigationPoints =
+    countyVuln +
+    fieldSlope +
+    soilPoints +
+    tracking +
+    techSpecialist +
+    conservationProgram +
+    appParams +
+    inField +
+    fieldAdjacent +
+    systems;
+
   const scrollToStep = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -375,6 +387,17 @@ function MitigationTableContent() {
               {s.render()}
             </div>
           ))}
+
+          <div className="w-full flex justify-center mb-10">
+            <div className="text-[#375B85] font-bold inline-flex w-fit flex-row items-center gap-3 bg-blue-200 rounded-full px-4 py-2 shadow-md">
+              <span>Total Pesticide Mitigation Points</span>
+              <div className="bg-white rounded-full w-8 h-8 flex items-center justify-center">
+                <span className="text-[#375B85]">
+                  {totalMitigationPoints}
+                </span>
+              </div>
+            </div>
+          </div>
 
           <div className="mb-10">
             <Link
