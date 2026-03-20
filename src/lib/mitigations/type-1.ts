@@ -103,70 +103,91 @@ export const step10Descriptions = [
   "Mitigation Measures From Multiple Categories"
 ];
 
-export const type1MitigationSchema = z.object({
-  countyVuln: z.enum(CountyVulnOption).default(CountyVulnOption.HIGH),
-  fieldSlope: z.enum(FieldSlopeOption).default(FieldSlopeOption.GT_3),
-  soilPoints: z.enum(SoilPointsOption).default(SoilPointsOption.OTHER),
-  tracking: z.enum(TrackingOption).default(TrackingOption.NO),
-  techSpecialist: z.enum(TechSpecialistOption).default(TechSpecialistOption.NO),
-  conservationProgram: z.enum(ConservationProgramOption).default(ConservationProgramOption.NONE),
-  appParams: z.string().default("0-0-0-0"),
-  inField: z.string().default("0-0-0-0-0-0-0-0-0"),
-  fieldAdjacent: z.string().default("0-0-0-0-0-0-0"),
-  systems: z.string().default("0-0-0"),
+const arrayCsvCodec = (separator: string, len: number) =>
+  z.codec(
+    z.string(),
+    z.array(z.number()),
+    {
+      decode: (str) => {
+        const arr = str.split(separator).map(n => Number(n) || 0);
+        while (arr.length < len) arr.push(0);
+        return arr.slice(0, len);
+      },
+      encode: (arr) => arr.join(separator),
+    }
+  );
+
+export const type1MitigationInnerSchema = z.object({
+  countyVuln: z.enum(CountyVulnOption as any).default(CountyVulnOption.HIGH),
+  fieldSlope: z.enum(FieldSlopeOption as any).default(FieldSlopeOption.GT_3),
+  soilPoints: z.enum(SoilPointsOption as any).default(SoilPointsOption.OTHER),
+  tracking: z.enum(TrackingOption as any).default(TrackingOption.NO),
+  techSpecialist: z.enum(TechSpecialistOption as any).default(TechSpecialistOption.NO),
+  conservationProgram: z.enum(ConservationProgramOption as any).default(ConservationProgramOption.NONE),
+  appParams: arrayCsvCodec("-", 4).default([0, 0, 0, 0]),
+  inField: arrayCsvCodec("-", 9).default([0, 0, 0, 0, 0, 0, 0, 0, 0]),
+  fieldAdjacent: arrayCsvCodec("-", 7).default([0, 0, 0, 0, 0, 0, 0]),
+  systems: arrayCsvCodec("-", 3).default([0, 0, 0]),
 });
+
+export const type1MitigationSchema = z.codec(
+  z.string(),
+  type1MitigationInnerSchema,
+  {
+    decode: (str) => {
+      const parts = str ? str.split(",") : [];
+      const parseEnum = (val: string, fallback: number) => {
+        const num = Number(val);
+        return Number.isNaN(num) ? fallback : num;
+      };
+
+      if (parts.length >= 10) {
+        return {
+          countyVuln: parseEnum(parts[0], CountyVulnOption.HIGH),
+          fieldSlope: parseEnum(parts[1], FieldSlopeOption.GT_3),
+          soilPoints: parseEnum(parts[2], SoilPointsOption.OTHER),
+          tracking: parseEnum(parts[3], TrackingOption.NO),
+          techSpecialist: parseEnum(parts[4], TechSpecialistOption.NO),
+          conservationProgram: parseEnum(parts[5], ConservationProgramOption.NONE),
+          appParams: parts[6] || undefined,
+          inField: parts[7] || undefined,
+          fieldAdjacent: parts[8] || undefined,
+          systems: parts[9] || undefined,
+        };
+      }
+      return {};
+    },
+    encode: (obj) => {
+      return [
+        obj.countyVuln,
+        obj.fieldSlope,
+        obj.soilPoints,
+        obj.tracking,
+        obj.techSpecialist,
+        obj.conservationProgram,
+        obj.appParams,
+        obj.inField,
+        obj.fieldAdjacent,
+        obj.systems,
+      ].join(",");
+    }
+  }
+);
 
 export type Type1MitigationOptions = z.infer<typeof type1MitigationSchema>;
 
 export function encodeType1Mitigations(options: Type1MitigationOptions): string {
-  const parsed = type1MitigationSchema.parse(options);
-  return [
-    parsed.countyVuln,
-    parsed.fieldSlope,
-    parsed.soilPoints,
-    parsed.tracking,
-    parsed.techSpecialist,
-    parsed.conservationProgram,
-    parsed.appParams,
-    parsed.inField,
-    parsed.fieldAdjacent,
-    parsed.systems,
-  ].join(",");
+  return type1MitigationSchema.encode(options);
 }
 
 export function decodeType1Mitigations(param: string | null): Type1MitigationOptions {
   if (!param) {
-    return type1MitigationSchema.parse({});
+    return type1MitigationSchema.decode("");
   }
-
   try {
-    const parts = param.split(",");
-
-    // Parse single numeric enums robustly
-    const parseEnum = (val: string, fallback: number) => {
-      const num = Number(val);
-      return Number.isNaN(num) ? fallback : num;
-    };
-
-    if (parts.length >= 10) {
-      return type1MitigationSchema.parse({
-        countyVuln: parseEnum(parts[0], CountyVulnOption.HIGH),
-        fieldSlope: parseEnum(parts[1], FieldSlopeOption.GT_3),
-        soilPoints: parseEnum(parts[2], SoilPointsOption.OTHER),
-        tracking: parseEnum(parts[3], TrackingOption.NO),
-        techSpecialist: parseEnum(parts[4], TechSpecialistOption.NO),
-        conservationProgram: parseEnum(parts[5], ConservationProgramOption.NONE),
-        appParams: parts[6] || "0-0-0-0",
-        inField: parts[7] || "0-0-0-0-0-0-0-0-0",
-        fieldAdjacent: parts[8] || "0-0-0-0-0-0-0",
-        systems: parts[9] || "0-0-0",
-      });
-    }
-
-    // fallback for fewer parts or corrupted
-    return type1MitigationSchema.parse({});
+    return type1MitigationSchema.decode(param);
   } catch (e) {
     console.error("Failed to decode type-1 mitigations:", e);
-    return type1MitigationSchema.parse({});
+    return type1MitigationSchema.decode("");
   }
 }

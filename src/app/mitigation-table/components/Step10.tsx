@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { stepProps } from "../../utils/props";
-
-export default function Step10({ value, setValue }: { value: string; setValue: (v: string) => void }) {
-  const arr = typeof value === "string" ? value.split("-").map(Number) : [0, 0, 0];
+export default function Step10({ value, setValue }: { value: number[]; setValue: (v: number[]) => void }) {
+  const arr = Array.isArray(value) ? value : [0, 0, 0];
   const answers: Record<string, number> = {
     q1: arr[0] || 0,
     q2: arr[1] || 0,
@@ -14,7 +12,7 @@ export default function Step10({ value, setValue }: { value: string; setValue: (
 
   function handleAnswer(questionId: string, newPoints: number) {
     const newAnswers = { ...answers, [questionId]: newPoints };
-    setValue(`${newAnswers.q1}-${newAnswers.q2}-${newAnswers.q3}`);
+    setValue([newAnswers.q1, newAnswers.q2, newAnswers.q3]);
   }
 
   const currentPoints = Object.values(answers).reduce((a, b) => a + b, 0);
@@ -51,8 +49,8 @@ export default function Step10({ value, setValue }: { value: string; setValue: (
           <div className="flex gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q1"] === 2
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q1", 2)}
             >
@@ -60,8 +58,8 @@ export default function Step10({ value, setValue }: { value: string; setValue: (
             </button>
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q1"] === 0
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q1", 0)}
             >
@@ -82,8 +80,8 @@ export default function Step10({ value, setValue }: { value: string; setValue: (
           <div className="flex gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q2"] === 1
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q2", 1)}
             >
@@ -91,8 +89,8 @@ export default function Step10({ value, setValue }: { value: string; setValue: (
             </button>
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q2"] === 0
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q2", 0)}
             >

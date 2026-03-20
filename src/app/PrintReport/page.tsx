@@ -143,7 +143,7 @@ const PrintReportContent: React.FC = () => {
     }
 
     // Step 7: Application Parameters
-    mitigations.appParams.split("-").map(Number).forEach((val, index) => {
+    mitigations.appParams.forEach((val, index) => {
       if (val > 0) {
         mitigationMenuRows.push({
           relief: "Application Parameters",
@@ -154,7 +154,7 @@ const PrintReportContent: React.FC = () => {
     });
 
     // Step 8: In-field Mitigation Measures
-    mitigations.inField.split("-").map(Number).forEach((val, index) => {
+    mitigations.inField.forEach((val, index) => {
       if (val > 0) {
         mitigationMenuRows.push({
           relief: "In-field Mitigation Measures",
@@ -165,7 +165,7 @@ const PrintReportContent: React.FC = () => {
     });
 
     // Step 9: Field-adjacent Mitigation Measures
-    mitigations.fieldAdjacent.split("-").map(Number).forEach((val, index) => {
+    mitigations.fieldAdjacent.forEach((val, index) => {
       if (val > 0) {
         mitigationMenuRows.push({
           relief: "Field-adjacent Mitigation Measures",
@@ -176,7 +176,7 @@ const PrintReportContent: React.FC = () => {
     });
 
     // Step 10: Systems That Capture Runoff and Discharge
-    mitigations.systems.split("-").map(Number).forEach((val, index) => {
+    mitigations.systems.forEach((val, index) => {
       if (val > 0) {
         mitigationMenuRows.push({
           relief: "Systems That Capture Runoff and Discharge",

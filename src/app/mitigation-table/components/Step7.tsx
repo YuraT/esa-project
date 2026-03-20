@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { stepProps } from "../../utils/props";
 
-export default function Step7({ value, setValue }: { value: string; setValue: (v: string) => void }) {
-  const arr = typeof value === "string" ? value.split("-").map(Number) : [0, 0, 0, 0];
+export default function Step7({ value, setValue }: { value: number[]; setValue: (v: number[]) => void }) {
+  const arr = Array.isArray(value) ? value : [0, 0, 0, 0];
   const answers: Record<string, number> = {
     q1: arr[0] || 0,
     q2: arr[1] || 0,
@@ -12,7 +12,7 @@ export default function Step7({ value, setValue }: { value: string; setValue: (v
 
   function handleAnswer(questionId: string, newPoints: number) {
     const newAnswers = { ...answers, [questionId]: newPoints };
-    setValue(`${newAnswers.q1}-${newAnswers.q2}-${newAnswers.q3}-${newAnswers.q4}`);
+    setValue([newAnswers.q1, newAnswers.q2, newAnswers.q3, newAnswers.q4]);
   }
 
   const currentPoints = Object.values(answers).reduce((a, b) => a + b, 0);

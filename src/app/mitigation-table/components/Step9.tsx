@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { stepProps } from "../../utils/props";
-
-export default function Step9({ value, setValue }: { value: string; setValue: (v: string) => void }) {
-  const arr = typeof value === "string" ? value.split("-").map(Number) : [0, 0, 0, 0, 0, 0, 0];
+export default function Step9({ value, setValue }: { value: number[]; setValue: (v: number[]) => void }) {
+  const arr = Array.isArray(value) ? value : [0, 0, 0, 0, 0, 0, 0];
   const answers: Record<string, number> = {
     q1: arr[0] || 0,
     q2: arr[1] || 0,
@@ -15,7 +13,7 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
 
   function handleAnswer(questionId: string, newPoints: number) {
     const newAnswers = { ...answers, [questionId]: newPoints };
-    setValue(`${newAnswers.q1}-${newAnswers.q2}-${newAnswers.q3}-${newAnswers.q4}-${newAnswers.q5}-${newAnswers.q6}-${newAnswers.q7}`);
+    setValue([newAnswers.q1, newAnswers.q2, newAnswers.q3, newAnswers.q4, newAnswers.q5, newAnswers.q6, newAnswers.q7]);
   }
 
   const currentPoints = Object.values(answers).reduce((a, b) => a + b, 0);
@@ -39,8 +37,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
           <div className="flex gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q1"] === 1
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q1", 1)}
             >
@@ -48,8 +46,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
             </button>
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q1"] === 0
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q1", 0)}
             >
@@ -67,8 +65,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
           <div className="flex gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q2"] === 1
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q2", 1)}
             >
@@ -76,8 +74,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
             </button>
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q2"] === 2
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q2", 2)}
             >
@@ -85,8 +83,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
             </button>
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q2"] === 3
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q2", 3)}
             >
@@ -106,8 +104,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
           <div className="flex gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q3"] === 1
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q3", 1)}
             >
@@ -115,8 +113,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
             </button>
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q3"] === 0
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q3", 0)}
             >
@@ -134,8 +132,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
           <div className="flex gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q4"] === 1
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q4", 1)}
             >
@@ -143,8 +141,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
             </button>
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q4"] === 2
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q4", 2)}
             >
@@ -152,8 +150,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
             </button>
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q4"] === 3
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q4", 3)}
             >
@@ -171,8 +169,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
           <div className="flex gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q5"] === 3
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q5", 3)}
             >
@@ -180,8 +178,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
             </button>
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q5"] === 0
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q5", 0)}
             >
@@ -199,8 +197,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
           <div className="flex gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q6"] === 1
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q6", 1)}
             >
@@ -208,8 +206,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
             </button>
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q6"] === 2
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q6", 2)}
             >
@@ -217,8 +215,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
             </button>
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q6"] === 3
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q6", 3)}
             >
@@ -236,8 +234,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
           <div className="flex gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q7"] === 3
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q7", 3)}
             >
@@ -245,8 +243,8 @@ export default function Step9({ value, setValue }: { value: string; setValue: (v
             </button>
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q7"] === 1
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
                 }`}
               onClick={() => handleAnswer("q7", 1)}
             >
