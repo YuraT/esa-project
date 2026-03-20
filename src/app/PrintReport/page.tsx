@@ -6,7 +6,19 @@ import { PDFDocument, rgb, StandardFonts, PDFFont } from "pdf-lib";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import dynamic from "next/dynamic";
-import { decodeType1Mitigations } from "@/lib/mitigations/type-1";
+import {
+  decodeType1Mitigations,
+  countyVulnDescriptions,
+  fieldSlopeDescriptions,
+  soilPointsDescriptions,
+  trackingDescriptions,
+  techSpecialistDescriptions,
+  conservationProgramDescriptions,
+  step7Descriptions,
+  step8Descriptions,
+  step9Descriptions,
+  step10Descriptions,
+} from "@/lib/mitigations/type-1";
 const PulaMap = dynamic(() => import("../components/PulaMap"), { ssr: false });
 
 type UMFEntry = {
@@ -74,105 +86,105 @@ const PrintReportContent: React.FC = () => {
   }[] = [];
   if (mitigationsParam) {
     const mitigations = decodeType1Mitigations(mitigationsParam);
-    const hasAnyPoints = Object.values(mitigations).some(val => val > 0);
-    if (hasAnyPoints) {
-      // Step 1: County Based
-      const countyPoints = mitigations.countyVuln;
-      const vulnMap: Record<number, string> = {
-        6: "very low",
-        3: "low",
-        2: "medium",
-        0: "high",
-      };
-      const vuln = vulnMap[countyPoints] ?? "";
-      if (countyPoints > 0) {
-        mitigationMenuRows.push({
-          relief: "County Based",
-          characteristic: `Pesticide runoff vulnerability - ${vuln}`,
-          points: countyPoints,
-        });
-      }
-      // Step 2: Field Slope
-      if (mitigations.fieldSlope > 0) {
-        mitigationMenuRows.push({
-          relief: "Field Slope",
-          characteristic: "Field Slope <= 3%",
-          points: mitigations.fieldSlope,
-        });
-      }
-      // Step 3: Predominantly sandy soils
-      const soilPoints = mitigations.soilPoints;
-      let hydro = soilPoints === 2 ? "B" : soilPoints === 3 ? "A" : "";
-      if (soilPoints > 0) {
-        mitigationMenuRows.push({
-          relief: "Predominantly sandy soils",
-          characteristic: `Hydrologic group - ${hydro}`,
-          points: soilPoints,
-        });
-      }
-      // Step 4: Mitigation Tracking
-      if (mitigations.tracking > 0) {
-        mitigationMenuRows.push({
-          relief: "Mitigation Tracking",
-          characteristic: "Documented at the farm level",
-          points: mitigations.tracking,
-        });
-      }
-      // Step 5: Technical Specialist (not applicable if conservation program is selected)
-      if (mitigations.techSpecialist > 0 && mitigations.conservationProgram === 0) {
-        mitigationMenuRows.push({
-          relief: "Technical Specialist",
-          characteristic:
-            "Working with and following recommendations from a technical specialist",
-          points: mitigations.techSpecialist,
-        });
-      }
-      // Step 6: Conservation Program (qualified or non-qualified)
-      const conservationPoints: Record<number, string> = {
-        2: "Conservation Program (Non-qualified)",
-        9: "Qualified Conservation Program",
-      };
-      if (mitigations.conservationProgram > 0) {
-        mitigationMenuRows.push({
-          relief: conservationPoints[mitigations.conservationProgram] ?? "Conservation Program",
-          characteristic: "",
-          points: mitigations.conservationProgram,
-        });
-      }
 
-      // Step 7: Application Parameters
-      if (mitigations.appParams > 0) {
+    // Step 1: County Based
+    if (mitigations.countyVuln > 0) {
+      mitigationMenuRows.push({
+        relief: "County Based",
+        characteristic: `Pesticide runoff vulnerability - ${countyVulnDescriptions[mitigations.countyVuln as keyof typeof countyVulnDescriptions] || "Unknown"
+          }`,
+        points: mitigations.countyVuln,
+      });
+    }
+    // Step 2: Field Slope
+    if (mitigations.fieldSlope > 0) {
+      mitigationMenuRows.push({
+        relief: "Field Slope",
+        characteristic:
+          fieldSlopeDescriptions[mitigations.fieldSlope as keyof typeof fieldSlopeDescriptions] || "Field Slope <= 3%",
+        points: mitigations.fieldSlope,
+      });
+    }
+    // Step 3: Predominantly sandy soils
+    if (mitigations.soilPoints > 0) {
+      mitigationMenuRows.push({
+        relief: "Predominantly sandy soils",
+        characteristic: soilPointsDescriptions[mitigations.soilPoints as keyof typeof soilPointsDescriptions] || "Unknown",
+        points: mitigations.soilPoints,
+      });
+    }
+    // Step 4: Mitigation Tracking
+    if (mitigations.tracking > 0) {
+      mitigationMenuRows.push({
+        relief: "Mitigation Tracking",
+        characteristic: trackingDescriptions[mitigations.tracking as keyof typeof trackingDescriptions] || "Unknown",
+        points: mitigations.tracking,
+      });
+    }
+    // Step 5: Technical Specialist (not applicable if conservation program is selected)
+    if (mitigations.techSpecialist > 0 && mitigations.conservationProgram === 0) {
+      mitigationMenuRows.push({
+        relief: "Technical Specialist",
+        characteristic:
+          techSpecialistDescriptions[mitigations.techSpecialist as keyof typeof techSpecialistDescriptions] || "Unknown",
+        points: mitigations.techSpecialist,
+      });
+    }
+    // Step 6: Conservation Program (qualified or non-qualified)
+    if (mitigations.conservationProgram > 0) {
+      mitigationMenuRows.push({
+        relief:
+          conservationProgramDescriptions[
+          mitigations.conservationProgram as keyof typeof conservationProgramDescriptions
+          ] || "Conservation Program",
+        characteristic: "",
+        points: mitigations.conservationProgram,
+      });
+    }
+
+    // Step 7: Application Parameters
+    mitigations.appParams.split("-").map(Number).forEach((val, index) => {
+      if (val > 0) {
         mitigationMenuRows.push({
           relief: "Application Parameters",
-          characteristic: "",
-          points: mitigations.appParams,
+          characteristic: step7Descriptions[index] || `Option ${index + 1}`,
+          points: val,
         });
       }
-      // Step 8: In-field Mitigation Measures
-      if (mitigations.inField > 0) {
+    });
+
+    // Step 8: In-field Mitigation Measures
+    mitigations.inField.split("-").map(Number).forEach((val, index) => {
+      if (val > 0) {
         mitigationMenuRows.push({
           relief: "In-field Mitigation Measures",
-          characteristic: "",
-          points: mitigations.inField,
+          characteristic: step8Descriptions[index] || `Option ${index + 1}`,
+          points: val,
         });
       }
-      // Step 9: Field-adjacent Mitigation Measures
-      if (mitigations.fieldAdjacent > 0) {
+    });
+
+    // Step 9: Field-adjacent Mitigation Measures
+    mitigations.fieldAdjacent.split("-").map(Number).forEach((val, index) => {
+      if (val > 0) {
         mitigationMenuRows.push({
           relief: "Field-adjacent Mitigation Measures",
-          characteristic: "",
-          points: mitigations.fieldAdjacent,
+          characteristic: step9Descriptions[index] || `Option ${index + 1}`,
+          points: val,
         });
       }
-      // Step 10: Systems That Capture Runoff and Discharge
-      if (mitigations.systems > 0) {
+    });
+
+    // Step 10: Systems That Capture Runoff and Discharge
+    mitigations.systems.split("-").map(Number).forEach((val, index) => {
+      if (val > 0) {
         mitigationMenuRows.push({
           relief: "Systems That Capture Runoff and Discharge",
-          characteristic: "",
-          points: mitigations.systems,
+          characteristic: step10Descriptions[index] || `Option ${index + 1}`,
+          points: val,
         });
       }
-    }
+    });
   }
 
   const monthToDate = (m: string) => {

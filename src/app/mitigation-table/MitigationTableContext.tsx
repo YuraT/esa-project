@@ -59,14 +59,14 @@ type MitigationTableContextValue = {
   setTechSpecialist: React.Dispatch<React.SetStateAction<number>>;
   conservationProgram: number;
   setConservationProgram: React.Dispatch<React.SetStateAction<number>>;
-  appParams: number;
-  setAppParams: React.Dispatch<React.SetStateAction<number>>;
-  inField: number;
-  setInField: React.Dispatch<React.SetStateAction<number>>;
-  fieldAdjacent: number;
-  setFieldAdjacent: React.Dispatch<React.SetStateAction<number>>;
-  systems: number;
-  setSystems: React.Dispatch<React.SetStateAction<number>>;
+  appParams: string;
+  setAppParams: React.Dispatch<React.SetStateAction<string>>;
+  inField: string;
+  setInField: React.Dispatch<React.SetStateAction<string>>;
+  fieldAdjacent: string;
+  setFieldAdjacent: React.Dispatch<React.SetStateAction<string>>;
+  systems: string;
+  setSystems: React.Dispatch<React.SetStateAction<string>>;
 
   mitigationsParam: string;
   totalMitigationPoints: number;
@@ -108,10 +108,10 @@ export function MitigationTableProvider({ children }: { children: React.ReactNod
   const [conservationProgram, setConservationProgram] = useState<number>(0);
 
   // Table 2
-  const [appParams, setAppParams] = useState<number>(0);
-  const [inField, setInField] = useState<number>(0);
-  const [fieldAdjacent, setFieldAdjacent] = useState<number>(0);
-  const [systems, setSystems] = useState<number>(0);
+  const [appParams, setAppParams] = useState<string>("0-0-0-0");
+  const [inField, setInField] = useState<string>("0-0-0-0-0-0-0-0-0");
+  const [fieldAdjacent, setFieldAdjacent] = useState<string>("0-0-0-0-0-0-0");
+  const [systems, setSystems] = useState<string>("0-0-0");
 
   const mitigationsParam = useMemo(() => {
     return encodeType1Mitigations({
@@ -140,6 +140,8 @@ export function MitigationTableProvider({ children }: { children: React.ReactNod
   ]);
 
   const totalMitigationPoints = useMemo(() => {
+    const sumString = (str: string) =>
+      str.split("-").reduce((sum, val) => sum + Number(val), 0);
     return (
       countyVuln +
       fieldSlope +
@@ -147,10 +149,10 @@ export function MitigationTableProvider({ children }: { children: React.ReactNod
       tracking +
       techSpecialist +
       conservationProgram +
-      appParams +
-      inField +
-      fieldAdjacent +
-      systems
+      sumString(appParams) +
+      sumString(inField) +
+      sumString(fieldAdjacent) +
+      sumString(systems)
     );
   }, [
     appParams,

@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import { stepProps } from "../../utils/props";
 
-export default function Step7({ value, setValue }: stepProps) {
-  const [answers, setAnswers] = useState<{ [key: string]: number }>({});
+export default function Step7({ value, setValue }: { value: string; setValue: (v: string) => void }) {
+  const arr = typeof value === "string" ? value.split("-").map(Number) : [0, 0, 0, 0];
+  const answers: Record<string, number> = {
+    q1: arr[0] || 0,
+    q2: arr[1] || 0,
+    q3: arr[2] || 0,
+    q4: arr[3] || 0,
+  };
 
   function handleAnswer(questionId: string, newPoints: number) {
-    const prevPoints = answers[questionId] || 0;
-    setAnswers({ ...answers, [questionId]: newPoints });
-    setValue(value - prevPoints + newPoints);
+    const newAnswers = { ...answers, [questionId]: newPoints };
+    setValue(`${newAnswers.q1}-${newAnswers.q2}-${newAnswers.q3}-${newAnswers.q4}`);
   }
+
+  const currentPoints = Object.values(answers).reduce((a, b) => a + b, 0);
 
   return (
     <div className="bg-[#f9f9f9] rounded-3xl p-10 my-18">
@@ -28,31 +35,28 @@ export default function Step7({ value, setValue }: stepProps) {
           <p className="mb-3">Is your application rate</p>
           <div className="flex gap-4">
             <button
-              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
-                answers["q1"] === 1
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
-              }`}
+              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q1"] === 1
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
+                }`}
               onClick={() => handleAnswer("q1", 1)}
             >
               10% to &lt; 30%
             </button>
             <button
-              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
-                answers["q1"] === 2
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
-              }`}
+              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q1"] === 2
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
+                }`}
               onClick={() => handleAnswer("q1", 2)}
             >
               30% to &lt; 60%
             </button>
             <button
-              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
-                answers["q1"] === 3
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
-              }`}
+              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q1"] === 3
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
+                }`}
               onClick={() => handleAnswer("q1", 3)}
             >
               &ge; 60%
@@ -73,21 +77,19 @@ export default function Step7({ value, setValue }: stepProps) {
           </p>
           <div className="flex gap-4">
             <button
-              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
-                answers["q2"] === 2
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
-              }`}
+              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q2"] === 2
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
+                }`}
               onClick={() => handleAnswer("q2", 2)}
             >
               Yes
             </button>
             <button
-              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
-                answers["q2"] === 0
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
-              }`}
+              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q2"] === 0
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
+                }`}
               onClick={() => handleAnswer("q2", 0)}
             >
               No
@@ -103,31 +105,28 @@ export default function Step7({ value, setValue }: stepProps) {
           <p className="my-2">How much of the field is not treated?</p>
           <div className="flex gap-4">
             <button
-              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
-                answers["q3"] === 2
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
-              }`}
+              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q3"] === 2
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
+                }`}
               onClick={() => handleAnswer("q3", 2)}
             >
               10% to &lt; 30%
             </button>
             <button
-              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
-                answers["q3"] === 3
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
-              }`}
+              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q3"] === 3
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
+                }`}
               onClick={() => handleAnswer("q3", 3)}
             >
               30% to &lt; 60%
             </button>
             <button
-              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
-                answers["q3"] === 4
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
-              }`}
+              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q3"] === 4
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
+                }`}
               onClick={() => handleAnswer("q3", 4)}
             >
               &ge; 60%
@@ -146,21 +145,19 @@ export default function Step7({ value, setValue }: stepProps) {
           </p>
           <div className="flex gap-4">
             <button
-              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
-                answers["q4"] === 1
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
-              }`}
+              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q4"] === 1
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
+                }`}
               onClick={() => handleAnswer("q4", 1)}
             >
               Yes
             </button>
             <button
-              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
-                answers["q4"] === 0
-                  ? "bg-blue-200 border-2 border-blue-500"
-                  : "bg-gray-200"
-              }`}
+              className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${answers["q4"] === 0
+                ? "bg-blue-200 border-2 border-blue-500"
+                : "bg-gray-200"
+                }`}
               onClick={() => handleAnswer("q4", 0)}
             >
               No
@@ -168,7 +165,7 @@ export default function Step7({ value, setValue }: stepProps) {
           </div>
         </div>
       </div>
-      <div className="mt-10">[7] Points: {value}</div>
+      <div className="mt-10">[7] Points: {currentPoints}</div>
     </div>
   );
 }
