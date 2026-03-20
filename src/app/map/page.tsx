@@ -154,55 +154,50 @@ export default function SearchContainer() {
     }
 
     setIsLoading(true);
-    try {
-      console.log("Querying geometry-specific data for selected regions");
-      const geometryResult = await queryGeometryData(
-        selectedRegions,
-        selectedProduct,
-        selectedDate.value,
-      );
+    console.log("Querying geometry-specific data for selected regions");
+    const geometryResult = await queryGeometryData(
+      selectedRegions,
+      selectedProduct,
+      selectedDate.value,
+    );
 
-      if (geometryResult) {
-        localStorage.setItem("esa_limitations", JSON.stringify(geometryResult));
-        console.log("GEOMETRY DATA SAVED TO STORAGE:", geometryResult);
+    if (geometryResult) {
+      localStorage.setItem("esa_limitations", JSON.stringify(geometryResult));
+      console.log("GEOMETRY DATA SAVED TO STORAGE:", geometryResult);
 
-        // Route to mitigation menu if any limitation requires calculating mitigation points
-        if (
-          geometryResult.limitations.some(({ limitation }) => {
-            return limitation.includes(LimitationTypes.t1RunoffErosion);
-          })
-        ) {
-          const regionsParam = `&regions=${encodeURIComponent(JSON.stringify(selectedRegions))}`;
-          router.push(
-            `/mitigation-table?month=${selectedDate.display}&product=${selectedProduct}&county=${selectedCounty}${regionsParam}`,
-          );
-          return;
-        }
-      } else {
-        const fallback = {
-          limitations: [
-            {
-              limitation:
-                "No pesticide use limitations exist for your selected regions, date, and product at this time. Simply ensure compliance with the pesticide use instructions on your product label.",
-              last_update: null,
-              umf: [],
-            },
-          ],
-          pulas: [],
-        };
-        localStorage.setItem("esa_limitations", JSON.stringify(fallback));
-        console.log("NO MATCH — SAVED DEFAULT MESSAGE TO STORAGE");
+      // Route to mitigation menu if any limitation requires calculating mitigation points
+      if (
+        geometryResult.limitations.some(({ limitation }) => {
+          return limitation.includes(LimitationTypes.t1RunoffErosion);
+        })
+      ) {
+        const regionsParam = `&regions=${encodeURIComponent(JSON.stringify(selectedRegions))}`;
+        router.push(
+          `/mitigation-table?month=${selectedDate.display}&product=${selectedProduct}&county=${selectedCounty}${regionsParam}`,
+        );
+        return;
       }
-
-      const regionsParam = `&regions=${encodeURIComponent(JSON.stringify(selectedRegions))}`;
-      router.push(
-        `/PrintReport?month=${selectedDate.display}&product=${selectedProduct}&county=${selectedCounty}${regionsParam}`,
-      );
-    } catch (error) {
-      console.error("Error fetching limitations:", error);
-    } finally {
-      setIsLoading(false);
+    } else {
+      const fallback = {
+        limitations: [
+          {
+            limitation:
+              "No pesticide use limitations exist for your selected regions, date, and product at this time. Simply ensure compliance with the pesticide use instructions on your product label.",
+            last_update: null,
+            umf: [],
+          },
+        ],
+        pulas: [],
+      };
+      localStorage.setItem("esa_limitations", JSON.stringify(fallback));
+      console.log("NO MATCH — SAVED DEFAULT MESSAGE TO STORAGE");
     }
+
+    const regionsParam = `&regions=${encodeURIComponent(JSON.stringify(selectedRegions))}`;
+    router.push(
+      `/PrintReport?month=${selectedDate.display}&product=${selectedProduct}&county=${selectedCounty}${regionsParam}`,
+    );
+    setIsLoading(false);
   }
 
   // County: Input & Select
