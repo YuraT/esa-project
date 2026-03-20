@@ -6,6 +6,7 @@ import { PDFDocument, rgb, StandardFonts, PDFFont } from "pdf-lib";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import dynamic from "next/dynamic";
+import { decodeType1Mitigations } from "@/lib/mitigations/type-1";
 const PulaMap = dynamic(() => import("../components/PulaMap"), { ssr: false });
 
 type UMFEntry = {
@@ -72,10 +73,11 @@ const PrintReportContent: React.FC = () => {
     points: number;
   }[] = [];
   if (mitigationsParam) {
-    const mitigations = mitigationsParam.split(",").map(Number);
-    if (mitigations.length > 0) {
+    const mitigations = decodeType1Mitigations(mitigationsParam);
+    const hasAnyPoints = Object.values(mitigations).some(val => val > 0);
+    if (hasAnyPoints) {
       // Step 1: County Based
-      const countyPoints = mitigations[0];
+      const countyPoints = mitigations.countyVuln;
       const vulnMap: Record<number, string> = {
         6: "very low",
         3: "low",
@@ -91,15 +93,15 @@ const PrintReportContent: React.FC = () => {
         });
       }
       // Step 2: Field Slope
-      if (mitigations[1] > 0) {
+      if (mitigations.fieldSlope > 0) {
         mitigationMenuRows.push({
           relief: "Field Slope",
           characteristic: "Field Slope <= 3%",
-          points: mitigations[1],
+          points: mitigations.fieldSlope,
         });
       }
       // Step 3: Predominantly sandy soils
-      const soilPoints = mitigations[2];
+      const soilPoints = mitigations.soilPoints;
       let hydro = soilPoints === 2 ? "B" : soilPoints === 3 ? "A" : "";
       if (soilPoints > 0) {
         mitigationMenuRows.push({
@@ -109,20 +111,20 @@ const PrintReportContent: React.FC = () => {
         });
       }
       // Step 4: Mitigation Tracking
-      if (mitigations[3] > 0) {
+      if (mitigations.tracking > 0) {
         mitigationMenuRows.push({
           relief: "Mitigation Tracking",
           characteristic: "Documented at the farm level",
-          points: mitigations[3],
+          points: mitigations.tracking,
         });
       }
       // Step 5: Technical Specialist (not applicable if conservation program is selected)
-      if (mitigations[4] > 0 && mitigations[5] === 0) {
+      if (mitigations.techSpecialist > 0 && mitigations.conservationProgram === 0) {
         mitigationMenuRows.push({
           relief: "Technical Specialist",
           characteristic:
             "Working with and following recommendations from a technical specialist",
-          points: mitigations[4],
+          points: mitigations.techSpecialist,
         });
       }
       // Step 6: Conservation Program (qualified or non-qualified)
@@ -130,56 +132,61 @@ const PrintReportContent: React.FC = () => {
         2: "Conservation Program (Non-qualified)",
         9: "Qualified Conservation Program",
       };
-      if (mitigations[5] > 0) {
+      if (mitigations.conservationProgram > 0) {
         mitigationMenuRows.push({
-          relief: conservationPoints[mitigations[5]] ?? "Conservation Program",
+          relief: conservationPoints[mitigations.conservationProgram] ?? "Conservation Program",
           characteristic: "",
-          points: mitigations[5],
+          points: mitigations.conservationProgram,
         });
       }
 
       // Step 7: Application Parameters
-      if (mitigations[6] > 0) {
+      if (mitigations.appParams > 0) {
         mitigationMenuRows.push({
           relief: "Application Parameters",
           characteristic: "",
-          points: mitigations[6],
+          points: mitigations.appParams,
         });
       }
       // Step 8: In-field Mitigation Measures
-      if (mitigations[7] > 0) {
+      if (mitigations.inField > 0) {
         mitigationMenuRows.push({
           relief: "In-field Mitigation Measures",
           characteristic: "",
-          points: mitigations[7],
+          points: mitigations.inField,
         });
       }
       // Step 9: Field-adjacent Mitigation Measures
-      if (mitigations[8] > 0) {
+      if (mitigations.fieldAdjacent > 0) {
         mitigationMenuRows.push({
           relief: "Field-adjacent Mitigation Measures",
           characteristic: "",
-          points: mitigations[8],
+          points: mitigations.fieldAdjacent,
         });
       }
       // Step 10: Systems That Capture Runoff and Discharge
-      if (mitigations[9] > 0) {
+      if (mitigations.systems > 0) {
         mitigationMenuRows.push({
           relief: "Systems That Capture Runoff and Discharge",
           characteristic: "",
-          points: mitigations[9],
+          points: mitigations.systems,
         });
       }
     }
   }
 
   const monthToDate = (m: string) => {
-  // expects "March 2026"
+    // expects "March 2026"
     const d = new Date(`${m} 1`);
     return Number.isNaN(d.getTime()) ? "" : d.toISOString().split("T")[0];
   };
 
   const date = month ? monthToDate(month) : "";
+
+  const reportMitigations = mitigationMenuRows.map(row => ({
+    name: row.relief,
+    points: row.points,
+  }));
 
   const reportUrlParams = new URLSearchParams({
     month: month ?? "",
@@ -187,6 +194,7 @@ const PrintReportContent: React.FC = () => {
     product: product ?? "",
     county: county ?? "",
     regions: regions ?? "",
+    mitigations: JSON.stringify(reportMitigations),
   });
   const reportUrl = `/api/report?${reportUrlParams.toString()}`;
 
@@ -648,7 +656,7 @@ const PrintReportContent: React.FC = () => {
       </div>
 
       {/* --- Preview Box --- */}
-      <div className="mb-15 mt-15 max-w-4xl mx-auto mt-8 p-4 border rounded-3xl shadow bg-gray-100 overflow-y-auto max-h-[80vh]">
+      <div className="mb-15 mt-8 max-w-4xl mx-auto p-4 border rounded-3xl shadow bg-gray-100 overflow-y-auto max-h-[80vh]">
         <h2 className="text-xl mb-4 text-center text-black">
           Endangered Species Protection Report Preview
         </h2>

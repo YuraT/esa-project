@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
+import { encodeType1Mitigations } from "@/lib/mitigations/type-1";
 import { LimitationTypes } from "@/lib/limitation-types";
 
 type UMFEntry = {
@@ -113,7 +114,7 @@ export function MitigationTableProvider({ children }: { children: React.ReactNod
   const [systems, setSystems] = useState<number>(0);
 
   const mitigationsParam = useMemo(() => {
-    return [
+    return encodeType1Mitigations({
       countyVuln,
       fieldSlope,
       soilPoints,
@@ -124,7 +125,7 @@ export function MitigationTableProvider({ children }: { children: React.ReactNod
       inField,
       fieldAdjacent,
       systems,
-    ].join(",");
+    });
   }, [
     appParams,
     conservationProgram,

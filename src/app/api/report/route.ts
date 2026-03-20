@@ -2,6 +2,7 @@ export const runtime = "nodejs";
 
 import { $typst } from "@myriaddreamin/typst.ts";
 import { NextResponse } from "next/server";
+import { z } from "zod";
 
 type Mitigation = { name: string; points: number };
 
@@ -61,30 +62,30 @@ function buildTypstReport(opts: {
   const pulasSection =
     pulas.length > 0
       ? pulas
-          .map((p, i) => {
-            const a = p?.attributes ?? {};
-            //arcGIS fields: pula_id, pula_name, etc.
-            const pulaId = a.pula_id ?? a.PULA_ID ?? "N/A";
-            const pulaName =
-              a.pula_name ?? a.PULA_NAME ?? a.name ?? a.NAME ?? "PULA";
-            return `- #text(${typstString(`PULA ${i + 1}: ${pulaName} (ID: ${pulaId})`)})`;
-          })
-          .join("\n")
+        .map((p, i) => {
+          const a = p?.attributes ?? {};
+          //arcGIS fields: pula_id, pula_name, etc.
+          const pulaId = a.pula_id ?? a.PULA_ID ?? "N/A";
+          const pulaName =
+            a.pula_name ?? a.PULA_NAME ?? a.name ?? a.NAME ?? "PULA";
+          return `- #text(${typstString(`PULA ${i + 1}: ${pulaName} (ID: ${pulaId})`)})`;
+        })
+        .join("\n")
       : `#text(${typstString("No applicable PULAs found in selected regions.")})`;
 
   const limitationsSection =
     limitations.length > 0
       ? limitations
-          .map((l, i) => {
-            const code = l?.code ?? "N/A";
-            const last = formatDate(l?.last_update ?? "");
-            const limText = l?.limitation ?? "";
+        .map((l, i) => {
+          const code = l?.code ?? "N/A";
+          const last = formatDate(l?.last_update ?? "");
+          const limText = l?.limitation ?? "";
 
-            const umfArr: any[] = Array.isArray(l?.umf) ? l.umf : [];
+          const umfArr: any[] = Array.isArray(l?.umf) ? l.umf : [];
 
-            const umfTable =
-  umfArr.length > 0
-    ? `
+          const umfTable =
+            umfArr.length > 0
+              ? `
 #set text(size: 9pt)
 
 #table(
@@ -102,9 +103,9 @@ function buildTypstReport(opts: {
   [*Last Update*],
 
   ${umfArr
-    .slice(0, 20)
-    .map((u) => {
-      return `
+                .slice(0, 20)
+                .map((u) => {
+                  return `
   ${typstCell(u?.use ?? "")},
   ${typstCell(u?.method ?? "")},
   ${typstCell(u?.form ?? "")},
@@ -112,14 +113,14 @@ function buildTypstReport(opts: {
   ${typstCell(u?.pula_id ?? "")},
   ${typstCell(last)},
       `;
-    })
-    .join("\n")}
+                })
+                .join("\n")}
 )
 
 #set text(size: 12pt)
 `
-    : `#text(${typstString("No UMF details provided")})`;
-            return `== Limitation ${i + 1}
+              : `#text(${typstString("No UMF details provided")})`;
+          return `== Limitation ${i + 1}
 
 *Code:* #text(${typstString(code)}) \\
 *Last Updated:* #text(${typstString(last)}) \\
@@ -128,8 +129,8 @@ function buildTypstReport(opts: {
 
 ${umfTable}
 `;
-          })
-          .join("\n\n")
+        })
+        .join("\n\n")
       : "";
   const mitigationTotal = mitigations.reduce((sum, m) => sum + (m?.points ?? 0), 0);
 
@@ -137,10 +138,10 @@ ${umfTable}
     mitigations.length > 0
       ? `== Selected Mitigations
 ${mitigations
-  .map((m) =>
-    `- #text(${typstString(`${m.name}: ${m.points} point(s)`)})`
-  )
-  .join("\n")}
+        .map((m) =>
+          `- #text(${typstString(`${m.name}: ${m.points} point(s)`)})`
+        )
+        .join("\n")}
 
 *Total mitigation points:* #text(${typstString(mitigationTotal)})
 `
@@ -227,7 +228,13 @@ export async function GET(req: Request) {
     let mitigations: Mitigation[] = [];
     try {
       const parsed = JSON.parse(mitigationsParam);
-      if (Array.isArray(parsed)) mitigations = parsed;
+      const mitigationArraySchema = z.array(
+        z.object({
+          name: z.string(),
+          points: z.number(),
+        })
+      );
+      mitigations = mitigationArraySchema.parse(parsed);
     } catch {
       // ignore bad mitigations
       mitigations = [];
@@ -266,25 +273,25 @@ export async function GET(req: Request) {
       mitigations,
     });
 
-    try{
-    const pdf = await $typst.pdf({ mainContent: typstSource });
-    if (!pdf) throw new Error("PDF generation failed");
+    try {
+      const pdf = await $typst.pdf({ mainContent: typstSource });
+      if (!pdf) throw new Error("PDF generation failed");
 
-    const bytes = pdf instanceof Uint8Array ? pdf : new Uint8Array(pdf);
-    const arrayBuffer = bytes.buffer as ArrayBuffer;
+      const bytes = pdf instanceof Uint8Array ? pdf : new Uint8Array(pdf);
+      const arrayBuffer = bytes.buffer as ArrayBuffer;
 
-    return new Response(arrayBuffer, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="ESA_Report.pdf"`,
-      },
-    });
-  } catch (e) {
-  console.error("TYPST SOURCE THAT FAILED:\n", typstSource);
-  throw e;
-  }
-  
+      return new Response(arrayBuffer, {
+        status: 200,
+        headers: {
+          "Content-Type": "application/pdf",
+          "Content-Disposition": `attachment; filename="ESA_Report.pdf"`,
+        },
+      });
+    } catch (e) {
+      console.error("TYPST SOURCE THAT FAILED:\n", typstSource);
+      throw e;
+    }
+
 
   } catch (e: any) {
     console.error("Error in /api/report:", e);
