@@ -47,13 +47,13 @@ const PrintReportContent: React.FC = () => {
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        // Check if it's the new format with both limitations and pulas
+        //check if it's the new format with both limitations and pulas
         if (parsed.limitations && Array.isArray(parsed.limitations)) {
           setLimitations(parsed.limitations);
           setPulaData(parsed.pulas || []);
           console.log("Using stored geometry data:", parsed);
         } else {
-          // Legacy format - just limitations array
+          //limitations array
           setLimitations(Array.isArray(parsed) ? parsed : [parsed]);
           setPulaData([]);
         }
@@ -173,6 +173,23 @@ const PrintReportContent: React.FC = () => {
     }
   }
 
+  const monthToDate = (m: string) => {
+  // expects "March 2026"
+    const d = new Date(`${m} 1`);
+    return Number.isNaN(d.getTime()) ? "" : d.toISOString().split("T")[0];
+  };
+
+  const date = month ? monthToDate(month) : "";
+
+  const reportUrlParams = new URLSearchParams({
+    month: month ?? "",
+    date: date ?? "",
+    product: product ?? "",
+    county: county ?? "",
+    regions: regions ?? "",
+  });
+  const reportUrl = `/api/report?${reportUrlParams.toString()}`;
+
   const wrapText = (
     text: string,
     maxWidth: number,
@@ -283,7 +300,7 @@ const PrintReportContent: React.FC = () => {
       y -= rowGap;
     });
 
-    // Add disclaimer
+    //disclaimer
     y -= 20;
     page.drawText(
       "Disclaimer: These are recommendations, not sanctioned or approved",
@@ -355,7 +372,7 @@ const PrintReportContent: React.FC = () => {
             const fontSize = 10;
             const lineHeight = fontSize + 2;
 
-            // --- Draw Header Row ---
+            //Draw Header Row
             let colX = tableX;
             let rowHeight = 30;
             headers.forEach((header, j) => {
@@ -381,7 +398,7 @@ const PrintReportContent: React.FC = () => {
             });
             y -= rowHeight;
 
-            // --- Draw Data Row with Wrapping ---
+            //Draw Data Row with Wrapping
             colX = tableX;
 
             const wrappedLinesPerCol = values.map((val, j) => {
@@ -438,7 +455,7 @@ const PrintReportContent: React.FC = () => {
       }
     }
 
-    // --- Applicable Points Table in PDF ---
+    //Applicable Points Table in PDF
     if (mitigationMenuRows.length > 0) {
       y -= 20;
       page.drawText("Applicable Points", {
@@ -623,7 +640,7 @@ const PrintReportContent: React.FC = () => {
       <Header />
       <div className="flex justify-center mt-2">
         <button
-          onClick={generatePDF}
+          onClick={() => window.open(reportUrl, "_blank", "noopener,noreferrer")}
           className="bg-lime-200 text-blue-900 font-bold text-2xl px-15 py-4 rounded-full shadow-md hover:bg-lime-300 transition"
         >
           Download Printable Report
