@@ -11,6 +11,7 @@
   "dependencies": {
     "@arcgis/map-components": "^4.34.9",
     "@esri/arcgis-rest-request": "^4.8.0",
+    "@sentry/nextjs": "^10",
     "@terraformer/arcgis": "^2.1.2",
     "@types/leaflet-draw": "^1.0.13",
     "esri-leaflet": "^3.0.19",
