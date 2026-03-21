@@ -13,12 +13,29 @@ import { geojsonToArcGIS } from "@terraformer/arcgis";
 import "@arcgis/map-components/components/arcgis-map";
 import "@arcgis/map-components/components/arcgis-zoom";
 
+import usCounties from "@/app/data/uscounties.json";
+
 interface SoilSlopeMapProps {
   regions?: GeoJSON.Feature<GeoJSON.Polygon>[] | null;
+  /** "County, ST" from URL — used when the view must open on the right area before/without region graphics */
+  county?: string;
   className?: string;
 }
 
-const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ regions, className }) => {
+function countyCenterFromParam(countyParam: string): { lat: number; lng: number } | null {
+  if (!countyParam.trim()) return null;
+  const parts = countyParam.split(",").map((s) => s.trim());
+  if (parts.length < 2) return null;
+  const [countyName, stateAbbr] = parts;
+  const entry = (usCounties as { county_ascii: string; state_id: string; lat: number; lng: number }[]).find(
+    (c) =>
+      c.county_ascii.toLowerCase() === countyName.toLowerCase() && c.state_id === stateAbbr,
+  );
+  if (!entry) return null;
+  return { lat: entry.lat, lng: entry.lng };
+}
+
+const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ regions, county = "", className }) => {
   const mapRef = useRef<any>(null);
   const regionsLayerRef = useRef<GraphicsLayer | null>(null);
 
@@ -31,7 +48,7 @@ const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ regions, className }) => {
 
     const setupMap = async () => {
       try {
-        await mapRef.current.arcgisViewReadyChange;
+        await mapRef.current.viewOnReady();
         const view = mapRef.current.view as MapView;
 
         if (!view || !view.map) return;
@@ -90,7 +107,6 @@ const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ regions, className }) => {
             const lats = allExtents.map((coord) => coord[1]);
             const padding = 0.01;
 
-            // Wait for view to be fully ready before calling goTo
             view.when(() => {
               view
                 .goTo({
@@ -105,6 +121,20 @@ const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ regions, className }) => {
                 });
             });
           }
+        } else {
+          const center = countyCenterFromParam(county);
+          if (center) {
+            view.when(() => {
+              view
+                .goTo({
+                  center: [center.lng, center.lat],
+                  zoom: 11,
+                })
+                .catch((error) => {
+                  console.warn("Failed to zoom to county:", error);
+                });
+            });
+          }
         }
       } catch (error) {
         console.error("Error setting up map:", error);
@@ -112,7 +142,7 @@ const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ regions, className }) => {
     };
 
     setupMap();
-  }, [regions]);
+  }, [regions, county]);
 
   return (
     <div className={className}>
