@@ -10,6 +10,27 @@ const RegionSelector = dynamic(() => import("../components/RegionSelector"), {
   ssr: false,
 });
 
+const GENERAL_USE_VALUES = new Set([
+  "All Agricultural uses",
+  "All Agricultural Uses",
+  "All non-agricultural uses",
+  "All Other Uses",
+  "Any Use",
+]);
+
+function requiresCropSelection(limitations: any[]): boolean {
+  return limitations.some(
+    (limitation) =>
+      Array.isArray(limitation?.umf) &&
+      limitation.umf.some((entry: any) => {
+        const use = entry?.use?.trim();
+        return use && !GENERAL_USE_VALUES.has(use);
+      }),
+  );
+}
+  
+//CHANGE/REFINE LATER
+
 function getLastSixMonths(): { display: string; value: string }[] {
   const months = [];
   const now = new Date();
@@ -130,11 +151,11 @@ export default function SearchContainer() {
       const response = await fetch(
         `/api/pulas-by-geometry?geometry=${encodeURIComponent(JSON.stringify(regionGeometries))}&prod_reg_num=${encodeURIComponent(prodRegNum)}&date=${encodeURIComponent(applicationDate)}&returnGeometry=true`,
       );
-
-      if (!response.ok) {
-        console.error("Failed to fetch geometry data");
-        return null;
-      }
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Failed to fetch geometry data", response.status, errorText);
+      return null;
+    }
       return response.json();
     } catch (error) {
       console.error("Error querying geometry data:", error);
@@ -154,50 +175,68 @@ export default function SearchContainer() {
     }
 
     setIsLoading(true);
-    console.log("Querying geometry-specific data for selected regions");
-    const geometryResult = await queryGeometryData(
-      selectedRegions,
-      selectedProduct,
-      selectedDate.value,
-    );
 
-    if (geometryResult) {
-      localStorage.setItem("esa_limitations", JSON.stringify(geometryResult));
-      console.log("GEOMETRY DATA SAVED TO STORAGE:", geometryResult);
+    try {
+      console.log("Querying geometry-specific data for selected regions");
 
-      // Route to mitigation menu if any limitation requires calculating mitigation points
-      if (
-        geometryResult.limitations.some(({ limitation }) => {
-          return limitation.includes(LimitationTypes.t1RunoffErosion);
-        })
-      ) {
-        const regionsParam = `&regions=${encodeURIComponent(JSON.stringify(selectedRegions))}`;
-        router.push(
-          `/mitigation-table?month=${selectedDate.display}&product=${selectedProduct}&county=${selectedCounty}${regionsParam}`,
-        );
-        return;
+      const geometryResult = await queryGeometryData(
+        selectedRegions,
+        selectedProduct,
+        selectedDate.value,
+      );
+
+      const regionsParam = `&regions=${encodeURIComponent(
+        JSON.stringify(selectedRegions),
+      )}`;
+
+      if (geometryResult) {
+        // Route to mitigation menu if any limitation requires calculating mitigation points
+        if (
+          geometryResult.limitations.some(({ limitation }) =>
+            limitation.includes(LimitationTypes.t1RunoffErosion),
+          )
+        ) {
+          router.push(
+            `/mitigation-table?month=${encodeURIComponent(
+              selectedDate.display,
+            )}&date=${encodeURIComponent(
+              selectedDate.value,
+            )}&product=${encodeURIComponent(
+              selectedProduct,
+            )}&county=${encodeURIComponent(selectedCounty)}${regionsParam}`,
+          );
+          return;
+        }
+
+        // Route to crop selection only when non-general UMF use values exist
+        if (requiresCropSelection(geometryResult.limitations)) {
+          router.push(
+            `/crop-selection?month=${encodeURIComponent(
+              selectedDate.display,
+            )}&date=${encodeURIComponent(
+              selectedDate.value,
+            )}&product=${encodeURIComponent(
+              selectedProduct,
+            )}&county=${encodeURIComponent(selectedCounty)}${regionsParam}`,
+          );
+          return;
+        }
       }
-    } else {
-      const fallback = {
-        limitations: [
-          {
-            limitation:
-              "No pesticide use limitations exist for your selected regions, date, and product at this time. Simply ensure compliance with the pesticide use instructions on your product label.",
-            last_update: null,
-            umf: [],
-          },
-        ],
-        pulas: [],
-      };
-      localStorage.setItem("esa_limitations", JSON.stringify(fallback));
-      console.log("NO MATCH — SAVED DEFAULT MESSAGE TO STORAGE");
-    }
 
-    const regionsParam = `&regions=${encodeURIComponent(JSON.stringify(selectedRegions))}`;
-    router.push(
-      `/PrintReport?month=${selectedDate.display}&product=${selectedProduct}&county=${selectedCounty}${regionsParam}`,
-    );
-    setIsLoading(false);
+      router.push(
+        `/PrintReport?month=${encodeURIComponent(
+          selectedDate.display,
+        )}&date=${encodeURIComponent(
+          selectedDate.value,
+        )}&product=${encodeURIComponent(
+          selectedProduct,
+        )}&county=${encodeURIComponent(selectedCounty)}${regionsParam}`,
+      );
+    } catch (error) {
+      console.error("Error fetching limitations:", error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   // County: Input & Select
