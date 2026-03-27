@@ -6,6 +6,7 @@ import esriConfig from "@arcgis/core/config";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Graphic from "@arcgis/core/Graphic";
 import Polygon from "@arcgis/core/geometry/Polygon";
+import Extent from "@arcgis/core/geometry/Extent";
 import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
 import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
 import MapView from "@arcgis/core/views/MapView";
@@ -92,14 +93,15 @@ const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ regions, className }) => {
 
             // Wait for view to be fully ready before calling goTo
             view.when(() => {
+              const extent = new Extent({
+                xmin: Math.min(...lngs) - padding,
+                ymin: Math.min(...lats) - padding,
+                xmax: Math.max(...lngs) + padding,
+                ymax: Math.max(...lats) + padding,
+                spatialReference: { wkid: 4326 },
+              });
               view
-                .goTo({
-                  xmin: Math.min(...lngs) - padding,
-                  ymin: Math.min(...lats) - padding,
-                  xmax: Math.max(...lngs) + padding,
-                  ymax: Math.max(...lats) + padding,
-                  spatialReference: { wkid: 4326 },
-                })
+                .goTo(extent)
                 .catch((error) => {
                   console.warn("Failed to zoom to regions:", error);
                 });
