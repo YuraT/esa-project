@@ -7,7 +7,7 @@ export default function page() {
   const testButtonStyling = "m-3 rounded-2xl p-3 border-2";
   const router = useRouter();
   return (
-    <div className="flex flex-col">
+    <div className="app-content-gutter flex flex-col min-h-screen w-full max-w-2xl mx-auto py-6">
       <BackButton />
       <button
         className={testButtonStyling}

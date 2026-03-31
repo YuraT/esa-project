@@ -619,19 +619,19 @@ const PrintReportContent: React.FC = () => {
   };
 
   return (
-    <div className="bg-white min-h-screen flex flex-col">
+    <div className="app-content-gutter bg-white min-h-screen flex flex-col overflow-x-hidden">
       <Header />
-      <div className="flex justify-center mt-2">
+      <div className="flex justify-center mt-2 px-4">
         <button
           onClick={generatePDF}
-          className="bg-lime-200 text-blue-900 font-bold text-2xl px-15 py-4 rounded-full shadow-md hover:bg-lime-300 transition"
+          className="bg-lime-200 text-blue-900 font-bold text-base sm:text-2xl px-6 sm:px-15 py-3 sm:py-4 rounded-full shadow-md hover:bg-lime-300 transition text-center max-w-full"
         >
           Download Printable Report
         </button>
       </div>
 
       {/* --- Preview Box --- */}
-      <div className="mb-15 mt-15 max-w-4xl mx-auto mt-8 p-4 border rounded-3xl shadow bg-gray-100 overflow-y-auto max-h-[80vh]">
+      <div className="mb-15 mt-8 max-w-4xl w-full mx-auto px-4 sm:px-6 p-4 border rounded-3xl shadow bg-gray-100 overflow-y-auto max-h-[80vh] min-w-0">
         <h2 className="text-xl mb-4 text-center text-black">
           Endangered Species Protection Report Preview
         </h2>

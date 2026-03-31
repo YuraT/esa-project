@@ -10,9 +10,9 @@ function MessagePageContent() {
   const body = searchParams.get("body");
   return (
     <>
-      <div className="flex flex-col">
-        <h1>Title: {title}</h1>
-        <p>Body: {body}</p>
+      <div className="app-content-gutter flex flex-col min-h-screen w-full max-w-2xl mx-auto py-8 break-words">
+        <h1 className="text-xl font-semibold">Title: {title}</h1>
+        <p className="mt-2">Body: {body}</p>
       </div>
     </>
   );

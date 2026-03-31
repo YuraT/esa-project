@@ -11,12 +11,12 @@ export default function Step7({ value, setValue }: stepProps) {
   }
 
   return (
-    <div className="bg-[#f9f9f9] rounded-3xl p-10 my-18">
-      <div className="absolute w-8 h-8 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
+    <div className="relative bg-[#f9f9f9] rounded-3xl p-4 sm:p-10 my-18 w-full max-w-4xl mx-auto">
+      <div className="absolute left-4 top-4 sm:left-10 sm:top-10 w-8 h-8 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
         7
       </div>
-      <div className="flex flex-col items-center justify-center">
-        <h1 className="m-2 text-2xl font-bold text-[#275c9d]">
+      <div className="flex flex-col items-center justify-center pt-10 sm:pt-2">
+        <h1 className="m-2 text-center text-xl sm:text-2xl font-bold text-[#275c9d] px-2">
           Application Parameters
         </h1>
 
@@ -26,7 +26,7 @@ export default function Step7({ value, setValue }: stepProps) {
             Annual Application Rate Reduction
           </h3>
           <p className="mb-3">Is your application rate</p>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
                 answers["q1"] === 1
@@ -71,7 +71,7 @@ export default function Step7({ value, setValue }: stepProps) {
           <p className="my-2">
             Are you applying water-soluble formulations of anionic PAM?
           </p>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
                 answers["q2"] === 2
@@ -101,7 +101,7 @@ export default function Step7({ value, setValue }: stepProps) {
             Proportion of Field Treated
           </h3>
           <p className="my-2">How much of the field is not treated?</p>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
                 answers["q3"] === 2
@@ -144,7 +144,7 @@ export default function Step7({ value, setValue }: stepProps) {
             Watering-in or mechanical incorporation before a runoff producing
             event?
           </p>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
                 answers["q4"] === 1

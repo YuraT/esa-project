@@ -13,7 +13,7 @@ export default function Sidebar({
   onStepClickAction,
 }: SidebarProps) {
   return (
-    <div className="flex items-center flex-col w-[clamp(5rem,20vw,40rem)] min-h-screen bg-[#DAE8F8]">
+    <div className="flex items-center flex-col w-full md:w-[clamp(5rem,20vw,40rem)] md:shrink-0 min-h-0 md:min-h-screen bg-[#DAE8F8] overflow-x-auto md:overflow-x-visible">
       <div className="p-[clamp(1rem,3vw,5rem)]">
         <p className="text-[clamp(0.5rem,2vw,3rem)] text-[#375B85] font-bold">
           Step {currentStep} of {steps.length}

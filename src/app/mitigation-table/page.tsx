@@ -137,13 +137,13 @@ function MitigationTableTabsPageInner() {
   ]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full max-w-full min-w-0 overflow-x-hidden">
       <Header />
 
-      <div className="flex">
-        {/* Tabs / sidebar */}
-        <div className="sticky top-0 gap-8 flex flex-col items-center h-screen bg-[#cee0f5]">
-          <div className="mt-18 mb-5 text-[#275c9d] text-2xl font-bold">Steps</div>
+      <div className="flex flex-col lg:flex-row min-w-0 w-full">
+        {/* Steps — full-bleed horizontal scroll on mobile; sidebar on lg+ */}
+        <div className="lg:sticky lg:top-0 z-10 flex flex-row lg:flex-col gap-2 lg:gap-8 items-stretch lg:items-center w-full lg:w-72 shrink-0 overflow-x-auto lg:overflow-x-visible lg:overflow-y-auto lg:max-h-screen bg-[#cee0f5] py-3 px-0 lg:py-8 lg:px-2 border-b lg:border-b-0 border-[#b8cce4]">
+          <div className="hidden lg:block mt-0 mb-5 text-[#275c9d] text-2xl font-bold px-2">Steps</div>
 
           {steps.map((step, idx) => {
             const key = step.id as StepKey;
@@ -154,25 +154,26 @@ function MitigationTableTabsPageInner() {
                 key={step.id}
                 type="button"
                 onClick={() => setActiveStep(key)}
-                className={`flex items-center w-70 h-15 cursor-pointer text-left ${
+                className={`flex items-center shrink-0 min-w-[min(100%,18rem)] lg:min-w-0 lg:w-70 h-15 cursor-pointer text-left rounded-md lg:rounded-none ${
                   isActive ? "bg-[#a8c1de]" : "bg-[#bed2e8]"
                 }`}
               >
-                <div className="w-7 h-7 ml-4 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
+                <div className="w-7 h-7 ml-2 sm:ml-4 shrink-0 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
                   {idx + 1}
                 </div>
-                <div className="leading-tight ml-5 text-[#275c9d] font-semibold">
+                <div className="leading-tight ml-3 sm:ml-5 mr-2 text-sm sm:text-base text-[#275c9d] font-semibold">
                   {step.label}
                 </div>
               </button>
             );
           })}
 
-          <div className="flex items-center bg-[#cee0f5] w-80 h-15" />
+          <div className="hidden lg:flex items-center bg-[#cee0f5] w-80 h-15 shrink-0" />
         </div>
 
-        {/* Main content */}
-        <div className="bg-white m-20 w-full">
+        {/* Main content — horizontal inset only here */}
+        <div className="app-content-gutter min-w-0 flex-1 flex flex-col">
+          <div className="bg-white m-4 sm:m-8 lg:m-20 w-full min-w-0 flex-1 px-2 sm:px-4">
           {/* <p className="mb-10 text-[#275c9d] text-4xl font-bold">
             Mitigation Point Requirements for {product} in {county}
           </p>
@@ -279,16 +280,16 @@ function MitigationTableTabsPageInner() {
 
           {activeStep === "step1" && (
             <>
-              <p className="mb-10 text-[#275c9d] text-4xl font-bold">Mitigation Menu</p>
-              <p className="mb-5 text-[#275c9d] text-2xl font-bold">
+              <p className="mb-6 sm:mb-10 text-[#275c9d] text-2xl sm:text-4xl font-bold">Mitigation Menu</p>
+              <p className="mb-5 text-[#275c9d] text-xl sm:text-2xl font-bold">
                 Runoff & Erosion Mitigation Options
               </p>
-              <p className="mb-5 leading-tight text-black text-xl font-bold mr-60">
+              <p className="mb-5 leading-tight text-black text-lg sm:text-xl font-bold max-w-4xl">
                 Select a combination of measures within the tables to achieve the minimum points
                 required by the label or bulletin.
               </p>
-              <p className="text-[#275c9d] text-xl font-bold mb-5">What are Mitigation Points?</p>
-              <p className="mb-15 leading-tight text-black text-xl mr-60">
+              <p className="text-[#275c9d] text-lg sm:text-xl font-bold mb-5">What are Mitigation Points?</p>
+              <p className="mb-15 leading-tight text-black text-lg sm:text-xl max-w-4xl">
                 Mitigation points are scores used to show how much action is needed to prevent
                 pesticides from polluting water. More points mean less risk and fewer actions required.
               </p>
@@ -298,8 +299,8 @@ function MitigationTableTabsPageInner() {
           {/* Tabbed step content */}
           {stepContent}
 
-          <div className="w-full flex justify-center mb-10 mt-10">
-            <div className="text-[#375B85] font-bold inline-flex w-fit flex-row items-center gap-3 bg-blue-200 rounded-full px-4 py-2 shadow-md">
+          <div className="w-full flex justify-center mb-10 mt-10 px-1">
+            <div className="text-[#375B85] font-bold inline-flex max-w-full flex-col sm:flex-row items-center gap-2 sm:gap-3 bg-blue-200 rounded-full px-4 py-3 text-center sm:text-left text-sm sm:text-base shadow-md">
               <span>Total Pesticide Mitigation Points</span>
               <div className="bg-white rounded-full w-8 h-8 flex items-center justify-center">
                 <span className="text-[#375B85]">{totalMitigationPoints}</span>
@@ -338,6 +339,7 @@ function MitigationTableTabsPageInner() {
                 Next
               </button>
             )}
+          </div>
           </div>
         </div>
       </div>

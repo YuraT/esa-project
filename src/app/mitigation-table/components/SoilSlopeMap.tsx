@@ -124,7 +124,7 @@ const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ regions, className }) => {
         </h3>
       </div>
 
-      <div className="h-[26rem] border border-gray-300 rounded-lg overflow-hidden">
+      <div className="h-[min(26rem,55vh)] min-h-[14rem] border border-gray-300 rounded-lg overflow-hidden">
         <arcgis-map
           ref={mapRef}
           item-id="aafa01a3b142450cb633a28f37837c95"

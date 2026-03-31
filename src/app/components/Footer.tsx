@@ -3,13 +3,13 @@ import React from "react";
 
 const Footer = () => {
   const footer =
-    "font-bold text-[clamp(0.6rem,2vw,4rem)] pb-[clamp(0.2rem,1vw,1rem)]";
+    "font-bold text-base sm:text-lg md:text-xl pb-2 sm:pb-[clamp(0.2rem,1vw,1rem)]";
   const footerLinks =
-    "flex text-[clamp(0.27rem,1vw,2rem)] w-[clamp(4rem,20vw,20rem)] hover:underline";
+    "block w-full max-w-none sm:max-w-md text-sm sm:text-base leading-snug py-1 hover:underline";
 
   return (
     <div className="w-full bg-[#3E4651]">
-      <div className="flex text-white justify-center gap-x-[clamp(2rem,10vw,20rem)] p-[clamp(1rem,3vw,4rem)]">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap text-white justify-center items-stretch gap-y-8 gap-x-8 sm:gap-x-12 md:gap-x-16 lg:gap-x-24 px-4 py-8 sm:p-[clamp(1rem,3vw,4rem)] w-full max-w-none mx-auto">
         {/* About EPA */}
         <div>
           <p className={footer}>About EPA</p>
