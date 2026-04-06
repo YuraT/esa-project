@@ -185,14 +185,13 @@ function MitigationTableTabsPageInner() {
             setSoilDepth={setSoilDepth}
           /> */}
 
-          {/* {limitations.length > 0 ? (
-            limitations.map((item, index) => (
-              <div
-                key={index}
-                className="mb-10 rounded-2xl border border-gray-300 bg-white p-4 shadow-sm"
-              >
-                <div className="mb-4 flex flex-col gap-4 md:flex-row">
-                  <div className="flex-1 rounded-2xl bg-[#f9f9f9] p-4">
+            {
+              limitations.length > 0 ? (
+                limitations.map((item, index) => (
+                  <div
+                    key={index}
+                    className="mb-10 rounded-2xl border border-gray-300 bg-[#f9f9f9] p-4 shadow-sm"
+                  >
                     <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[#6b7280]">
                       EPA label limitation
                     </p>
@@ -212,71 +211,14 @@ function MitigationTableTabsPageInner() {
                         </div>
                       ))}
                     </div>
-                    <p className="mt-2 text-sm leading-relaxed text-black">{item.limitation}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-black" dangerouslySetInnerHTML={{ __html: item.limitation }}></p>
                   </div>
+                ))
+              ) : (
+                <p className="mb-10 text-black">No limitations found.</p>
+              )
+            }
 
-                  <div className="flex-1 rounded-2xl bg-[#eef3fb] p-4">
-                    <div className="mb-3 flex items-center justify-between">
-                      <p className="text-sm font-semibold uppercase tracking-wide text-[#275c9d]">
-                        AI assistant (draft guidance)
-                      </p>
-                      <span className="rounded-full bg-white px-3 py-1 text-xs font-medium text-[#6b7280]">
-                        Uses your inputs above
-                      </span>
-                    </div>
-
-                    <button
-                      type="button"
-                      className="mb-3 rounded-lg bg-[#275c9d] px-4 py-2 text-sm font-bold text-white hover:bg-[#1f4b7a] disabled:opacity-60"
-                      onClick={() => handleExplainLimitation(item, index)}
-                      disabled={loadingIndex === index}
-                    >
-                      {loadingIndex === index ? "Analyzing limitation..." : "Generate AI summary"}
-                    </button>
-
-                    {errorIndex[index] && (
-                      <p className="text-sm text-red-600">{errorIndex[index]}</p>
-                    )}
-
-                    {aiResults[index] && (
-                      <div className="mt-2 text-sm text-black">
-                        <p className="mb-1 font-bold text-[#275c9d]">Plain-language explanation</p>
-                        <p className="mb-3 whitespace-pre-line leading-relaxed">
-                          {aiResults[index].cleaned_text}
-                        </p>
-
-                        {aiResults[index].required_points !== null && (
-                          <p className="mb-1 text-md font-bold text-[#275c9d]">
-                            Required runoff mitigation points:{" "}
-                            <span className="text-black">{aiResults[index].required_points}</span>
-                          </p>
-                        )}
-
-                        {aiResults[index].points_explanation && (
-                          <p className="mb-1 leading-relaxed">{aiResults[index].points_explanation}</p>
-                        )}
-
-                        {aiResults[index].notes && (
-                          <p className="mt-2 text-xs text-gray-600">{aiResults[index].notes}</p>
-                        )}
-                      </div>
-                    )}
-
-                    {!aiResults[index] && !errorIndex[index] && (
-                      <p className="mt-1 text-xs text-[#4b5563]">
-                        The AI will rephrase the EPA limitation in simpler language and estimate the
-                        runoff mitigation points based on the application rate and soil depth you
-                        entered above.
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p className="mb-10 text-black">No limitations found.</p>
-          )} */}
-         
 
           {activeStep === "step1" && (
             <>
@@ -296,50 +238,50 @@ function MitigationTableTabsPageInner() {
             </>
           )}
 
-          {/* Tabbed step content */}
-          {stepContent}
+            {/* Tabbed step content */}
+            {stepContent}
 
-          <div className="w-full flex justify-center mb-10 mt-10 px-1">
-            <div className="text-[#375B85] font-bold inline-flex max-w-full flex-col sm:flex-row items-center gap-2 sm:gap-3 bg-blue-200 rounded-full px-4 py-3 text-center sm:text-left text-sm sm:text-base shadow-md">
-              <span>Total Pesticide Mitigation Points</span>
-              <div className="bg-white rounded-full w-8 h-8 flex items-center justify-center">
-                <span className="text-[#375B85]">{totalMitigationPoints}</span>
+            <div className="w-full flex justify-center mb-10 mt-10 px-1">
+              <div className="text-[#375B85] font-bold inline-flex max-w-full flex-col sm:flex-row items-center gap-2 sm:gap-3 bg-blue-200 rounded-full px-4 py-3 text-center sm:text-left text-sm sm:text-base shadow-md">
+                <span>Total Pesticide Mitigation Points</span>
+                <div className="bg-white rounded-full w-8 h-8 flex items-center justify-center">
+                  <span className="text-[#375B85]">{totalMitigationPoints}</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="mb-10 flex items-center gap-4">
-            <button
-              type="button"
-              onClick={() => {if (!isFirstStep) {setActiveStep(prevStepKey)}} }
-              className="bg-[#275c9d] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#1f4b7a] transition duration-200"
-            >
-              Back
-            </button>
-            {isLastStep ? (
-              <Link
-                href={`/PrintReport?month=${encodeURIComponent(month || "")}&product=${encodeURIComponent(
-                  product || "",
-                )}&county=${encodeURIComponent(county || "")}&mitigations=${mitigationsParam}${
-                  regions ? `&regions=${encodeURIComponent(regions)}` : ""
-                }`}
-                className="bg-[#275c9d] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#1f4b7a] transition duration-200"
-              >
-                Next
-              </Link>
-            ) : (
+            <div className="mb-10 flex items-center gap-4">
               <button
                 type="button"
-                onClick={() => {
-                  setActiveStep(nextStepKey);
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
+              onClick={() => {if (!isFirstStep) {setActiveStep(prevStepKey)}} }
                 className="bg-[#275c9d] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#1f4b7a] transition duration-200"
               >
-                Next
+                Back
               </button>
-            )}
-          </div>
+              {isLastStep ? (
+                <Link
+                  href={`/PrintReport?month=${encodeURIComponent(month || "")}&product=${encodeURIComponent(
+                    product || "",
+                )}&county=${encodeURIComponent(county || "")}&mitigations=${mitigationsParam}${
+                  regions ? `&regions=${encodeURIComponent(regions)}` : ""
+                    }`}
+                  className="bg-[#275c9d] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#1f4b7a] transition duration-200"
+                >
+                  Next
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStep(nextStepKey);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className="bg-[#275c9d] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#1f4b7a] transition duration-200"
+                >
+                  Next
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
