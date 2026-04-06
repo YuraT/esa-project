@@ -13,6 +13,32 @@ const GENERAL_USE_VALUES = new Set([
   "Any Use",
 ]);
 
+function getProdRegNum(product: string) {
+  return product.match(/^\s*[\d\-]+/)?.[0] ?? "";
+}
+
+async function fetchLimitations(
+  regions: string,
+  product: string,
+  date: string,
+) {
+  const prodRegNum = getProdRegNum(product);
+
+  const res = await fetch(
+    `/api/pulas-by-geometry?geometry=${encodeURIComponent(regions)}&prod_reg_num=${encodeURIComponent(prodRegNum)}&date=${encodeURIComponent(date)}&returnGeometry=false`,
+    {
+      cache: "force-cache",
+    },
+  );
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Failed to fetch limitations: ${res.status} ${text}`);
+  }
+
+  return res.json();
+}
+
 export default function CropSelectionPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -26,60 +52,39 @@ export default function CropSelectionPage() {
   const [availableCrops, setAvailableCrops] = useState<string[]>([]);
   const [selectedCrop, setSelectedCrop] = useState("");
 
+
   useEffect(() => {
-    const stored = localStorage.getItem("esa_limitations");
-    if (!stored) return;
+    async function load() {
+      if (!regions || !product || !date) return;
 
-    try {
-      const parsed = JSON.parse(stored);
-      console.log("esa_limitations on crop page:", parsed);
+      try {
+        const parsed = await fetchLimitations(regions, product, date);
+        console.log("fetched limitations on crop page:", parsed);
 
-      const uses = new Set<string>();
+        const uses = new Set<string>();
 
-      parsed.limitations?.forEach((limitation: any) => {
-        limitation.umf?.forEach((entry: any) => {
-          const use = entry?.use?.trim();
-          if (use && !GENERAL_USE_VALUES.has(use)) {
-            uses.add(use);
-          }
-        });
-      });
-
-      const sortedUses = Array.from(uses).sort();
-      console.log("available crop/use options:", sortedUses);
-      setAvailableCrops(sortedUses);
-    } catch (error) {
-      console.error("Failed to parse esa_limitations:", error);
-    }
-  }, []);
-
-  function handleContinue() {
-    const stored = localStorage.getItem("esa_limitations");
-    if (!stored || !selectedCrop) return;
-
-    try {
-      const parsed = JSON.parse(stored);
-
-      const filteredLimitations = parsed.limitations
-        .map((limitation: any) => {
-          const filteredUMF = (limitation.umf || []).filter((entry: any) => {
+        parsed.limitations?.forEach((limitation: any) => {
+          limitation.umf?.forEach((entry: any) => {
             const use = entry?.use?.trim();
-            return use && (GENERAL_USE_VALUES.has(use) || use === selectedCrop);
+            if (use && !GENERAL_USE_VALUES.has(use)) {
+              uses.add(use);
+            }
           });
+        });
 
-          return {
-            ...limitation,
-            umf: filteredUMF,
-          };
-        })
-        .filter((limitation: any) => limitation.umf.length > 0);
+        const sortedUses = Array.from(uses).sort();
+        console.log("available crop/use options:", sortedUses);
+        setAvailableCrops(sortedUses);
+      } catch (error) {
+        console.error("Failed to load limitations:", error);
+      }
+    }
 
-      const filteredData = {
-        ...parsed,
-        limitations: filteredLimitations,
-      };
+    load();
+  }, [regions, product, date]);
 
-      localStorage.setItem("esa_limitations", JSON.stringify(filteredData));
+    function handleContinue() {
+      if (!selectedCrop) return;
 
       const params = new URLSearchParams({
         month,
@@ -91,9 +96,6 @@ export default function CropSelectionPage() {
       });
 
       router.push(`/PrintReport?${params.toString()}`);
-    } catch (error) {
-      console.error("Failed to filter limitations by crop:", error);
-    }
   }
 
   return (

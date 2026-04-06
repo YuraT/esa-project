@@ -22,11 +22,51 @@ type LimitationItem = {
   last_update?: string;
 };
 
+const GENERAL_USE_VALUES = new Set([
+  "All Agricultural uses",
+  "All Agricultural Uses",
+  "All non-agricultural uses",
+  "All Other Uses",
+  "Any Use",
+]);
+
+function getProdRegNum(product: string) {
+  return product.match(/^\s*[\d\-]+/)?.[0] ?? "";
+}
+
+async function fetchLimitations(
+  regions: string,
+  product: string,
+  date: string,
+) {
+  const prodRegNum = getProdRegNum(product);
+
+  const res = await fetch(
+    `/api/pulas-by-geometry?geometry=${encodeURIComponent(
+      regions,
+    )}&prod_reg_num=${encodeURIComponent(
+      prodRegNum,
+    )}&date=${encodeURIComponent(date)}&returnGeometry=true`,
+    {
+      cache: "force-cache",
+    },
+  );
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Failed to fetch limitations: ${res.status} ${text}`);
+  }
+
+  return res.json();
+}
+
 const PrintReportContent: React.FC = () => {
   const searchParams = useSearchParams();
 
   const month = searchParams.get("month") ?? "";
   const product = searchParams.get("product") ?? "";
+  const date = searchParams.get("date") ?? "";
+  const crop = searchParams.get("crop") ?? "";
   const county = searchParams.get("county") ?? "";
   const regions = searchParams.get("regions");
   const [limitations, setLimitations] = useState<LimitationItem[]>([]);
@@ -40,30 +80,49 @@ const PrintReportContent: React.FC = () => {
   });
 
   useEffect(() => {
-    const parsedRegions = regions ? JSON.parse(regions) : [];
-    setReportData({ month, product, county, regions: parsedRegions });
+    async function load() {
+      const parsedRegions = regions ? JSON.parse(regions) : [];
+      setReportData({ month, product, county, regions: parsedRegions });
 
-    const stored = localStorage.getItem("esa_limitations");
-    if (stored) {
+      if (!regions || !product || !date) {
+        setLimitations([]);
+        setPulaData([]);
+        return;
+      }
+
       try {
-        const parsed = JSON.parse(stored);
-        //check if it's the new format with both limitations and pulas
-        if (parsed.limitations && Array.isArray(parsed.limitations)) {
-          setLimitations(parsed.limitations);
-          setPulaData(parsed.pulas || []);
-          console.log("Using stored geometry data:", parsed);
-        } else {
-          //limitations array
-          setLimitations(Array.isArray(parsed) ? parsed : [parsed]);
-          setPulaData([]);
+        const parsed = await fetchLimitations(regions, product, date);
+        console.log("fetched limitations on print page:", parsed);
+
+        let nextLimitations = parsed.limitations ?? [];
+
+        if (crop) {
+          nextLimitations = nextLimitations
+            .map((limitation: any) => {
+              const filteredUMF = (limitation.umf || []).filter((entry: any) => {
+                const use = entry?.use?.trim();
+                return use && (GENERAL_USE_VALUES.has(use) || use === crop);
+              });
+
+              return {
+                ...limitation,
+                umf: filteredUMF,
+              };
+            })
+            .filter((limitation: any) => limitation.umf.length > 0);
         }
+
+        setLimitations(nextLimitations);
+        setPulaData(parsed.pulas || []);
       } catch (error) {
-        console.error("Error parsing stored data:", error);
+        console.error("Error loading report data:", error);
         setLimitations([]);
         setPulaData([]);
       }
     }
-  }, [month, product, county, regions]);
+
+    load();
+  }, [month, date, product, county, regions, crop]);
 
   const mitigationsParam = searchParams.get("mitigations");
   let mitigationMenuRows: {
@@ -173,13 +232,13 @@ const PrintReportContent: React.FC = () => {
     }
   }
 
-  const monthToDate = (m: string) => {
+  //const monthToDate = (m: string) => {
   // expects "March 2026"
-    const d = new Date(`${m} 1`);
-    return Number.isNaN(d.getTime()) ? "" : d.toISOString().split("T")[0];
-  };
+  //  const d = new Date(`${m} 1`);
+  //  return Number.isNaN(d.getTime()) ? "" : d.toISOString().split("T")[0];
+  //};
 
-  const date = month ? monthToDate(month) : "";
+ // const date = month ? monthToDate(month) : "";
 
   const reportUrlParams = new URLSearchParams({
     month: month ?? "",
