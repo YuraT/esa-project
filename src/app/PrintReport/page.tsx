@@ -659,7 +659,7 @@ const PrintReportContent: React.FC = () => {
         {limitations.map((item, idx) => (
           <div key={idx} className="mb-6 text-gray-800">
             <p className="font-semibold mb-2">Limitation:</p>
-            <p className="italic text-gray-700">{item.limitation}</p>
+            <p className="italic text-gray-700" dangerouslySetInnerHTML={{ __html: item.limitation }}></p>
             <div className="mt-4 overflow-x-auto">
               <table className="w-full text-sm border border-gray-300">
                 <thead className="bg-gray-100 text-gray-900">
