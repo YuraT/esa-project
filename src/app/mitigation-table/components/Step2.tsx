@@ -10,7 +10,6 @@ const SoilSlopeMap = dynamic(() => import("./SoilSlopeMap"), { ssr: false });
 export default function Step2({ value, setValue }: stepProps) {
   const searchParams = useSearchParams();
   const regionsParam = searchParams.get("regions");
-  const countyParam = searchParams.get("county") ?? "";
 
   // Memoize the regions parsing to prevent unnecessary map reloads
   const selectedRegions = useMemo<GeoJSON.Feature<GeoJSON.Polygon>[]>(() => {
@@ -71,7 +70,7 @@ export default function Step2({ value, setValue }: stepProps) {
 
       {/* Soil Slope Map Section */}
       <div className="mt-8 px-10 pb-10">
-        <SoilSlopeMap regions={selectedRegions} county={countyParam} className="w-full" />
+        <SoilSlopeMap regions={selectedRegions} className="w-full" />
       </div>
     </div>
   );

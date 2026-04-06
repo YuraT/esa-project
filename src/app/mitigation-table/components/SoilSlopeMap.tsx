@@ -6,6 +6,7 @@ import esriConfig from "@arcgis/core/config";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Graphic from "@arcgis/core/Graphic";
 import Polygon from "@arcgis/core/geometry/Polygon";
+import Extent from "@arcgis/core/geometry/Extent";
 import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
 import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
 import MapView from "@arcgis/core/views/MapView";
@@ -13,29 +14,12 @@ import { geojsonToArcGIS } from "@terraformer/arcgis";
 import "@arcgis/map-components/components/arcgis-map";
 import "@arcgis/map-components/components/arcgis-zoom";
 
-import usCounties from "@/app/data/uscounties.json";
-
 interface SoilSlopeMapProps {
   regions?: GeoJSON.Feature<GeoJSON.Polygon>[] | null;
-  /** "County, ST" from URL — used when the view must open on the right area before/without region graphics */
-  county?: string;
   className?: string;
 }
 
-function countyCenterFromParam(countyParam: string): { lat: number; lng: number } | null {
-  if (!countyParam.trim()) return null;
-  const parts = countyParam.split(",").map((s) => s.trim());
-  if (parts.length < 2) return null;
-  const [countyName, stateAbbr] = parts;
-  const entry = (usCounties as { county_ascii: string; state_id: string; lat: number; lng: number }[]).find(
-    (c) =>
-      c.county_ascii.toLowerCase() === countyName.toLowerCase() && c.state_id === stateAbbr,
-  );
-  if (!entry) return null;
-  return { lat: entry.lat, lng: entry.lng };
-}
-
-const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ regions, county = "", className }) => {
+const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ regions, className }) => {
   const mapRef = useRef<any>(null);
   const regionsLayerRef = useRef<GraphicsLayer | null>(null);
 
@@ -48,7 +32,7 @@ const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ regions, county = "", class
 
     const setupMap = async () => {
       try {
-        await mapRef.current.viewOnReady();
+        await mapRef.current.arcgisViewReadyChange;
         const view = mapRef.current.view as MapView;
 
         if (!view || !view.map) return;
@@ -107,31 +91,19 @@ const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ regions, county = "", class
             const lats = allExtents.map((coord) => coord[1]);
             const padding = 0.01;
 
+            // Wait for view to be fully ready before calling goTo
             view.when(() => {
+              const extent = new Extent({
+                xmin: Math.min(...lngs) - padding,
+                ymin: Math.min(...lats) - padding,
+                xmax: Math.max(...lngs) + padding,
+                ymax: Math.max(...lats) + padding,
+                spatialReference: { wkid: 4326 },
+              });
               view
-                .goTo({
-                  xmin: Math.min(...lngs) - padding,
-                  ymin: Math.min(...lats) - padding,
-                  xmax: Math.max(...lngs) + padding,
-                  ymax: Math.max(...lats) + padding,
-                  spatialReference: { wkid: 4326 },
-                })
+                .goTo(extent)
                 .catch((error) => {
                   console.warn("Failed to zoom to regions:", error);
-                });
-            });
-          }
-        } else {
-          const center = countyCenterFromParam(county);
-          if (center) {
-            view.when(() => {
-              view
-                .goTo({
-                  center: [center.lng, center.lat],
-                  zoom: 11,
-                })
-                .catch((error) => {
-                  console.warn("Failed to zoom to county:", error);
                 });
             });
           }
@@ -142,7 +114,7 @@ const SoilSlopeMap: React.FC<SoilSlopeMapProps> = ({ regions, county = "", class
     };
 
     setupMap();
-  }, [regions, county]);
+  }, [regions]);
 
   return (
     <div className={className}>
