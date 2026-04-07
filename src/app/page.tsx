@@ -55,7 +55,6 @@ return (
       </div>
     </div>
 
-  return (
     <div className="bg-[#3E4651] items-center min-h-screen w-full max-w-full font-[family-name:var(--font-merriweather-sans)] overflow-x-hidden">
       <div className="relative w-full max-w-full overflow-hidden">
         <img
