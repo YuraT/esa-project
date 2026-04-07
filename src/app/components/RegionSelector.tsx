@@ -204,7 +204,7 @@ export default function RegionSelector({
       <div ref={mapRef} className="w-full h-full rounded-lg" />
 
       {/* Control panel */}
-      <div className="absolute top-4 right-4 bg-white p-4 rounded-lg shadow-lg max-w-xs z-[1000]">
+      <div className="absolute top-4 right-4 bg-white p-4 rounded-lg shadow-lg max-w-xs w-[calc(100%-4rem)] z-[500]">
         <div className="text-sm space-y-2">
           <ul className="list-disc list-inside space-y-1 text-xs">
             <li>
