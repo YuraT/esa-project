@@ -28,7 +28,7 @@ function requiresCropSelection(limitations: any[]): boolean {
       }),
   );
 }
-  
+
 //CHANGE/REFINE LATER
 
 function getLastSixMonths(): { display: string; value: string }[] {
@@ -151,11 +151,11 @@ export default function SearchContainer() {
       const response = await fetch(
         `/api/pulas-by-geometry?geometry=${encodeURIComponent(JSON.stringify(regionGeometries))}&prod_reg_num=${encodeURIComponent(prodRegNum)}&date=${encodeURIComponent(applicationDate)}&returnGeometry=true`,
       );
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Failed to fetch geometry data", response.status, errorText);
-      return null;
-    }
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Failed to fetch geometry data", response.status, errorText);
+        return null;
+      }
       return response.json();
     } catch (error) {
       console.error("Error querying geometry data:", error);
@@ -191,15 +191,15 @@ export default function SearchContainer() {
 
       if (geometryResult) {
         // Log raw and plain text of limitations for debugging! will remove later
-          console.log(
-            "mitigation check values:",
-            geometryResult.limitations?.map((item) => ({
-              raw: item.limitation,
-              plain: item.limitation?.replace(/<[^>]*>/g, " "),
-            })),
-          );
-          console.log("matcher:", LimitationTypes.t1RunoffErosion);
-        
+        console.log(
+          "mitigation check values:",
+          geometryResult.limitations?.map((item) => ({
+            raw: item.limitation,
+            plain: item.limitation?.replace(/<[^>]*>/g, " "),
+          })),
+        );
+        console.log("matcher:", LimitationTypes.t1RunoffErosion);
+
         // Route to mitigation menu if any limitation requires calculating mitigation points
         if (
           geometryResult.limitations.some(({ limitation }) =>
@@ -380,9 +380,9 @@ export default function SearchContainer() {
       </div>
 
       {/* Main Content: Search Panel + Map — stack on small screens */}
-      <div className="flex flex-col xl:flex-row w-full gap-8 xl:gap-12 2xl:gap-20 justify-center items-stretch px-4 pb-8 xl:px-6 min-w-0 max-w-full">
+      <div className="flex flex-col xl:flex-row w-full gap-8 xl:gap-12 2xl:gap-20 justify-center items-center sm:px-4 pb-8 xl:px-6 min-w-0 max-w-full">
         {/* Search Panel */}
-        <div className="mb-8 xl:mb-15 w-full max-w-xl xl:w-[min(28vw,28rem)] xl:max-w-none shrink-0 min-h-[min(75vh,640px)] xl:h-[75vh] rounded-3xl xl:rounded-[2rem] flex flex-col items-center gap-6 md:gap-10 bg-[#275c9d] py-6 px-4 mx-auto xl:mx-0">
+        <div className="w-full max-w-xl xl:w-[min(28vw,28rem)] xl:max-w-none shrink-0 rounded-3xl xl:rounded-[2rem] flex flex-col items-center gap-6 md:gap-10 bg-[#275c9d] py-6 px-4 mx-auto xl:mx-0">
           <h1 className="text-white text-2xl sm:text-4xl font-bold mt-2 md:mt-7">Search!</h1>
 
           {/* Product Search */}
@@ -414,7 +414,7 @@ export default function SearchContainer() {
                 <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#275c9d] w-4 h-5 pointer-events-none" />
               </div>
               {filteredProducts.length > 0 && (
-                <div className="text-[#275c9d] absolute w-full left-0 right-0 bg-white border rounded mt-1 shadow z-10 max-h-60 overflow-y-auto">
+                <div className="text-[#275c9d] absolute w-full left-0 right-0 bg-white border rounded mt-1 shadow z-1000 max-h-60 overflow-y-auto">
                   {filteredProducts.map((product) => (
                     <div
                       key={product}
@@ -449,7 +449,7 @@ export default function SearchContainer() {
                 <ChevronDown className="text-[#275c9d] w-4 h-5" />
               </div>
               {isOpen && (
-                <div className="text-[#275c9d] absolute w-full left-0 right-0 bg-white border rounded mt-1 shadow z-10">
+                <div className="text-[#275c9d] absolute w-full left-0 right-0 bg-white border rounded mt-1 shadow z-1000">
                   {getLastSixMonths().map((monthData) => (
                     <div
                       key={monthData.value}
@@ -496,7 +496,7 @@ export default function SearchContainer() {
                 <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#275c9d] w-4 h-5 pointer-events-none" />
               </div>
               {filteredCounties.length > 0 && (
-                <div className="text-[#275c9d] absolute w-full left-0 right-0 bg-white border rounded mt-1 shadow z-10 max-h-60 overflow-y-auto">
+                <div className="text-[#275c9d] absolute w-full left-0 right-0 bg-white border rounded mt-1 shadow z-1000 max-h-60 overflow-y-auto">
                   {filteredCounties.map(({ county, countyIndex }) => (
                     <div
                       key={countyIndex}
@@ -512,13 +512,13 @@ export default function SearchContainer() {
           </div>
 
           {/* Submit */}
-          <div
-            onClick={isLoading ? undefined : handleSearch}
-            className={`mb-5 w-full max-w-[14rem] min-h-[3rem] h-[8vh] ${
-              isLoading
-                ? "bg-[#678dc9] cursor-not-allowed"
-                : "bg-[#4673ab] cursor-pointer hover:bg-[#3e6293]"
-              } flex items-center justify-center rounded-[0.5rem] transition-colors`}
+          <button
+            onClick={handleSearch}
+            disabled={isLoading}
+            className={`mb-5 mt-auto w-full max-w-[14rem] min-h-[3rem] h-[8vh] hidden xl:flex ${isLoading
+              ? "bg-[#678dc9] cursor-not-allowed"
+              : "bg-[#4673ab] cursor-pointer hover:bg-[#3e6293]"
+              } items-center justify-center rounded-[0.5rem] transition-colors border-none`}
           >
             {isLoading ? (
               <div className="flex items-center space-x-2">
@@ -528,7 +528,7 @@ export default function SearchContainer() {
             ) : (
               <span className="text-white font-bold text-2xl">Next!</span>
             )}
-          </div>
+          </button>
         </div>
 
         {/* Region Selector Map */}
@@ -539,6 +539,25 @@ export default function SearchContainer() {
             className="rounded-[2rem] overflow-hidden shadow-lg"
           />
         </div>
+
+        {/* Mobile Submit */}
+        <button
+          onClick={handleSearch}
+          disabled={isLoading}
+          className={`xl:hidden mx-auto mt-2 w-full max-w-[14rem] min-h-[3rem] h-[8vh] flex ${isLoading
+            ? "bg-[#678dc9] cursor-not-allowed"
+            : "bg-[#4673ab] cursor-pointer hover:bg-[#3e6293]"
+            } items-center justify-center rounded-[0.5rem] transition-colors border-none`}
+        >
+          {isLoading ? (
+            <div className="flex items-center space-x-2">
+              <LoaderCircle className="w-5 h-5 text-white animate-spin" />
+              <span className="text-white font-bold text-lg">Loading...</span>
+            </div>
+          ) : (
+            <span className="text-white font-bold text-2xl">Next!</span>
+          )}
+        </button>
       </div>
 
       <Footer />
