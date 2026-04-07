@@ -15,16 +15,18 @@ export default function page() {
   const [currentStep, setCurrentStep] = useState(1);
 
   return (
-    <div>
-      <BackButton />
-      <div className="flex">
+    <div className="app-content-gutter min-h-screen w-full max-w-7xl mx-auto overflow-x-hidden">
+      <div className="pt-4">
+        <BackButton />
+      </div>
+      <div className="flex flex-col md:flex-row min-w-0">
         <SideBar
           currentStep={currentStep}
           steps={steps}
           onStepClickAction={setCurrentStep}
         />
 
-        <div className="w-3/4 p-4 bg-white">
+        <div className="w-full md:w-3/4 min-w-0 p-4 bg-white">
           <h1 className="text-xl font-extrabold text-[#375B85] mb-4">
             Mitigation Menu
           </h1>

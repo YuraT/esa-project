@@ -11,12 +11,12 @@ export default function Step9({ value, setValue }: stepProps) {
   }
 
   return (
-    <div className="bg-[#f9f9f9] rounded-3xl p-10 my-18">
-      <div className="absolute w-8 h-8 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
+    <div className="relative bg-[#f9f9f9] rounded-3xl p-4 sm:p-10 my-18 w-full max-w-4xl mx-auto">
+      <div className="absolute left-4 top-4 sm:left-10 sm:top-10 w-8 h-8 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
         9
       </div>
-      <div className="flex flex-col items-center justify-center">
-        <h1 className="m-2 text-2xl font-bold text-[#275c9d]">
+      <div className="flex flex-col items-center justify-center pt-10 sm:pt-2">
+        <h1 className="m-2 text-center text-xl sm:text-2xl font-bold text-[#275c9d] px-2">
           Field-Adjacent Mitigation Measures
         </h1>
 
@@ -26,7 +26,7 @@ export default function Step9({ value, setValue }: stepProps) {
             Grassed Waterway
           </h3>
           <p className="mb-3">Are there grassed waterways?</p>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
                 answers["q1"] === 1
@@ -56,7 +56,7 @@ export default function Step9({ value, setValue }: stepProps) {
             Vegetative Filter Strips (VFS) or Field Border Adjacent to Field
           </h3>
           <p className="my-2">How wide is the VFS or field border?</p>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
                 answers["q2"] === 1
@@ -98,7 +98,7 @@ export default function Step9({ value, setValue }: stepProps) {
           <p className="my-2">
             Is the ditch located downslope of the application area?
           </p>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
                 answers["q3"] === 1
@@ -128,7 +128,7 @@ export default function Step9({ value, setValue }: stepProps) {
             Riparian Area
           </h3>
           <p className="my-2">How wide is the riparian area?</p>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
                 answers["q4"] === 1
@@ -168,7 +168,7 @@ export default function Step9({ value, setValue }: stepProps) {
             Constructed and Natural Wetlands
           </h3>
           <p className="my-2">Are there constructed and natural wetlands?</p>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
                 answers["q5"] === 3
@@ -198,7 +198,7 @@ export default function Step9({ value, setValue }: stepProps) {
             Terrestrial Habitat Landscape Improvement
           </h3>
           <p className="my-2">How wide is the landscape?</p>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
                 answers["q6"] === 1
@@ -238,7 +238,7 @@ export default function Step9({ value, setValue }: stepProps) {
             Filtering Devices
           </h3>
           <p className="my-2">What do the filtering devices contain?</p>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             <button
               className={`cursor-pointer px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
                 answers["q7"] === 3

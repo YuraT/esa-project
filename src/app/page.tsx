@@ -55,12 +55,13 @@ return (
       </div>
     </div>
 
-    <div className="bg-[#3E4651] items-center min-h-screen font-[family-name:var(--font-merriweather-sans)] overflow-x-hidden">
-      <div className="relative">
+  return (
+    <div className="bg-[#3E4651] items-center min-h-screen w-full max-w-full font-[family-name:var(--font-merriweather-sans)] overflow-x-hidden">
+      <div className="relative w-full max-w-full overflow-hidden">
         <img
           src="/pesticideuser.svg"
           alt="Pesticide User"
-          className="w-full max-w-screen-3xl h-auto"
+          className="block w-full max-w-full h-auto"
         />
 
         {/* map button */}
@@ -75,20 +76,22 @@ return (
         {/* pesticide user image gradient */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#275C9D]/80 to-white/40"></div>
 
-        <div className="absolute top-[25%] left-[10%] w-[clamp(12rem,60vw,90rem)] px-[clamp(1rem,5vw,6rem)]">
-          <p className="font-bold text-white text-[clamp(1rem,5vw,9rem)] pb-1">
-            Pesticide Information Center
-          </p>
-          <p className="font-bold text-[clamp(0.6rem,2.5vw,5rem)] text-white">
-            ESA rules, simplified.
-          </p>
-          <div className="absolute bottom-[-70%]">
-            <div className="bg-black/20 backdrop-blur-sm rounded-lg p-3 max-w-fit">
-              <p className="text-[clamp(0.2rem,1vw,2rem)] text-[#9E9FA0]">
+        <div className="absolute top-[20%] sm:top-[25%] left-4 right-4 sm:left-[10%] sm:right-auto w-auto sm:w-[clamp(12rem,60vw,90rem)] max-w-full flex flex-col gap-4 sm:gap-5 sm:px-[clamp(1rem,5vw,6rem)]">
+          <div className="min-w-0">
+            <p className="font-bold text-white text-[clamp(1rem,5vw,9rem)] pb-1">
+              Pesticide Information Center
+            </p>
+            <p className="font-bold text-[clamp(0.6rem,2.5vw,5rem)] text-white">
+              ESA rules, simplified.
+            </p>
+          </div>
+          <div className="w-full max-w-[min(100%,28rem)] sm:max-w-fit shrink-0">
+            <div className="bg-black/20 backdrop-blur-sm rounded-lg p-3 sm:p-4">
+              <p className="text-xs sm:text-sm md:text-base leading-snug text-[#d1d5db]">
                 *This site does not store or collect personal data about
                 pesticide application*
               </p>
-              <p className="text-[clamp(0.2rem,1vw,2rem)] text-[#9E9FA0] mt-2">
+              <p className="text-xs sm:text-sm md:text-base leading-snug text-[#d1d5db] mt-2 sm:mt-3">
                 *These are recommendations, not sanctioned or approved*
               </p>
             </div>
@@ -98,8 +101,8 @@ return (
 
       {/* Get clear... */}
       <div className="flex items-center bg-white">
-        <div className="pr-[clamp(1rem,5vw,5rem)] pl-[clamp(4rem,21vw,23rem)] py-[clamp(1rem,9vw,12rem)]">
-          <p className="font-bold text-[#375B85] text-right text-[clamp(0.5rem,2.3vw,4rem)]">
+        <div className="px-4 sm:px-8 md:pr-[clamp(1rem,5vw,5rem)] md:pl-[clamp(4rem,21vw,23rem)] py-[clamp(1rem,9vw,12rem)] max-w-full">
+          <p className="font-bold text-[#375B85] text-left sm:text-right text-[clamp(0.5rem,2.3vw,4rem)]">
             Get clear, customized{" "}
             <span className="text-[#537BBA]">ESA pesticide guidelines</span>{" "}
             based on your location with our easy-to use{" "}

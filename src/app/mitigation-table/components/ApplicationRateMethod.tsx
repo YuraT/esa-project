@@ -14,7 +14,7 @@ export default function ApplicationRateMethod({
   setSoilDepth,
 }: ApplicationRateMethodProps) {
   return (
-    <div className="mb-12 flex flex-col bg-[#f9f9f9] rounded-3xl w-[720px] max-w-full px-10 py-10 shadow-sm">
+    <div className="mb-12 flex flex-col bg-[#f9f9f9] rounded-3xl w-full max-w-[720px] mx-auto px-4 sm:px-10 py-8 sm:py-10 shadow-sm">
       <div className="flex items-start gap-4 mb-6">
         <div>
           <h2 className="text-2xl font-bold text-[#275c9d]">

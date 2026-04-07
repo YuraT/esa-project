@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist_Mono } from "next/font/google";
 import { Merriweather_Sans } from "next/font/google";
 import "./globals.css";
@@ -12,6 +12,13 @@ const merriweatherSans = Merriweather_Sans({
   variable: "--font-merriweather-sans",
   subsets: ["latin"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: "ESA Project",
@@ -53,9 +60,11 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body
-        className={`${merriweatherSans.variable} ${geistMono.variable} antialiased`}
+        className={`${merriweatherSans.variable} ${geistMono.variable} min-h-screen w-full max-w-full overflow-x-hidden antialiased`}
       >
-        {children}
+        <div className="min-h-screen w-full max-w-full overflow-x-hidden box-border">
+          {children}
+        </div>
       </body>
     </html>
   );
