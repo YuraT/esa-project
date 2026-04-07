@@ -22,6 +22,38 @@ export default function Home() {
   const steps = "font-bold text-[#3E4651] leading-tight text-center";
   const stepsDesc =
     "font-normal text-sm text-[#3E4651] max-w-[clamp(10rem,20vw,25rem)] text-center";
+return (
+  <>
+    <div className="w-full bg-[#b8d99a] flex justify-center py-3">
+      <div className="flex flex-col items-center gap-1 text-center text-[#2f4f2f] font-semibold text-sm sm:text-base">
+        <a
+          href="https://www.figma.com/proto/M3Gfd4N786yfrOukakzoW8/EPA-Draft?node-id=1736-3633&p=f&t=PW113dsWhqzea4IB-1&scaling=scale-down&content-scaling=fixed&page-id=1736%3A3629&starting-point-node-id=1736%3A3633"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline"
+        >
+          VIEW THE MOBILE INTERACTIVE MOCKUP HERE
+        </a>
+
+        <a
+          href="https://forms.gle/itJTqYvWA8c7A1jM9"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline"
+        >
+          FIND LINK TO FEEDBACK FORM HERE
+        </a>
+
+        <a
+          href="https://www.figma.com/proto/M3Gfd4N786yfrOukakzoW8/EPA-Draft?node-id=1657-3015&p=f&t=7VcX6wCPWSWOo4ww-1&scaling=scale-down&content-scaling=fixed&page-id=1657%3A2175&starting-point-node-id=1657%3A3015"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline"
+        >
+          VIEW THE WEB INTERACTIVE MOCKUP HERE
+        </a>
+      </div>
+    </div>
 
   return (
     <div className="bg-[#3E4651] items-center min-h-screen w-full max-w-full font-[family-name:var(--font-merriweather-sans)] overflow-x-hidden">
@@ -159,8 +191,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* footer */}
-      <Footer></Footer>
+      <Footer />
     </div>
-  );
-}
+  </>
+);}

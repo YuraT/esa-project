@@ -190,6 +190,16 @@ export default function SearchContainer() {
       )}`;
 
       if (geometryResult) {
+        // Log raw and plain text of limitations for debugging! will remove later
+          console.log(
+            "mitigation check values:",
+            geometryResult.limitations?.map((item) => ({
+              raw: item.limitation,
+              plain: item.limitation?.replace(/<[^>]*>/g, " "),
+            })),
+          );
+          console.log("matcher:", LimitationTypes.t1RunoffErosion);
+        
         // Route to mitigation menu if any limitation requires calculating mitigation points
         if (
           geometryResult.limitations.some(({ limitation }) =>
