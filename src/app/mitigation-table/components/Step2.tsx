@@ -23,18 +23,18 @@ export default function Step2({ value, setValue }: stepProps) {
     }
   }, [regionsParam]);
   return (
-    <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-240">
-      <div className="flex items-center gap-45 mb-4 ">
-        <div className="w-8 h-8 mt-10 ml-10 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
+    <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-full max-w-4xl mx-auto">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4 px-4 sm:px-6">
+        <div className="w-8 h-8 mt-6 sm:mt-10 shrink-0 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
           2
         </div>
-        <div className="ml-40 mt-10 text-2xl font-bold text-[#275c9d]">
+        <div className="sm:ml-4 sm:mt-10 text-xl sm:text-2xl font-bold text-[#275c9d]">
           Field Slope
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center">
-        <p className="mt-2 leading-tight text-center pl-65 pr-65 text-lg text-black">
+      <div className="flex flex-col items-center justify-center px-4">
+        <p className="mt-2 leading-tight text-center text-lg text-black max-w-3xl">
           Flatter fields are less prone to runoff.
           <span className="font-bold">
             {" "}
@@ -42,24 +42,22 @@ export default function Step2({ value, setValue }: stepProps) {
           </span>
         </p>
 
-        <div className="flex mt-6 gap-4">
+        <div className="flex flex-wrap justify-center mt-6 gap-4">
           <button
-            className={`px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
-              value === 3
+            className={`px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${value === 3
                 ? "bg-blue-200 border-2 border-blue-500"
                 : "bg-gray-200"
-            }`}
+              }`}
             onClick={() => setValue(3)}
             type="button"
           >
             Yes (≤ 3%)
           </button>
           <button
-            className={`px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${
-              value === 0
+            className={`px-6 py-2 rounded-lg font-bold text-lg text-[#275c9d] ${value === 0
                 ? "bg-blue-200 border-2 border-blue-500"
                 : "bg-gray-200"
-            }`}
+              }`}
             onClick={() => setValue(0)}
             type="button"
           >
@@ -69,7 +67,7 @@ export default function Step2({ value, setValue }: stepProps) {
       </div>
 
       {/* Soil Slope Map Section */}
-      <div className="mt-8 px-10 pb-10">
+      <div className="mt-8 px-4 sm:px-10 pb-10">
         <SoilSlopeMap regions={selectedRegions} className="w-full" />
       </div>
     </div>

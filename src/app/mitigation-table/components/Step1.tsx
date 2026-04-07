@@ -56,22 +56,22 @@ export default function Step1({
   }, [county, points, setValue]);
 
   return (
-    <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-230 h-80">
-      <div className="flex items-center gap-10 mb-4 ">
-        <div className="w-8 h-8 mt-10 ml-10 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
+    <div className="mb-17 flex flex-col bg-[#f9f9f9] rounded-3xl w-full max-w-4xl mx-auto min-h-0 py-4 sm:h-80">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4 px-4 sm:px-6">
+        <div className="w-8 h-8 mt-6 sm:mt-10 shrink-0 rounded-full bg-[#577bb5] text-white flex items-center justify-center font-bold text-lg">
           1
         </div>
-        <div className="ml-35 mt-10 text-2xl font-bold text-[#275c9d]">
+        <div className="sm:ml-4 sm:mt-10 text-xl sm:text-2xl font-bold text-[#275c9d]">
           County Pesticide Runoff Vulnerability
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center">
-        <p className="mt-2 leading-tight text-center pl-60 pr-60 text-lg text-black">
+      <div className="flex flex-col items-center justify-center px-4 pb-6">
+        <p className="mt-2 leading-tight text-center text-lg text-black max-w-xl">
           County: <span className="font-bold">{displayCounty}</span>
         </p>
-        <div className="flex mt-8">
+        <div className="grid grid-cols-2 sm:flex sm:flex-nowrap mt-8 w-full max-w-xl gap-2 sm:gap-0 px-1">
           <div
-            className={`flex items-center justify-center w-30 h-12 rounded-l-4xl text-[#275c9d] font-bold text-lg ${
+            className={`flex items-center justify-center min-h-12 sm:w-30 sm:h-12 rounded-lg sm:rounded-none sm:rounded-l-4xl text-[#275c9d] font-bold text-sm sm:text-lg ${
               points === 6
                 ? "bg-[#d3faad] border-4 border-blue-500"
                 : "bg-[#d3faad]"
@@ -80,7 +80,7 @@ export default function Step1({
             Very Low
           </div>
           <div
-            className={`flex items-center justify-center w-30 h-12 text-[#275c9d] font-bold text-lg ${
+            className={`flex items-center justify-center min-h-12 sm:w-30 sm:h-12 rounded-lg sm:rounded-none text-[#275c9d] font-bold text-sm sm:text-lg ${
               points === 3
                 ? "bg-[#fff896] border-4 border-blue-500"
                 : "bg-[#fff896]"
@@ -89,7 +89,7 @@ export default function Step1({
             Low
           </div>
           <div
-            className={`flex items-center justify-center w-30 h-12 text-[#275c9d] font-bold text-lg ${
+            className={`flex items-center justify-center min-h-12 sm:w-30 sm:h-12 rounded-lg sm:rounded-none text-[#275c9d] font-bold text-sm sm:text-lg ${
               points === 2
                 ? "bg-[#ffd073] border-4 border-blue-500"
                 : "bg-[#ffd073]"
@@ -98,7 +98,7 @@ export default function Step1({
             Medium
           </div>
           <div
-            className={`flex items-center justify-center w-30 h-12 rounded-r-4xl text-[#275c9d] font-bold text-lg ${
+            className={`flex items-center justify-center min-h-12 sm:w-30 sm:h-12 rounded-lg sm:rounded-r-4xl sm:rounded-l-none text-[#275c9d] font-bold text-sm sm:text-lg ${
               points === 0
                 ? "bg-[#ff796d] border-4 border-blue-500"
                 : "bg-[#ff796d]"

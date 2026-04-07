@@ -58,7 +58,7 @@ export default function Step8({ value, setValue }: stepProps) {
           </div>
           {/* Conservation Tillage Infographic */}
           {showConservationTillageInfographic && (
-            <div className="flex p-10 mb-10 flex-col w-150 items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
+            <div className="flex p-4 sm:p-10 mb-10 flex-col w-full max-w-2xl items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
               <div className="flex w-full justify-end mb-4">
                 <button
                   className="text-4xl"
@@ -138,7 +138,7 @@ export default function Step8({ value, setValue }: stepProps) {
           </div>
           {/* Reservoir Tillage Infographic */}
           {showReservoirTillageInfographic && (
-            <div className="flex p-10 mb-10 flex-col w-150 items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
+            <div className="flex p-4 sm:p-10 mb-10 flex-col w-full max-w-2xl items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
               <div className="flex w-full justify-end mb-4">
                 <button
                   className="text-4xl"
@@ -206,7 +206,7 @@ export default function Step8({ value, setValue }: stepProps) {
           </div>
           {/* Contour Farming Infographic */}
           {showContourFarmingInfographic && (
-            <div className="flex p-10 mb-10 flex-col w-150 items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
+            <div className="flex p-4 sm:p-10 mb-10 flex-col w-full max-w-2xl items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
               <div className="flex w-full justify-end mb-4">
                 <button
                   className="text-4xl"
@@ -275,7 +275,7 @@ export default function Step8({ value, setValue }: stepProps) {
           </div>
           {/* In-field Vegetative Strips Infographic */}
           {showInFieldVegetativeStripsInfographic && (
-            <div className="flex p-10 mb-10 flex-col w-150 items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
+            <div className="flex p-4 sm:p-10 mb-10 flex-col w-full max-w-2xl items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
               <div className="flex w-full justify-end mb-4">
                 <button
                   className="text-4xl"
@@ -357,7 +357,7 @@ export default function Step8({ value, setValue }: stepProps) {
           </div>
           {/* Terrace Farming Infographic */}
           {showTerraceFarmingInfographic && (
-            <div className="flex p-10 mb-10 flex-col w-150 items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
+            <div className="flex p-4 sm:p-10 mb-10 flex-col w-full max-w-2xl items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
               <div className="flex w-full justify-end mb-4">
                 <button
                   className="text-4xl"
@@ -426,7 +426,7 @@ export default function Step8({ value, setValue }: stepProps) {
           </div>
           {/* Cover Crop Infographic */}
           {showCoverCropInfographic && (
-            <div className="flex p-10 mb-10 flex-col w-150 items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
+            <div className="flex p-4 sm:p-10 mb-10 flex-col w-full max-w-2xl items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
               <div className="flex w-full justify-end mb-4">
                 <button
                   className="text-4xl"
@@ -511,7 +511,7 @@ export default function Step8({ value, setValue }: stepProps) {
           </div>
           {/* Irrigation Water Management Infographic */}
           {showIrrigationWaterManagementInfographic && (
-            <div className="flex p-10 mb-10 flex-col w-150 items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
+            <div className="flex p-4 sm:p-10 mb-10 flex-col w-full max-w-2xl items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
               <div className="flex w-full justify-end mb-4">
                 <button
                   className="text-4xl"
@@ -601,7 +601,7 @@ export default function Step8({ value, setValue }: stepProps) {
           </div>
           {/* Mulching Infographic */}
           {showMulchingInfographic && (
-            <div className="flex p-10 mb-10 flex-col w-150 items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
+            <div className="flex p-4 sm:p-10 mb-10 flex-col w-full max-w-2xl items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
               <div className="flex w-full justify-end mb-4">
                 <button
                   className="text-4xl"
@@ -670,7 +670,7 @@ export default function Step8({ value, setValue }: stepProps) {
           </div>
           {/* Erosion Barriers Infographic */}
           {showErosionBarriersInfographic && (
-            <div className="flex p-10 mb-10 flex-col w-150 items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
+            <div className="flex p-4 sm:p-10 mb-10 flex-col w-full max-w-2xl items-center justify-center bg-[#F5F4F4] shadow-2xl rounded-xl text-center">
               <div className="flex w-full justify-end mb-4">
                 <button
                   className="text-4xl"
