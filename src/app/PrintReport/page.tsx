@@ -238,7 +238,7 @@ const PrintReportContent: React.FC = () => {
   //  return Number.isNaN(d.getTime()) ? "" : d.toISOString().split("T")[0];
   //};
 
- // const date = month ? monthToDate(month) : "";
+  // const date = month ? monthToDate(month) : "";
 
   const reportUrlParams = new URLSearchParams({
     month: month ?? "",
@@ -699,8 +699,8 @@ const PrintReportContent: React.FC = () => {
       <Header />
       <div className="flex justify-center mt-2 px-4">
         <button
-onClick={() => window.open(reportUrl, "_blank", "noopener,noreferrer")}
-className="bg-lime-200 text-blue-900 font-bold text-base sm:text-2xl px-6 sm:px-15 py-3 sm:py-4 rounded-full shadow-md hover:bg-lime-300 transition text-center max-w-full"
+          onClick={generatePDF}
+          className="bg-lime-200 text-blue-900 font-bold text-base sm:text-2xl px-6 sm:px-15 py-3 sm:py-4 rounded-full shadow-md hover:bg-lime-300 transition text-center max-w-full"
         >
           Download Printable Report
         </button>
