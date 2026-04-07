@@ -39,6 +39,7 @@ function MitigationTableTabsPageInner() {
 
   const {
     month,
+    date,
     product,
     county,
     regions,
@@ -260,7 +261,7 @@ function MitigationTableTabsPageInner() {
               </button>
               {isLastStep ? (
                 <Link
-                  href={`/PrintReport?month=${encodeURIComponent(month || "")}&product=${encodeURIComponent(
+                  href={`/PrintReport?month=${encodeURIComponent(month || "")}&date=${encodeURIComponent(date || "")}&product=${encodeURIComponent(
                     product || "",
                 )}&county=${encodeURIComponent(county || "")}&mitigations=${mitigationsParam}${
                   regions ? `&regions=${encodeURIComponent(regions)}` : ""

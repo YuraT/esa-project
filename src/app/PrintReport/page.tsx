@@ -22,11 +22,51 @@ type LimitationItem = {
   last_update?: string;
 };
 
+const GENERAL_USE_VALUES = new Set([
+  "All Agricultural uses",
+  "All Agricultural Uses",
+  "All non-agricultural uses",
+  "All Other Uses",
+  "Any Use",
+]);
+
+function getProdRegNum(product: string) {
+  return product.match(/^\s*[\d\-]+/)?.[0] ?? "";
+}
+
+async function fetchLimitations(
+  regions: string,
+  product: string,
+  date: string,
+) {
+  const prodRegNum = getProdRegNum(product);
+
+  const res = await fetch(
+    `/api/pulas-by-geometry?geometry=${encodeURIComponent(
+      regions,
+    )}&prod_reg_num=${encodeURIComponent(
+      prodRegNum,
+    )}&date=${encodeURIComponent(date)}&returnGeometry=true`,
+    {
+      cache: "force-cache",
+    },
+  );
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Failed to fetch limitations: ${res.status} ${text}`);
+  }
+
+  return res.json();
+}
+
 const PrintReportContent: React.FC = () => {
   const searchParams = useSearchParams();
 
   const month = searchParams.get("month") ?? "";
   const product = searchParams.get("product") ?? "";
+  const date = searchParams.get("date") ?? "";
+  const crop = searchParams.get("crop") ?? "";
   const county = searchParams.get("county") ?? "";
   const regions = searchParams.get("regions");
   const [limitations, setLimitations] = useState<LimitationItem[]>([]);
@@ -40,30 +80,49 @@ const PrintReportContent: React.FC = () => {
   });
 
   useEffect(() => {
-    const parsedRegions = regions ? JSON.parse(regions) : [];
-    setReportData({ month, product, county, regions: parsedRegions });
+    async function load() {
+      const parsedRegions = regions ? JSON.parse(regions) : [];
+      setReportData({ month, product, county, regions: parsedRegions });
 
-    const stored = localStorage.getItem("esa_limitations");
-    if (stored) {
+      if (!regions || !product || !date) {
+        setLimitations([]);
+        setPulaData([]);
+        return;
+      }
+
       try {
-        const parsed = JSON.parse(stored);
-        // Check if it's the new format with both limitations and pulas
-        if (parsed.limitations && Array.isArray(parsed.limitations)) {
-          setLimitations(parsed.limitations);
-          setPulaData(parsed.pulas || []);
-          console.log("Using stored geometry data:", parsed);
-        } else {
-          // Legacy format - just limitations array
-          setLimitations(Array.isArray(parsed) ? parsed : [parsed]);
-          setPulaData([]);
+        const parsed = await fetchLimitations(regions, product, date);
+        console.log("fetched limitations on print page:", parsed);
+
+        let nextLimitations = parsed.limitations ?? [];
+
+        if (crop) {
+          nextLimitations = nextLimitations
+            .map((limitation: any) => {
+              const filteredUMF = (limitation.umf || []).filter((entry: any) => {
+                const use = entry?.use?.trim();
+                return use && (GENERAL_USE_VALUES.has(use) || use === crop);
+              });
+
+              return {
+                ...limitation,
+                umf: filteredUMF,
+              };
+            })
+            .filter((limitation: any) => limitation.umf.length > 0);
         }
+
+        setLimitations(nextLimitations);
+        setPulaData(parsed.pulas || []);
       } catch (error) {
-        console.error("Error parsing stored data:", error);
+        console.error("Error loading report data:", error);
         setLimitations([]);
         setPulaData([]);
       }
     }
-  }, [month, product, county, regions]);
+
+    load();
+  }, [month, date, product, county, regions, crop]);
 
   const mitigationsParam = searchParams.get("mitigations");
   let mitigationMenuRows: {
@@ -172,6 +231,23 @@ const PrintReportContent: React.FC = () => {
       }
     }
   }
+
+  //const monthToDate = (m: string) => {
+  // expects "March 2026"
+  //  const d = new Date(`${m} 1`);
+  //  return Number.isNaN(d.getTime()) ? "" : d.toISOString().split("T")[0];
+  //};
+
+ // const date = month ? monthToDate(month) : "";
+
+  const reportUrlParams = new URLSearchParams({
+    month: month ?? "",
+    date: date ?? "",
+    product: product ?? "",
+    county: county ?? "",
+    regions: regions ?? "",
+  });
+  const reportUrl = `/api/report?${reportUrlParams.toString()}`;
 
   const wrapText = (
     text: string,
@@ -283,7 +359,7 @@ const PrintReportContent: React.FC = () => {
       y -= rowGap;
     });
 
-    // Add disclaimer
+    //disclaimer
     y -= 20;
     page.drawText(
       "Disclaimer: These are recommendations, not sanctioned or approved",
@@ -355,7 +431,7 @@ const PrintReportContent: React.FC = () => {
             const fontSize = 10;
             const lineHeight = fontSize + 2;
 
-            // --- Draw Header Row ---
+            //Draw Header Row
             let colX = tableX;
             let rowHeight = 30;
             headers.forEach((header, j) => {
@@ -381,7 +457,7 @@ const PrintReportContent: React.FC = () => {
             });
             y -= rowHeight;
 
-            // --- Draw Data Row with Wrapping ---
+            //Draw Data Row with Wrapping
             colX = tableX;
 
             const wrappedLinesPerCol = values.map((val, j) => {
@@ -438,7 +514,7 @@ const PrintReportContent: React.FC = () => {
       }
     }
 
-    // --- Applicable Points Table in PDF ---
+    //Applicable Points Table in PDF
     if (mitigationMenuRows.length > 0) {
       y -= 20;
       page.drawText("Applicable Points", {
@@ -623,8 +699,8 @@ const PrintReportContent: React.FC = () => {
       <Header />
       <div className="flex justify-center mt-2 px-4">
         <button
-          onClick={generatePDF}
-          className="bg-lime-200 text-blue-900 font-bold text-base sm:text-2xl px-6 sm:px-15 py-3 sm:py-4 rounded-full shadow-md hover:bg-lime-300 transition text-center max-w-full"
+onClick={() => window.open(reportUrl, "_blank", "noopener,noreferrer")}
+className="bg-lime-200 text-blue-900 font-bold text-base sm:text-2xl px-6 sm:px-15 py-3 sm:py-4 rounded-full shadow-md hover:bg-lime-300 transition text-center max-w-full"
         >
           Download Printable Report
         </button>

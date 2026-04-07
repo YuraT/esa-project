@@ -28,6 +28,7 @@ export type MitigationStepDef = {
 type MitigationTableContextValue = {
   // Search params
   month: string | null;
+  date: string | null;
   product: string | null;
   county: string;
   regions: string | null;
@@ -82,10 +83,41 @@ export function useMitigationTable() {
   return ctx;
 }
 
+function getProdRegNum(product: string) {
+  return product.match(/^\s*[\d\-]+/)?.[0] ?? "";
+}
+
+async function fetchLimitations(
+  regions: string,
+  product: string,
+  date: string,
+) {
+  const prodRegNum = getProdRegNum(product);
+
+  const res = await fetch(
+    `/api/pulas-by-geometry?geometry=${encodeURIComponent(
+      regions,
+    )}&prod_reg_num=${encodeURIComponent(
+      prodRegNum,
+    )}&date=${encodeURIComponent(date)}&returnGeometry=false`,
+    {
+      cache: "force-cache",
+    },
+  );
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Failed to fetch limitations: ${res.status} ${text}`);
+  }
+
+  return res.json();
+}
+
 export function MitigationTableProvider({ children }: { children: React.ReactNode }) {
   const searchParams = useSearchParams();
 
   const month = searchParams.get("month");
+  const date = searchParams.get("date");
   const product = searchParams.get("product");
   const county = searchParams.get("county") ?? "";
   const regions = searchParams.get("regions");
@@ -137,6 +169,7 @@ export function MitigationTableProvider({ children }: { children: React.ReactNod
     techSpecialist,
     tracking,
   ]);
+
 
   const totalMitigationPoints = useMemo(() => {
     return (
@@ -222,19 +255,34 @@ export function MitigationTableProvider({ children }: { children: React.ReactNod
   };
 
   useEffect(() => {
-    const stored = localStorage.getItem("esa_limitations");
-    if (!stored) return;
+    async function load() {
+      if (!regions || !product || !date) {
+        setLimitations([]);
+        return;
+      }
 
-    const parsed = JSON.parse(stored).limitations;
-    setLimitations(
-      Array.isArray(parsed)
-        ? parsed.filter((item) => item.limitation.includes(LimitationTypes.t1RunoffErosion))
-        : [parsed],
-    );
-  }, []);
+      try {
+        const parsed = await fetchLimitations(regions, product, date);
+
+        const nextLimitations = Array.isArray(parsed.limitations)
+          ? parsed.limitations.filter((item: LimitationItem) =>
+              item.limitation.includes(LimitationTypes.t1RunoffErosion),
+            )
+          : [];
+
+        setLimitations(nextLimitations);
+      } catch (error) {
+        console.error("Failed to load mitigation limitations:", error);
+        setLimitations([]);
+      }
+    }
+
+    load();
+  }, [regions, product, date]);
 
   const value: MitigationTableContextValue = {
     month,
+    date,
     product,
     county,
     regions,
