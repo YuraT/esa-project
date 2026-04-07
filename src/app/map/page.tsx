@@ -190,6 +190,16 @@ export default function SearchContainer() {
       )}`;
 
       if (geometryResult) {
+        // Log raw and plain text of limitations for debugging! will remove later
+          console.log(
+            "mitigation check values:",
+            geometryResult.limitations?.map((item) => ({
+              raw: item.limitation,
+              plain: item.limitation?.replace(/<[^>]*>/g, " "),
+            })),
+          );
+          console.log("matcher:", LimitationTypes.t1RunoffErosion);
+        
         // Route to mitigation menu if any limitation requires calculating mitigation points
         if (
           geometryResult.limitations.some(({ limitation }) =>
@@ -347,11 +357,11 @@ export default function SearchContainer() {
 
   // UI
   return (
-    <div className="flex flex-col items-start justify-start min-h-screen bg-white font-sans">
+    <div className="app-content-gutter flex flex-col items-start justify-start min-h-screen w-full max-w-full min-w-0 overflow-x-hidden bg-white font-sans">
       <div className="mb-10 w-full h-[15vh] flex items-center justify-center bg-[#275c9d] relative">
         <div
           onClick={() => router.push("/")} // <-- navigates to main page
-          className="absolute left-10 flex items-center justify-center w-10 h-10 rounded-full bg-[#678dc9] cursor-pointer hover:bg-[#5a7fb5] transition"
+          className="absolute left-3 sm:left-10 flex items-center justify-center w-10 h-10 rounded-full bg-[#678dc9] cursor-pointer hover:bg-[#5a7fb5] transition"
         >
           <svg
             className="w-4 h-4 text-white"
@@ -369,21 +379,21 @@ export default function SearchContainer() {
         </div>
       </div>
 
-      {/* Main Content: Search Panel + Static Map Side-by-Side */}
-      <div className="flex flex-row w-full gap-20 justify-center">
+      {/* Main Content: Search Panel + Map — stack on small screens */}
+      <div className="flex flex-col xl:flex-row w-full gap-8 xl:gap-12 2xl:gap-20 justify-center items-stretch px-4 pb-8 xl:px-6 min-w-0 max-w-full">
         {/* Search Panel */}
-        <div className="mb-15 w-[28vw] h-[75vh] rounded-[2rem] flex flex-col items-center gap-10 bg-[#275c9d]">
-          <h1 className="text-white text-4xl font-bold mt-7">Search!</h1>
+        <div className="mb-8 xl:mb-15 w-full max-w-xl xl:w-[min(28vw,28rem)] xl:max-w-none shrink-0 min-h-[min(75vh,640px)] xl:h-[75vh] rounded-3xl xl:rounded-[2rem] flex flex-col items-center gap-6 md:gap-10 bg-[#275c9d] py-6 px-4 mx-auto xl:mx-0">
+          <h1 className="text-white text-2xl sm:text-4xl font-bold mt-2 md:mt-7">Search!</h1>
 
           {/* Product Search */}
           <div className="flex flex-col" ref={productDropdownRef}>
-            <div className="w-[23vw] h-[6vh] bg-[#678dc9] rounded-t-[0.5rem] flex items-center justify-start pl-3">
+            <div className="w-full h-[6vh] min-h-[2.75rem] bg-[#678dc9] rounded-t-[0.5rem] flex items-center justify-start pl-3">
               <h1 className="text-white text-[20px] font-bold">
                 EPA Registration Number
               </h1>
             </div>
-            <div className="relative">
-              <div className="relative w-[23vw]">
+            <div className="relative w-full">
+              <div className="relative w-full">
                 <input
                   type="text"
                   value={productQuery}
@@ -404,7 +414,7 @@ export default function SearchContainer() {
                 <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#275c9d] w-4 h-5 pointer-events-none" />
               </div>
               {filteredProducts.length > 0 && (
-                <div className="text-[#275c9d] absolute w-[23vw] bg-white border rounded mt-1 shadow z-10 max-h-60 overflow-y-auto">
+                <div className="text-[#275c9d] absolute w-full left-0 right-0 bg-white border rounded mt-1 shadow z-10 max-h-60 overflow-y-auto">
                   {filteredProducts.map((product) => (
                     <div
                       key={product}
@@ -421,15 +431,15 @@ export default function SearchContainer() {
 
           {/* Date Dropdown */}
           <div className="flex flex-col" ref={dateDropdownRef}>
-            <div className="w-[23vw] h-[6vh] bg-[#678dc9] rounded-t-[0.5rem] flex items-center justify-start pl-3">
+            <div className="w-full h-[6vh] min-h-[2.75rem] bg-[#678dc9] rounded-t-[0.5rem] flex items-center justify-start pl-3">
               <h1 className="text-white text-[20px] font-bold">
                 Application Date
               </h1>
             </div>
-            <div className="relative">
+            <div className="relative w-full">
               <div
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-[23vw] h-[6vh] bg-[#edebeb] rounded-b-[0.5rem] flex items-center justify-between px-4 cursor-pointer"
+                className="w-full h-[6vh] min-h-[2.75rem] bg-[#edebeb] rounded-b-[0.5rem] flex items-center justify-between px-4 cursor-pointer"
               >
                 <span
                   className={`flex ${selectedDate ? "text-[#275c9d]" : "text-[#5a86bf]"}`}
@@ -439,7 +449,7 @@ export default function SearchContainer() {
                 <ChevronDown className="text-[#275c9d] w-4 h-5" />
               </div>
               {isOpen && (
-                <div className="text-[#275c9d] absolute w-[23vw] bg-white border rounded mt-1 shadow z-10">
+                <div className="text-[#275c9d] absolute w-full left-0 right-0 bg-white border rounded mt-1 shadow z-10">
                   {getLastSixMonths().map((monthData) => (
                     <div
                       key={monthData.value}
@@ -456,11 +466,11 @@ export default function SearchContainer() {
 
           {/* County Input */}
           <div className="flex flex-col" ref={countyDropdownRef}>
-            <div className="w-[23vw] h-[6vh] bg-[#678dc9] rounded-t-[0.5rem] flex items-center justify-start pl-3">
+            <div className="w-full h-[6vh] min-h-[2.75rem] bg-[#678dc9] rounded-t-[0.5rem] flex items-center justify-start pl-3">
               <h1 className="text-white text-[20px] font-bold">County</h1>
             </div>
-            <div className="relative">
-              <div className="relative w-[23vw]">
+            <div className="relative w-full">
+              <div className="relative w-full">
                 <input
                   type="text"
                   value={countyQuery}
@@ -486,7 +496,7 @@ export default function SearchContainer() {
                 <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#275c9d] w-4 h-5 pointer-events-none" />
               </div>
               {filteredCounties.length > 0 && (
-                <div className="text-[#275c9d] absolute w-[23vw] bg-white border rounded mt-1 shadow z-10 max-h-60 overflow-y-auto">
+                <div className="text-[#275c9d] absolute w-full left-0 right-0 bg-white border rounded mt-1 shadow z-10 max-h-60 overflow-y-auto">
                   {filteredCounties.map(({ county, countyIndex }) => (
                     <div
                       key={countyIndex}
@@ -504,7 +514,7 @@ export default function SearchContainer() {
           {/* Submit */}
           <div
             onClick={isLoading ? undefined : handleSearch}
-            className={`mb-5 w-[10vw] h-[8vh] ${
+            className={`mb-5 w-full max-w-[14rem] min-h-[3rem] h-[8vh] ${
               isLoading
                 ? "bg-[#678dc9] cursor-not-allowed"
                 : "bg-[#4673ab] cursor-pointer hover:bg-[#3e6293]"
@@ -522,7 +532,7 @@ export default function SearchContainer() {
         </div>
 
         {/* Region Selector Map */}
-        <div className="w-[50vw] h-[75vh]">
+        <div className="w-full xl:w-[min(50vw,52rem)] min-h-[min(50vh,320px)] h-[50vh] md:h-[60vh] xl:h-[75vh] xl:min-h-0">
           <RegionSelector
             onRegionsSelected={handleRegionsSelected}
             mapPosition={mapPosition}
