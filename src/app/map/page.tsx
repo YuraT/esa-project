@@ -319,14 +319,11 @@ export default function SearchContainer() {
         const parsed = JSON.parse(local);
         setAllProducts(parsed);
         cachedProducts = parsed;
-        return;
-      }
-
-      if (cachedProducts) {
+      } else if (cachedProducts) {
         setAllProducts(cachedProducts);
-        return;
       }
 
+      // Always fetch fresh data in the background
       try {
         const res = await fetch("/api/products");
         const data: Array<{
