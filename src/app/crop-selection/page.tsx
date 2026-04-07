@@ -1,7 +1,7 @@
 "use client";
 
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
@@ -25,7 +25,11 @@ async function fetchLimitations(
   const prodRegNum = getProdRegNum(product);
 
   const res = await fetch(
-    `/api/pulas-by-geometry?geometry=${encodeURIComponent(regions)}&prod_reg_num=${encodeURIComponent(prodRegNum)}&date=${encodeURIComponent(date)}&returnGeometry=false`,
+    `/api/pulas-by-geometry?geometry=${encodeURIComponent(
+      regions,
+    )}&prod_reg_num=${encodeURIComponent(
+      prodRegNum,
+    )}&date=${encodeURIComponent(date)}&returnGeometry=false`,
     {
       cache: "force-cache",
     },
@@ -39,7 +43,7 @@ async function fetchLimitations(
   return res.json();
 }
 
-export default function CropSelectionPage() {
+function CropSelectionPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -52,14 +56,12 @@ export default function CropSelectionPage() {
   const [availableCrops, setAvailableCrops] = useState<string[]>([]);
   const [selectedCrop, setSelectedCrop] = useState("");
 
-
   useEffect(() => {
     async function load() {
       if (!regions || !product || !date) return;
 
       try {
         const parsed = await fetchLimitations(regions, product, date);
-        console.log("fetched limitations on crop page:", parsed);
 
         const uses = new Set<string>();
 
@@ -72,9 +74,7 @@ export default function CropSelectionPage() {
           });
         });
 
-        const sortedUses = Array.from(uses).sort();
-        console.log("available crop/use options:", sortedUses);
-        setAvailableCrops(sortedUses);
+        setAvailableCrops(Array.from(uses).sort());
       } catch (error) {
         console.error("Failed to load limitations:", error);
       }
@@ -83,19 +83,19 @@ export default function CropSelectionPage() {
     load();
   }, [regions, product, date]);
 
-    function handleContinue() {
-      if (!selectedCrop) return;
+  function handleContinue() {
+    if (!selectedCrop) return;
 
-      const params = new URLSearchParams({
-        month,
-        date,
-        product,
-        county,
-        regions,
-        crop: selectedCrop,
-      });
+    const params = new URLSearchParams({
+      month,
+      date,
+      product,
+      county,
+      regions,
+      crop: selectedCrop,
+    });
 
-      router.push(`/PrintReport?${params.toString()}`);
+    router.push(`/PrintReport?${params.toString()}`);
   }
 
   return (
@@ -144,5 +144,19 @@ export default function CropSelectionPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function CropSelectionPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center min-h-screen">
+          Loading...
+        </div>
+      }
+    >
+      <CropSelectionPageContent />
+    </Suspense>
   );
 }
